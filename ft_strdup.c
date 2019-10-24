@@ -1,23 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_calloc.c                                        :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbaudry <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/24 11:46:07 by bbaudry           #+#    #+#             */
-/*   Updated: 2019/10/24 11:46:10 by bbaudry          ###   ########.fr       */
+/*   Created: 2019/10/24 11:33:45 by bbaudry           #+#    #+#             */
+/*   Updated: 2019/10/24 11:33:46 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-void	*ft_calloc(size_t count, size_t size)
+char	*ft_strdup(const char *s1)
 {
-	char	*ptr;
-	int		lenght;
+	size_t	len;
+	char	*cpy;
 
-	lenght = count * size;
-	if (!(ptr = malloc(lenght))
+	len = ft_strlen(s1) + 1;
+	if (!(cpy = (char *)malloc(len)))
 		return (NULL);
-	ft_bzero(ptr, lenght);
-	return (ptr);
+	ft_memcpy(cpy, s1, len);
+	return (cpy);
 }

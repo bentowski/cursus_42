@@ -12,27 +12,20 @@
 
 void	*ft_memmove(void *dst, const void *src, size_t len)
 {
-	char *pdst = dst;
-	const char *psrc = src;
-	const char *lasts = psrc + (len-1);
-	char *lastd = pdst + (len-1);
-	  if (pdst < psrc)
-		{
-			printf("0\n");
-			while (len--)
-			{
-				printf("%c", *lastd);
-				*pdst++ = *psrc++;
-			}
-		}
-	  else
-	    {
-				printf("1\n");
-	      while (len--)
-				{
-					printf("%c", *lastd);
-					*lastd-- = *lasts--;
-				}
-	    }
-	  return dst;
+	char		*pdst;
+	const char	*psrc;
+	const char	*lasts;
+	char		*lastd;
+
+	pdst = dst;
+	psrc = src;
+	lasts = psrc + (len - 1);
+	lastd = pdst + (len - 1);
+	if (pdst < psrc)
+		while (len--)
+			*pdst++ = *psrc++;
+	else
+		while (len--)
+			*lastd-- = *lasts--;
+	return (dst);
 }

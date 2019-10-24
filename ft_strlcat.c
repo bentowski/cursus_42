@@ -1,23 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_calloc.c                                        :+:      :+:    :+:   */
+/*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbaudry <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/24 11:46:07 by bbaudry           #+#    #+#             */
-/*   Updated: 2019/10/24 11:46:10 by bbaudry          ###   ########.fr       */
+/*   Created: 2019/10/24 11:17:26 by bbaudry           #+#    #+#             */
+/*   Updated: 2019/10/24 11:17:44 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-void	*ft_calloc(size_t count, size_t size)
+size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
 {
-	char	*ptr;
-	int		lenght;
+	char		*pdst;
+	const char	*psrc;
+	int			dstlen;
+	int			x;
 
-	lenght = count * size;
-	if (!(ptr = malloc(lenght))
-		return (NULL);
-	ft_bzero(ptr, lenght);
-	return (ptr);
+	x = 0;
+	pdst = (char *)dst;
+	psrc = (char *)src;
+	dstlen = ft_strlen(dst);
+	while ((dstlen + x) < dstsize)
+	{
+		pdst[x + dstlen] = psrc[x];
+		x++;
+	}
+	pdst[x + dstlen] = '\0';
+	return (dstlen + x);
 }
