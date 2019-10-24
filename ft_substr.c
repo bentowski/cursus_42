@@ -10,6 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
+
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
 	unsigned int	x;
@@ -28,6 +30,6 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 		d[x] = s[x + start];
 		x++;
 	}
-	d[x] = "\0";
+	d[x] = '\0';
 	return (d);
 }

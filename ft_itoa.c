@@ -10,9 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
+
 char	*ft_itoa(int n)
 {
 	int	i;
+	char *tab;
 
 	i = 0;
 	while ((n / 10) != 0)
@@ -30,4 +33,5 @@ char	*ft_itoa(int n)
 		i++;
 	}
 	tab[i] = '\0';
+	return (tab);
 }
