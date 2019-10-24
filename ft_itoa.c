@@ -1,27 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbaudry <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/24 11:52:13 by bbaudry           #+#    #+#             */
-/*   Updated: 2019/10/24 11:52:15 by bbaudry          ###   ########.fr       */
+/*   Created: 2019/10/24 11:51:33 by bbaudry           #+#    #+#             */
+/*   Updated: 2019/10/24 11:51:35 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_itoa(int n)
 {
-	char	*d;
-	int		len;
+	int	i;
 
-	len = ft_strlen(s1) + ft_strlen(s2) + 1;
-	if (!(d = malloc(sizeof(char) * len) || !s1 || !s2)
+	i = 0;
+	while ((n / 10) != 0)
+	{
+		n = n / 10;
+		i++;
+	}
+	if (!(tab = (char *)malloc(i + 1)))
 		return (NULL);
-	while (*s1)
-		*d++ = *s1++;
-	while (*s2)
-		*d++ = *s2++;
-	*d = "\0";
-	return (d);
+	i = 0;
+	while (n != 0)
+	{
+		tab[i] = n % 10;
+		n = n / 10;
+		i++;
+	}
+	tab[i] = '\0';
 }

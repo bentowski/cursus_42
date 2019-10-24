@@ -1,27 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbaudry <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/24 11:52:13 by bbaudry           #+#    #+#             */
-/*   Updated: 2019/10/24 11:52:15 by bbaudry          ###   ########.fr       */
+/*   Created: 2019/10/24 11:52:24 by bbaudry           #+#    #+#             */
+/*   Updated: 2019/10/24 11:52:26 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-char	*ft_strjoin(char const *s1, char const *s2)
+static int	ft_test(char const c, char const *set)
 {
-	char	*d;
-	int		len;
+	int	i;
 
-	len = ft_strlen(s1) + ft_strlen(s2) + 1;
-	if (!(d = malloc(sizeof(char) * len) || !s1 || !s2)
-		return (NULL);
-	while (*s1)
-		*d++ = *s1++;
-	while (*s2)
-		*d++ = *s2++;
-	*d = "\0";
-	return (d);
+	i = 0;
+	while (set[i])
+	{
+		if (c == set[i])
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+char		*ft_strtrim(char const *s1, char const *set)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	if (!s1)
+		return (ft_strdup(s1));
+	while (ft_test(s1[i], set))
+		i++;
+	j = ft_strlen(s1) - 1;
+	while (j > i && ft_test(s1[j], set))
+		j--;
+	return (ft_substr(s1, i, (j - i + 1)));
 }
