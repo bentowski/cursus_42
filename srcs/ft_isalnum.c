@@ -1,25 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_calloc.c                                        :+:      :+:    :+:   */
+/*   ft_isalnum.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbaudry <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/24 11:46:07 by bbaudry           #+#    #+#             */
-/*   Updated: 2019/10/24 11:46:10 by bbaudry          ###   ########.fr       */
+/*   Created: 2019/10/08 09:59:48 by bbaudry           #+#    #+#             */
+/*   Updated: 2019/10/10 10:29:58 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_calloc(size_t count, size_t size)
+int	ft_isalnum(int c)
 {
-	char	*ptr;
-	int		lenght;
-
-	lenght = count * size;
-	if (!(ptr = malloc(lenght)))
-		return (NULL);
-	ft_bzero(ptr, lenght);
-	return (ptr);
+	if ((c >= 48 && c <= 57) || (c >= 65 && c <= 90))
+		return (1);
+	else if (c >= 97 && c <= 122)
+		return (1);
+	return (0);
 }

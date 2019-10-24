@@ -1,25 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_calloc.c                                        :+:      :+:    :+:   */
+/*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbaudry <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/24 11:46:07 by bbaudry           #+#    #+#             */
-/*   Updated: 2019/10/24 11:46:10 by bbaudry          ###   ########.fr       */
+/*   Created: 2019/10/08 14:35:43 by bbaudry           #+#    #+#             */
+/*   Updated: 2019/10/08 14:35:46 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_calloc(size_t count, size_t size)
+int	ft_atoi(const char *str)
 {
-	char	*ptr;
-	int		lenght;
+	int p;
+	int t;
 
-	lenght = count * size;
-	if (!(ptr = malloc(lenght)))
-		return (NULL);
-	ft_bzero(ptr, lenght);
-	return (ptr);
+	p = 1;
+	t = 0;
+	while (*str == '\t' || *str == '\n' || *str == '\r' || *str == '\v' ||
+		*str == '\f')
+		str++;
+	if (*str == '+' || *str == '-')
+	{
+		if (*str == '-')
+			p = p * -1;
+		str++;
+	}
+	while (*str >= '0' && *str <= '9')
+	{
+		t = t * 10 + (*str - 48);
+		str++;
+	}
+	return (t * p);
 }
