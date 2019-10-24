@@ -10,8 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-
 size_t  ft_strlcpy(char *dst, const char *src, size_t dstsize)
 {
   const size_t srclen;
