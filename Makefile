@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: bbaudry <marvin@42.fr>                     +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2019/10/26 15:24:00 by bbaudry           #+#    #+#              #
+#    Updated: 2019/10/26 15:24:03 by bbaudry          ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 NAME = libft.a
 
 SRCS = ft_atoi.c \
@@ -23,11 +35,13 @@ SRCS = ft_atoi.c \
 				ft_strlen.c \
 				ft_strncmp.c \
 				ft_strnstr.c \
-				ft_strchr.c \
+				ft_strrchr.c \
 				ft_strtrim.c \
 				ft_substr.c \
 				ft_tolower.c \
-				ft_toupper.c
+				ft_toupper.c \
+				ft_split.c \
+				ft_calloc.c
 
 OBJECTS = ft_atoi.o \
 				ft_bzero.o \
@@ -52,16 +66,18 @@ OBJECTS = ft_atoi.o \
 				ft_strlen.o \
 				ft_strncmp.o \
 				ft_strnstr.o \
-				ft_strchr.o \
+				ft_strrchr.o \
 				ft_strtrim.o \
 				ft_substr.o \
 				ft_tolower.o \
-				ft_toupper.o
+				ft_toupper.o \
+				ft_split.o \
+				ft_calloc.o
 
 INCLUDES = ./
 
 $(NAME): $(SRCS) libft.h
-	
+
 	@gcc -Wall -Wextra -Werror -I$(INCLUDES) -c $(SRCS)
 	@ar rc $(NAME) $(OBJECTS)
 	@ranlib $(NAME)

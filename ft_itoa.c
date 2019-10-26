@@ -14,8 +14,8 @@
 
 char	*ft_itoa(int n)
 {
-	int	i;
-	char *tab;
+	int		i;
+	char	*tab;
 
 	i = 0;
 	while ((n / 10) != 0)

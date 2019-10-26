@@ -19,6 +19,8 @@ void	*ft_memmove(void *dst, const void *src, size_t len)
 	const char	*lasts;
 	char		*lastd;
 
+	if (!dst && !src)
+		return (NULL);
 	pdst = dst;
 	psrc = src;
 	lasts = psrc + (len - 1);
