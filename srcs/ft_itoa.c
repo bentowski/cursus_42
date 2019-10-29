@@ -12,26 +12,48 @@
 
 #include "libft.h"
 
-char	*ft_itoa(int n)
+static unsigned int	ft_abs(int n)
 {
-	int		i;
-	char	*tab;
+	return ((unsigned int)(n < 0 ? -n : n));
+}
 
-	i = 0;
-	while ((n / 10) != 0)
+static unsigned int	ft_size(unsigned int n)
+{
+	unsigned int size;
+
+	size = 0;
+	n = ft_abs(n);
+	while (n / 10 > 0)
 	{
-		n = n / 10;
-		i++;
+		n /= 10;
+		size++;
 	}
-	if (!(tab = (char *)malloc(i + 1)))
-		return (NULL);
-	i = 0;
-	while (n != 0)
+	return (size + 1);
+}
+
+char				*ft_itoa(int n)
+{
+	unsigned char	*str;
+	unsigned int	nb;
+	unsigned int	size;
+
+	nb = ft_abs(n);
+	size = ft_size(nb) + 1 + (n < 0 ? 1 : 0);
+	if (!(str = (unsigned char *)malloc(size)))
+		return (0);
+	str[size - 1] = '\0';
+	if (n == 0)
+		str[0] = '0';
+	else
 	{
-		tab[i] = n % 10;
-		n = n / 10;
-		i++;
+		if (n < 0)
+			str[0] = '-';
+		while (nb > 0)
+		{
+			str[size - 2] = nb % 10 + '0';
+			nb /= 10;
+			size--;
+		}
 	}
-	tab[i] = '\0';
-	return (tab);
+	return ((char *)str);
 }

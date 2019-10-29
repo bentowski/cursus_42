@@ -24,6 +24,7 @@ SRCS = ft_atoi.c \
 				ft_memccpy.c \
 				ft_memmove.c \
 				ft_memset.c \
+				ft_memchr.c \
 				ft_putchar_fd.c \
 				ft_putendl_fd.c \
 				ft_putnbr_fd.c \
@@ -39,6 +40,8 @@ SRCS = ft_atoi.c \
 				ft_strtrim.c \
 				ft_strjoin.c \
 				ft_substr.c \
+				ft_strmapi.c \
+				ft_memcmp.c \
 				ft_tolower.c \
 				ft_toupper.c \
 				ft_split.c \
@@ -46,9 +49,12 @@ SRCS = ft_atoi.c \
 
 OBJECTS = ft_atoi.o \
 				ft_bzero.o \
+				ft_strmapi.o \
 				ft_isalnum.o \
+				ft_memcmp.o \
 				ft_isalpha.o \
 				ft_isascii.o \
+				ft_memchr.o \
 				ft_isdigit.o \
 				ft_isprint.o \
 				ft_itoa.o \
@@ -69,7 +75,7 @@ OBJECTS = ft_atoi.o \
 				ft_strnstr.o \
 				ft_strrchr.o \
 				ft_strtrim.o \
-				ft_strjoin.c \
+				ft_strjoin.o  \
 				ft_substr.o \
 				ft_tolower.o \
 				ft_toupper.o \
