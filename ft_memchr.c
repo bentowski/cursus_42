@@ -1,32 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memccpy.c                                       :+:      :+:    :+:   */
+/*   ft_memchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbaudry <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/09 14:18:09 by bbaudry           #+#    #+#             */
-/*   Updated: 2019/10/09 14:18:30 by bbaudry          ###   ########.fr       */
+/*   Created: 2019/10/28 15:55:51 by bbaudry           #+#    #+#             */
+/*   Updated: 2019/10/30 10:29:39 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_memccpy(void *dst, const void *src, int c, size_t n)
+void	*ft_memchr(const void *s, int c, size_t n)
 {
-	unsigned char *psrc;
-	unsigned char *pdst;
-	size_t i;
+	size_t			x;
+	unsigned char	*ps;
 
-	i = 0;
-	psrc = (unsigned char *)src;
-	pdst = (unsigned char *)dst;
-	while (n > i)
+	x = 0;
+	ps = (unsigned char *)s;
+	while (n >= x && ps[x])
 	{
-		pdst[i] = psrc[i];
-		if (psrc[i] == (unsigned char)c)
-			return (dst + 1 + i);
-		i++;
+		if (ps[x] == (unsigned char)c)
+			return (ps + x);
+		x++;
 	}
-	return (0);
+	if (ps[x] == (unsigned char)c)
+		return (ps + x);
+	return (NULL);
 }

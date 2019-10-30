@@ -23,9 +23,9 @@ static void	*free_tab(char **tab)
 	return (NULL);
 }
 
-static	char	**next_tab(char **tab, char *new_ln)
+static char	**next_tab(char **tab, char *new_ln)
 {
-	int	n;
+	int		n;
 	char	**next_tab;
 
 	n = 0;
@@ -53,7 +53,7 @@ static char	*get_ln(char const *s, size_t *i, char c)
 	n = 0;
 	while (s[*i + n] && s[*i + n] != c)
 		n++;
-	if(!(str = ft_calloc(sizeof(char), n + 1)))
+	if (!(str = ft_calloc(sizeof(char), n + 1)))
 		return (NULL);
 	n = 0;
 	while (s[*i + n] && s[*i + n] != c)
@@ -68,7 +68,7 @@ static char	*get_ln(char const *s, size_t *i, char c)
 
 char		**ft_split(char const *s, char c)
 {
-	size_t		i;
+	size_t	i;
 	char	**tab;
 	char	*new_ln;
 
