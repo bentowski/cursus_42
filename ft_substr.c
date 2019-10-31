@@ -21,13 +21,9 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	x = 0;
 	if (!s)
 		return (NULL);
-	if ((ft_strlen(s) - start) > len)
-		lenght = len + 1;
-	else
-		lenght = (ft_strlen(s) - start) + 1;
-	if (!(d = malloc(sizeof(char) * lenght)) || !s)
+	if (!(d = malloc(sizeof(char) * (len + 1))))
 		return (NULL);
-	while (s[x + start] && x < len)
+	while (s[x + start] && x < len && (x + start) < (unsigned int)ft_strlen(s))
 	{
 		d[x] = s[x + start];
 		x++;

@@ -36,8 +36,10 @@ void			ft_lstadd_back(t_list **alst, t_list *new);
 void			ft_lstdelone(t_list *lst, void (*del)(void *));
 void			ft_lstclear(t_list **lst, void (*del)(void *));
 void			ft_lstiter(t_list *lst, void (*f)(void *));
+void			*ft_memchr(const void *s, int c, size_t n);
 size_t			ft_strlcat(char *dst, const char *src, size_t dstsize);
 size_t			ft_strlcpy(char *dst, const char *src, size_t dstsize);
+size_t			ft_strlen(const char *s);
 char			*ft_strnstr(const char *haystack,
 const char *needle, size_t len);
 char			*ft_itoa(int n);
@@ -57,7 +59,6 @@ int				ft_isalpha(int c);
 int				ft_isascii(int c);
 int				ft_isdigit(int c);
 int				ft_isprint(int c);
-int				ft_strlen(const char *s);
 int				ft_tolower(int c);
 int				ft_toupper(int c);
 int				ft_lstsize(t_list *lst);
