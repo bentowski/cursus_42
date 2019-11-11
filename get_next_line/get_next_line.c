@@ -14,23 +14,25 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	return (0);
 }
 
-char *ft_realloc(char *s)
+char *ft_realloc(char *s, char add)
 {
   int x;
+	int i;
   char *new;
 
   x = 0;
   while (s[x] != '\0')
     x++;
+	printf("%d\n", x);
   if (!((new = (char*)malloc(x + 2))))
     return (NULL);
-	write(1, &s, x);
-  new[x + 1] = '\0';
-  while (x >= 0)
+  while (x >= i)
   {
-    new[x] = s[x];
-    x--;
+    new[i] = s[i];
+    i--;
   }
+	new[i + 1] = add;
+	new[i + 2] = '\0';
   return (new);
 }
 
@@ -44,13 +46,16 @@ int get_next_line(int fd, char **line)
   i = 0;
   if (!(s = (char*)malloc(1)))
     return (-1);
+	s[1] = '\0';
   if (!(read(fd, &courant, 1)))
     return (-1);
+	s[i] = courant;
   while (courant != '\n' && courant != '\0')
   {
-    s[i] = courant;
-    i++;
-    s = ft_realloc(s);
+    s = ft_realloc(s, courant);
+		s[i] = courant;
+		i++;
+		s[i] = '\0';
     if(!(read(fd, &courant, 1)))
       return (-1);
     // printf("%s", s);
