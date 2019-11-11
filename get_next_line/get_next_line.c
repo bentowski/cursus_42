@@ -20,11 +20,11 @@ char *ft_realloc(char *s)
   char *new;
 
   x = 0;
-  while (*s)
+  while (s[x] != '\0')
     x++;
-  write(1 , "realloc\n", 7);
   if (!((new = (char*)malloc(x + 2))))
     return (NULL);
+	write(1, &s, x);
   new[x + 1] = '\0';
   while (x >= 0)
   {
@@ -42,8 +42,7 @@ int get_next_line(int fd, char **line)
 
 
   i = 0;
-  courant = 'n';
-  if (!(s = (char*)malloc(2)))
+  if (!(s = (char*)malloc(1)))
     return (-1);
   if (!(read(fd, &courant, 1)))
     return (-1);
@@ -52,10 +51,9 @@ int get_next_line(int fd, char **line)
     s[i] = courant;
     i++;
     s = ft_realloc(s);
-    write(1, "p\n", 2);
     if(!(read(fd, &courant, 1)))
       return (-1);
-    printf("%s", s);
+    // printf("%s", s);
   }
   return (1);
 }

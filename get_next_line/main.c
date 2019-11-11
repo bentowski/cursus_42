@@ -1,4 +1,5 @@
 #include "get_next_line.h"
+#include <fcntl.h>
 
 int main()
 {
@@ -7,11 +8,18 @@ int main()
   char **test;
   char *essai;
 
-  write(1, "tes\n", 4);
-  essai = "";
+  essai = "e";
   test = &essai;
-  filename = "text.txt";
-  fd = open(filename);
+  filename = "text";
+  fd = open(filename, O_RDONLY);
+  write(1, "1 ", 2);
   get_next_line(fd, test);
+  write(1, "\n2 ", 3);
+  get_next_line(fd, test);
+  write(1, "\n3 ", 3);
+  get_next_line(fd, test);
+  write(1, "\n4 ", 3);
+  get_next_line(fd, test);
+  write(1, "\n5 ", 3);
   get_next_line(fd, test);
 }
