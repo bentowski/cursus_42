@@ -103,5 +103,10 @@ int get_next_line(int fd, char **line)
   }
 	*line = ft_strdup(s);
 	printf("%s\n", *line);
+	if (courant == '\0')
+	{
+		write(1, "end", 3);
+		return (0);
+	}
   return (1);
 }
