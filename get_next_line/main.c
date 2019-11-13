@@ -10,13 +10,13 @@ int main()
   char *essai;
 
   x = 0;
-  essai = "e";
+  essai = "";
   test = &essai;
   filename = "text";
   fd = open(filename, O_RDONLY);
-  while (get_next_line(fd, test))
+  while (get_next_line(fd, test) != 0)
   {
-    x++;
-    printf("%d\n", x);
+    write(1, "\n", 1);
   }
+  write(1, "end", 3);
 }
