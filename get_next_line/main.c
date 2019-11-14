@@ -16,7 +16,7 @@ int main()
   fd = open(filename, O_RDONLY);
   while (get_next_line(fd, test) != 0 && get_next_line(fd, test) != -1)
   {
-    
+
   }
   write(1, "end", 3);
 }

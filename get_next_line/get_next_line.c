@@ -41,39 +41,41 @@ static char *ft_realloc(char *s, char add)
   return (new);
 }
 
-static char	**new_tab(int fd, char **tab)
+static char	**new_tab(int fd, int n, char **tab)
 {
-	int		n;
+	int		x;
 	char	**next_tab;
 
-	if (!(next_tab = (char **)malloc(fd + 1)))
+	if (!(next_tab = (char **)malloc(n + 1)))
 		return (NULL);
-	n = 0;
-	while (n < fd)
+	x = 0;
+	while (x < n)
 	{
-		next_tab[n] = tab[n];
-		n++;
+		next_tab[x] = tab[x];
+		x++;
 	}
 	free(tab);
-	if(!(tab[n] = (char *)malloc(2)))
+	if(!(next_tab[n] = (char *)malloc(2)))
 		return (NULL);
-	next_tab[fd][0] = ft_itoa(fd);
-	next_tab[fd][1] = '\0';
-	next_tab[fd + 1] = NULL;
+	next_tab[n][0] = fd;
+	next_tab[n][1] = '\0';
+	next_tab[n + 1] = NULL;
 	return (next_tab);
 }
 
 static char **first_tab(int fd)
 {
 	char **first_tab;
+	int s;
 
+	s = fd;
 	if (!(first_tab = (char **)malloc(2)))
 		return (NULL);
 	if (!(first_tab[0] = (char *)malloc(2)))
-	first_tab[0][0] = ft_itoa(fd);
+		return (NULL);
+	first_tab[0][0] = fd;
 	first_tab[0][1] = '\0';
 	first_tab[1] = NULL;
-	write(1, "test\n", 5);
 	return (first_tab);
 }
 
@@ -81,14 +83,16 @@ static int ft_check(char **s, int fd)
 {
 	int n;
 
-	n = -1;
-	while (s[++n])
-		if (s[n][0] == 4)
+	n = 0;
+	while (s[n])
+	{
+		if (s[n][0] == fd)
 			return (n);
-	if (!(s = new_tab(fd, s)))
+		n++;
+	}
+	if (!(s = new_tab(fd, n, s)))
 		return (-1);
-	write(1, "aaaaaah", 7);
-	return (0);
+	return (n);
 }
 
 int get_next_line(int fd, char **line)
@@ -99,15 +103,13 @@ int get_next_line(int fd, char **line)
 	int x;
 	int ret;
 
-	i = 0;
+	i = 1;
 	if (!(s))
-	{
 		if (!(s = first_tab(fd)))
 			return (-1);
-	}
-	if (!(x = ft_check(s, fd)))
+	if ((x = ft_check(s, fd)) < 0)
 		return (-1);
-  if (!(ret = read(fd, &courant, 1)))
+  if ((ret = read(fd, &courant, 1) < 0))
 		return (-1);
   while (courant != '\n' && courant != '\0')
   {
@@ -115,10 +117,8 @@ int get_next_line(int fd, char **line)
 		s[x][i] = courant;
 		i++;
 		s[x][i] = '\0';
-    if(!(ret = read(fd, &courant, 1)))
-		{
+    if((ret = read(fd, &courant, 1)) < 0)
 			return (-1);
-		}
   }
 	*line = ft_strdup(s[x]);
 	ft_putstr_fd(*line);
