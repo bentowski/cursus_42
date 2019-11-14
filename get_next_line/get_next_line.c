@@ -57,7 +57,7 @@ static char	**new_tab(int fd, char **tab)
 	free(tab);
 	if(!(tab[n] = (char *)malloc(2)))
 		return (NULL);
-	next_tab[fd][0] = fd;
+	next_tab[fd][0] = ft_itoa(fd);
 	next_tab[fd][1] = '\0';
 	next_tab[fd + 1] = NULL;
 	return (next_tab);
@@ -70,9 +70,10 @@ static char **first_tab(int fd)
 	if (!(first_tab = (char **)malloc(2)))
 		return (NULL);
 	if (!(first_tab[0] = (char *)malloc(2)))
-	first_tab[0][0] = fd;
+	first_tab[0][0] = ft_itoa(fd);
 	first_tab[0][1] = '\0';
 	first_tab[1] = NULL;
+	write(1, "test\n", 5);
 	return (first_tab);
 }
 
@@ -82,9 +83,8 @@ static int ft_check(char **s, int fd)
 
 	n = -1;
 	while (s[++n])
-		if (s[n][0] == fd)
+		if (s[n][0] == 4)
 			return (n);
-	write(1, "test\n", 5);
 	if (!(s = new_tab(fd, s)))
 		return (-1);
 	write(1, "aaaaaah", 7);
