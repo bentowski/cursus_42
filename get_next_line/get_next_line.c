@@ -26,12 +26,11 @@ static char *ft_realloc(char *s, char add)
   x = 0;
 	i = 0;
 	tmp = s;
-  while (s[x])
-    x++;
-	write(1, "ok\n", 3);
+  while (s[x] != '\0')
+		x++;
   if (!((new = (char*)malloc(x + 2))))
     return (NULL);
-  while (x >= i)
+  while (x > i)
   {
     new[i] = s[i];
     i++;
@@ -52,7 +51,8 @@ static char	**new_tab(int fd, int n, char **tab)
 	x = 0;
 	while (x < n)
 	{
-		next_tab[x] = tab[x];
+		if (!(next_tab[x] = ft_strdup(tab[x])))
+			return (NULL);
 		x++;
 	}
 	free(tab);
@@ -67,9 +67,7 @@ static char	**new_tab(int fd, int n, char **tab)
 static char **first_tab(int fd)
 {
 	char **first_tab;
-	int s;
 
-	s = fd;
 	if (!(first_tab = (char **)malloc(2)))
 		return (NULL);
 	if (!(first_tab[0] = (char *)malloc(2)))
@@ -80,18 +78,18 @@ static char **first_tab(int fd)
 	return (first_tab);
 }
 
-static int ft_check(char **s, int fd)
+static int ft_check(char ***s, int fd)
 {
 	int n;
 
 	n = 0;
 	while (s[n])
 	{
-		if (s[n][0] == fd)
+		if (*s[n][0] == fd)
 			return (n);
 		n++;
 	}
-	if (!(s = new_tab(fd, n, s)))
+	if (!(*s = new_tab(fd, n, *s)))
 		return (-1);
 	return (n);
 }
@@ -106,12 +104,16 @@ int get_next_line(int fd, char **line)
 
 	i = 1;
 	if (!(s))
+	{
 		if (!(s = first_tab(fd)))
 			return (-1);
-	if ((x = ft_check(s, fd)) < 0)
+	}
+	else if ((x = ft_check(&s, fd)) <= 0)
 		return (-1);
   if ((ret = read(fd, &courant, 1) < 0))
 		return (-1);
+	if (!s[x])
+		write(1, "oh merde\n", 9);
   while (courant != '\n' && courant != '\0')
   {
     s[x] = ft_realloc(s[x], courant);
