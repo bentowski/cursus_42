@@ -6,5 +6,6 @@
 
 int get_next_line(int fd, char **line);
 char	*ft_strdup(const char *s1);
+char **first_tab(int fd);
 
 #endif

@@ -20,6 +20,20 @@ static void	*ft_memcpy(void *dst, const void *src, size_t n)
 	return (dst);
 }
 
+char **first_tab(int fd)
+{
+	char **first_tab;
+
+	if (!(first_tab = (char **)malloc(2)))
+		return (NULL);
+	if (!(first_tab[0] = (char *)malloc(2)))
+		return (NULL);
+	first_tab[0][0] = fd;
+	first_tab[0][1] = '\0';
+	first_tab[1] = NULL;
+	return (first_tab);
+}
+
 char	*ft_strdup(const char *s1)
 {
 	size_t	len;
