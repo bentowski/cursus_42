@@ -3,8 +3,10 @@
 
 int main()
 {
-  const char *filename;
-  int fd;
+  const char *filename1;
+  const char *filename2;
+  int fd1;
+  int fd2;
   int x;
   char **test;
   char *essai;
@@ -16,10 +18,10 @@ int main()
   filename2 = "text2";
   fd1 = open(filename1, O_RDONLY);
   fd2 = open(filename2, O_RDONLY);
-  get_next_line(fd, test);
-  get_next_line(fd, test);
-  get_next_line(fd, test);
-  get_next_line(fd, test);
-  get_next_line(fd, test);
+  get_next_line(fd1, test);
+  get_next_line(fd2, test);
+  get_next_line(fd2, test);
+  get_next_line(fd1, test);
+  get_next_line(fd2, test);
   write(1, "end", 3);
 }

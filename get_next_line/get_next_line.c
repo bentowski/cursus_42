@@ -26,8 +26,9 @@ static char *ft_realloc(char *s, char add)
   x = 0;
 	i = 0;
 	tmp = s;
-  while (s[x] != '\0')
+  while (s[x])
     x++;
+	write(1, "ok\n", 3);
   if (!((new = (char*)malloc(x + 2))))
     return (NULL);
   while (x >= i)
