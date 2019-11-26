@@ -4,16 +4,19 @@ static void	*ft_memcpy(void *dst, const void *src, size_t n)
 {
 	char *psrc;
 	char *pdst;
+	size_t x;
 
+	x = 1;
 	psrc = (char *)src;
 	pdst = (char *)dst;
 	if (!src && !dst)
 		return (NULL);
-	while (n > 0)
+	while (n > x)
 	{
-		pdst[n - 1] = psrc[n - 1];
-		n--;
+		pdst[x - 1] = psrc[x];
+		x++;
 	}
+	pdst[x - 1] = '\0';
 	return (dst);
 }
 

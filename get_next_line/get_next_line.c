@@ -120,12 +120,15 @@ int get_next_line(int fd, char **line)
     if((ret = read(fd, &courant, 1)) < 0)
 			return (-1);
   }
-	*line = ft_strdup(s[x]);
-	ft_putstr_fd(*line);
 	if (ret == 0)
 	{
-		write(1, "sortie", 6);
+		write(1, "sortie\n", 7);
 		return (0);
+	}
+	else
+	{
+		*line = ft_strdup(s[x]);
+		ft_putstr_fd(*line);
 	}
 	write(1, "\n", 1);
   return (1);
