@@ -20,21 +20,7 @@ static void	*ft_memcpy(void *dst, const void *src, size_t n)
 	return (dst);
 }
 
-char **first_tab(int fd)
-{
-	char **first_tab;
-
-	if (!(first_tab = (char **)malloc(2)))
-		return (NULL);
-	if (!(first_tab[0] = (char *)malloc(2)))
-		return (NULL);
-	first_tab[0][0] = fd;
-	first_tab[0][1] = '\0';
-	first_tab[1] = NULL;
-	return (first_tab);
-}
-
-char	*ft_strdup(const char *s1)
+static char	*ft_strdup(const char *s1)
 {
 	size_t	len;
 	char	*cpy;
@@ -46,4 +32,74 @@ char	*ft_strdup(const char *s1)
 		return (NULL);
 	ft_memcpy(cpy, s1, len);
 	return (cpy);
+}
+
+static char *ft_realloc(char *s, char add)
+{
+  int x;
+	int i;
+  char *new;
+	char *tmp;
+
+  x = 0;
+	i = 0;
+	tmp = s;
+  while (s[x] != '\0')
+		x++;
+  if (!((new = (char*)malloc(x + 2))))
+    return (NULL);
+  while (x > i)
+  {
+    new[i] = s[i];
+    i++;
+  }
+	new[i + 1] = add;
+	new[i + 2] = '\0';
+	free(tmp);
+  return (new);
+}
+
+char	**new_tab(int fd, int n, char **tab)
+{
+	int		x;
+	char	**next_tab;
+
+	if (!(next_tab = (char **)malloc(n + 1)))
+	return (NULL);
+	x = 0;
+	while (x < n)
+	{
+		if (!(next_tab[x] = ft_strdup(tab[x])))
+		return (NULL);
+		x++;
+	}
+	free(tab);
+	if(!(next_tab[n] = (char *)malloc(2)))
+	return (NULL);
+	next_tab[n][0] = fd;
+	next_tab[n][1] = '\0';
+	next_tab[n + 1] = NULL;
+	return (next_tab);
+}
+
+int ft_carry(char **s, int x, int fd, char ***line)
+{
+	char courant;
+	int i;
+	int ret;
+
+	i = 1;
+	if ((ret = read(fd, &courant, 1)) < 0)
+		return (-1);
+	while (courant != '\n' && courant != '\0')
+	{
+		s[x] = ft_realloc(s[x], courant);
+		s[x][i] = courant;
+		i++;
+		s[x][i] = '\0';
+		if ((ret = read(fd, &courant, 1)) < 0)
+			return (-1);
+	}
+	**line = ft_strdup(s[x]);
+	return (ret);
 }

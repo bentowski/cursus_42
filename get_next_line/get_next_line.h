@@ -5,7 +5,7 @@
 # include <stdio.h>
 
 int get_next_line(int fd, char **line);
-char	*ft_strdup(const char *s1);
-char **first_tab(int fd);
+char	**new_tab(int fd, int n, char **tab);
+int ft_carry(char **s, int x, int fd, char ***line);
 
 #endif
