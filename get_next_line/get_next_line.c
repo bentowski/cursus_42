@@ -47,11 +47,12 @@ static int ft_check(char ***s, int fd)
 int get_next_line(int fd, char **line)
 {
 	static char **s;
-  char courant;
   int i;
 	int x;
 	int ret;
 
+	x = 0;
+	ret = 0;
 	i = 1;
 	if (!(s))
 	{
@@ -63,7 +64,8 @@ int get_next_line(int fd, char **line)
 	if (ret == ft_carry(&*s, x, fd, &line))
 		return (0);
 	else
-		ft_putstr_fd(*line);
+	write(1, "\nline : ", 8);
+	ft_putstr_fd(*line);
 	write(1, "\n", 1);
   return (1);
 }

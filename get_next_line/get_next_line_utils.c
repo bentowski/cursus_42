@@ -1,5 +1,19 @@
 #include "get_next_line.h"
 
+static void	ft_putstr_fd(char *s)
+{
+	int x;
+
+	x = 0;
+	if (!s)
+		return ;
+	while (s[x])
+	{
+		write(1, &s[x], 1);
+		x++;
+	}
+}
+
 static void	*ft_memcpy(void *dst, const void *src, size_t n)
 {
 	char *psrc;
@@ -34,7 +48,7 @@ static char	*ft_strdup(const char *s1)
 	return (cpy);
 }
 
-static char *ft_realloc(char *s, char add)
+static char *ft_realloc(char *s)
 {
   int x;
 	int i;
@@ -53,7 +67,6 @@ static char *ft_realloc(char *s, char add)
     new[i] = s[i];
     i++;
   }
-	new[i + 1] = add;
 	new[i + 2] = '\0';
 	free(tmp);
   return (new);
@@ -84,22 +97,53 @@ char	**new_tab(int fd, int n, char **tab)
 
 int ft_carry(char **s, int x, int fd, char ***line)
 {
-	char courant;
+	char *courant;
+	char *save;
 	int i;
 	int ret;
+	int y;
+	int n;
 
-	i = 1;
-	if ((ret = read(fd, &courant, 1)) < 0)
+	n = 0;
+	y = 0;
+	while (s[x][y])
+		y++;
+	if (!(courant = (char *)malloc(BUFFER_SIZE + 1)))
 		return (-1);
-	while (courant != '\n' && courant != '\0')
+	while (n == 0)
 	{
-		s[x] = ft_realloc(s[x], courant);
-		s[x][i] = courant;
-		i++;
-		s[x][i] = '\0';
-		if ((ret = read(fd, &courant, 1)) < 0)
+		i = 1;
+		if ((ret = read(fd, courant, BUFFER_SIZE)) < 0)
 			return (-1);
+		write(1, "\ntour\n", 6);
+		while (courant[i - 1] != '\n' && courant[i - 1] != '\0' && i <= ret)
+		{
+			s[x] = ft_realloc(s[x]);
+			s[x][i] = courant[i - 1];
+			i++;
+			y++;
+		}
+		if (courant[i - 1] == '\n' || courant[i - 1] == '\0')
+		{
+			write(1, "\nok\n", 4);
+			n = 1;
+		}
 	}
+	s[x][y] = '\0';
+	y = 0;
+	if(!(save = (char *)malloc(BUFFER_SIZE - i + 2)))
+		return (-1);
+	while (i++ <= ret)
+	{
+		save[y] = courant[i - 1];
+		y++;
+	}
+	save[y] = '\0';
 	**line = ft_strdup(s[x]);
+	write(1, "s : ", 4);
+	ft_putstr_fd(s[x]);
+	write(1, "\nsave : ", 8);
+	ft_putstr_fd(save);
+	s[x] = ft_strdup(save);
 	return (ret);
 }
