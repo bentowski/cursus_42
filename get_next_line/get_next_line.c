@@ -47,13 +47,11 @@ static int ft_check(char ***s, int fd)
 int get_next_line(int fd, char **line)
 {
 	static char **s;
-  int i;
 	int x;
 	int ret;
 
 	x = 0;
 	ret = 0;
-	i = 1;
 	if (!(s))
 	{
 		if (!(s = first_tab(fd)))

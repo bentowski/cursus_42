@@ -123,7 +123,7 @@ int ft_carry(char **s, int x, int fd, char ***line)
 			i++;
 			y++;
 		}
-		if (courant[i - 1] == '\n' || courant[i - 1] == '\0')
+		if (courant[i - 2] == '\n')
 		{
 			write(1, "\nok\n", 4);
 			n = 1;
