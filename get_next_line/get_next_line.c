@@ -52,7 +52,7 @@ static char	*ft_strdup(const char *s1)
   size_t x;
 
 	len = 0;
-  x = 1;
+  x = 0;
   if (!s1)
     return (NULL);
 	while (s1[len])
@@ -61,10 +61,10 @@ static char	*ft_strdup(const char *s1)
 		return (NULL);
   while(x < len)
   {
-    cpy[x - 1]= s1[x];
+    cpy[x]= s1[x];
     x++;
   }
-  cpy[x - 1] = '\0';
+  cpy[x] = '\0';
 	return (cpy);
 }
 
@@ -133,14 +133,15 @@ static int ft_carry(char **s, int fd, char ***line)
 		if (courant[i] == '\n')
 			n = 1;
 	}
-	write(1, "\ns : ", 5);
-	ft_putstr_fd(save);
 	**line = ft_strdup(save);
   y = 0;
-	while (i++ < ret)
-		s[y] = &courant[i];
-  write(1, "\nsave : ", 8);
-  ft_putstr_fd(*s);
+	while (y < BUFFER_SIZE)
+  {
+    if (i++ < ret)
+      s[y++] = &courant[i];
+    else
+      s[y++] = '\0';
+  }
 	return (ret);
 }
 
@@ -187,8 +188,6 @@ int get_next_line(int fd, char **line)
   n = 0;
 	ret = 0;
   ffd = ft_itoa(fd, &size);
-  ft_putstr_fd(ffd);
-  write(1, "\n", 1);
   if (s)
     while (s[x])
     {
@@ -198,16 +197,16 @@ int get_next_line(int fd, char **line)
           break;
         n++;
       }
+      ft_putstr_fd(s[x]);
       if (!(n != size))
         break;
+      x++;
     }
   if (!(s = new_tab(ffd, x, &s, size)))
     return (-1);
 	if (ret == ft_carry(&s[x], fd, &line))
 		return (0);
-	else
-		write(1, "\nline : ", 8);
-		ft_putstr_fd(*line);
-		write(1, "\n", 1);
-  	return (1);
+	ft_putstr_fd(*line);
+	write(1, "\n", 1);
+	return (1);
 }
