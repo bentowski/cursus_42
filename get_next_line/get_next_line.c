@@ -123,37 +123,32 @@ static int ft_carry(char **s, int fd, char ***line)
 }
 
 
-static char	**new_tab(char *fd, int n, char ***tab, int size)
+static char	**new_tab(char *fd, int n, char **tab, int size)
 {
 	int		x;
 	char	**next_tab;
 
 	if (!(next_tab = (char **)malloc(n + 1)))
 		return (NULL);
-	x = 0;
-	while (x < n)
-	{
-    write(1, "bug : ", 7);
-    ft_putstr_fd(*tab[x]);
-    write(1, "\n", 1);
-		if (!(next_tab[x] = ft_strdup(*tab[x])))
+	x = -1;
+	while (++x < n)
+		if (!(next_tab[x] = ft_strdup(tab[x])))
 			return (NULL);
-    // write(1, "ok\n", 3);
-		x++;
-    printf("%d\n", x);
-	}
-	free(*tab);
+	free(tab);
 	if(!(next_tab[n] = (char *)malloc(BUFFER_SIZE + size + 1)))
 		return (NULL);
   next_tab[n][BUFFER_SIZE + 1 + size] = '\0';
-	while (--size > 0)
+	while (size > 0)
   {
-    next_tab[n][BUFFER_SIZE + 1 + size] = fd[size];
+    next_tab[n][BUFFER_SIZE + size] = fd[size - 1];
+    size--;
   }
   while (size >= -BUFFER_SIZE)
-    next_tab[n][BUFFER_SIZE + size--] = '\0';
+  {
+    next_tab[n][BUFFER_SIZE + size] = '\0';
+    size--;
+  }
 	next_tab[n + 1] = NULL;
-  printf("test bordel : %s\n", next_tab[x]);
 	return (next_tab);
 }
 
@@ -179,28 +174,26 @@ int get_next_line(int fd, char **line)
   ffd = ft_itoa(fd, size);
   printf("fd : %d\n", fd);
   if (s)
-  {
+  {printf("x1 : %d\n", x);
+    printf("buffer : %s\n", &s[x][BUFFER_SIZE + 1]);
     printf("ffd : %s\n", ffd);
     printf("size : %d\n", size);
     while (s[x])
     {
-        printf("buffer : %s\n", &s[x][BUFFER_SIZE + 1]);
-        if (&s[x][BUFFER_SIZE + 1] != ffd)
+        if (&s[x][BUFFER_SIZE + 3] != ffd)
         {
-          write(1, "next\n", 5);
           x++;
         }
         else
         {
-          printf("%d\n", x);
+          printf("yeeeeesssssssssssss %d\n", x);
           break;
         }
     }
   }
-  printf("%d\n", x);
-  // printf("size first : %d\n", size);
-  if (!(s = new_tab(ffd, x, &s, size)))
+  if (!(s = new_tab(ffd, x, s, size)))
     return (-1);
+  printf("x : %d\n", x);
 	if (ret == ft_carry(&s[x], fd, &line))
 		return (0);
 	write(1, "\nline : ", 8);
