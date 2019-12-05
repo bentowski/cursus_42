@@ -14,34 +14,27 @@ void	ft_putstr_fd(char *s)
 	}
 }
 
-char				*ft_itoa(int n, int *size)
-{
-	unsigned char	*str;
-	unsigned int nb;
 
-	nb = n;
-	*size = 1;
-	while (nb / 10 > 0)
-	{
-		nb /= 10;
-		size++;
-	}
-  nb = *size;
-	if (!(str = (unsigned char *)malloc(*size)))
+char				*ft_itoa(int n, int size)
+{
+	char	*str;
+
+	if (!(str = (char *)malloc(size)))
 		return (0);
-	str[*size] = '\0';
+	str[size - 1] = '\0';
 	if (n == 0)
 		str[0] = '0';
 	else
+	{
 		while (n > 0)
 		{
-			str[nb + 1] = n % 10 + '0';
+			str[size - 2] = n % 10 + '0';
 			n /= 10;
-			nb--;
+			size--;
 		}
+	}
 	return ((char *)str);
 }
-
 
 
 
@@ -52,7 +45,7 @@ static char	*ft_strdup(const char *s1)
   size_t x;
 
 	len = 0;
-  x = 1;
+  x = 0;
   if (!s1)
     return (NULL);
 	while (s1[len])
@@ -61,16 +54,12 @@ static char	*ft_strdup(const char *s1)
 		return (NULL);
   while(x < len)
   {
-    cpy[x - 1]= s1[x];
+    cpy[x]= s1[x];
     x++;
   }
-  cpy[x - 1] = '\0';
+  cpy[x] = '\0';
 	return (cpy);
 }
-
-
-
-
 
 
 static char *ft_realloc(char *s, char courant)
@@ -97,10 +86,6 @@ static char *ft_realloc(char *s, char courant)
 	free(tmp);
   return (new);
 }
-
-
-
-
 
 
 static int ft_carry(char **s, int fd, char ***line)
@@ -132,15 +117,8 @@ static int ft_carry(char **s, int fd, char ***line)
 				save = ft_realloc(save, courant[i++]);
 		if (courant[i] == '\n')
 			n = 1;
-	}
-	write(1, "\ns : ", 5);
-	ft_putstr_fd(save);
+    }
 	**line = ft_strdup(save);
-  y = 0;
-	while (i++ < ret)
-		s[y] = &courant[i];
-  write(1, "\nsave : ", 8);
-  ft_putstr_fd(*s);
 	return (ret);
 }
 
@@ -155,20 +133,27 @@ static char	**new_tab(char *fd, int n, char ***tab, int size)
 	x = 0;
 	while (x < n)
 	{
+    write(1, "bug : ", 7);
+    ft_putstr_fd(*tab[x]);
+    write(1, "\n", 1);
 		if (!(next_tab[x] = ft_strdup(*tab[x])))
 			return (NULL);
+    // write(1, "ok\n", 3);
 		x++;
+    printf("%d\n", x);
 	}
 	free(*tab);
-	if(!(next_tab[n] = (char *)malloc(BUFFER_SIZE + size + 2)))
+	if(!(next_tab[n] = (char *)malloc(BUFFER_SIZE + size + 1)))
 		return (NULL);
-	while (size < 0)
+  next_tab[n][BUFFER_SIZE + 1 + size] = '\0';
+	while (--size > 0)
   {
-    next_tab[n][BUFFER_SIZE + size + 1] = fd[n];
-    size--;
+    next_tab[n][BUFFER_SIZE + 1 + size] = fd[size];
   }
-	next_tab[n][BUFFER_SIZE + 1] = '\0';
+  while (size >= -BUFFER_SIZE)
+    next_tab[n][BUFFER_SIZE + size--] = '\0';
 	next_tab[n + 1] = NULL;
+  printf("test bordel : %s\n", next_tab[x]);
 	return (next_tab);
 }
 
@@ -177,37 +162,49 @@ int get_next_line(int fd, char **line)
 {
 	static char **s;
 	int x;
-  int n;
 	int ret;
   int size;
   char *ffd;
+  int nb;
 
-
+  nb = fd;
+  size = 2;
+  while (nb / 10 > 0)
+  {
+    nb /= 10;
+    size++;
+  }
 	x = 0;
-  n = 0;
 	ret = 0;
-  ffd = ft_itoa(fd, &size);
-  ft_putstr_fd(ffd);
-  write(1, "\n", 1);
+  ffd = ft_itoa(fd, size);
+  printf("fd : %d\n", fd);
   if (s)
+  {
+    printf("ffd : %s\n", ffd);
+    printf("size : %d\n", size);
     while (s[x])
     {
-      while (n < size)
-      {
-        if (s[x][BUFFER_SIZE + n] != ffd[n])
+        printf("buffer : %s\n", &s[x][BUFFER_SIZE + 1]);
+        if (&s[x][BUFFER_SIZE + 1] != ffd)
+        {
+          write(1, "next\n", 5);
+          x++;
+        }
+        else
+        {
+          printf("%d\n", x);
           break;
-        n++;
-      }
-      if (!(n != size))
-        break;
+        }
     }
+  }
+  printf("%d\n", x);
+  // printf("size first : %d\n", size);
   if (!(s = new_tab(ffd, x, &s, size)))
     return (-1);
 	if (ret == ft_carry(&s[x], fd, &line))
 		return (0);
-	else
-		write(1, "\nline : ", 8);
-		ft_putstr_fd(*line);
-		write(1, "\n", 1);
-  	return (1);
+	write(1, "\nline : ", 8);
+	ft_putstr_fd(*line);
+	write(1, "\n", 1);
+	return (1);
 }
