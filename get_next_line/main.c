@@ -27,4 +27,6 @@ int main()
   get_next_line(fd2, test);
   get_next_line(fd1, test);
   write(1, "end", 3);
+
+  // system("leaks a.out");
 }
