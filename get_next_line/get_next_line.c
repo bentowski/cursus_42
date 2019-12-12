@@ -37,14 +37,14 @@ static char	*ft_itoa(int n, int size)
 
 static char	*ft_strdup(const char *s1, int n, int select)
 {
-	size_t	len;
+	int	len;
 	char	*cpy;
-  size_t x;
+  int x;
 
+  x = -1;
   if (select == 0)
   {
     len = 0;
-    x = -1;
     if (!s1)
       return (NULL);
     while (s1[len++]);
@@ -52,13 +52,13 @@ static char	*ft_strdup(const char *s1, int n, int select)
       return (NULL);
     while(++x < len)
       cpy[x]= s1[x];
-    cpy[x] = '\0';
   }
   else if (!(cpy = (char *)malloc(n - 1)))
     return (NULL);
   else
-    while (--n > 0)
-      cpy[n] = s1[n];
+    while (x++ < n)
+      cpy[x] = s1[x];
+    cpy[x] = '\0';
 	return (cpy);
 }
 
@@ -126,25 +126,33 @@ static char	**new_tab(char *fd, int n, char **tab, int size)
 {
 	int		x;
 	char	**next_tab;
-
-	if (!(next_tab = (char **)malloc(n + 1)))
-		return (NULL);
-	x = -1;
-	while (++x <= n)
-    if(!(next_tab[n] = (char *)malloc(BUFFER_SIZE + size)))
-      return (NULL);
-  x = -1;
-  while(++x < n)
+  if (!*tab[n])
+  {
+    write(1, "ok\n", 3);
+    if (!(next_tab = (char **)malloc(n + 2)))
+    return (NULL);
+    x = -1;
+    while (++x <= n)
+    if(!(next_tab[n] = (char *)malloc(BUFFER_SIZE + size + 2)))
+    return (NULL);
+    x = -1;
+    if (tab)
+    while(++x < n)
     if (!(next_tab[x] = ft_strdup(tab[x], BUFFER_SIZE + size + 1, 1)))
-      return (NULL);
-	free(tab);
-	while (--size > 0)
+    return (NULL);
+    if (tab)
+    printf("next : %s\n", next_tab[0]);
+    free(tab);
+    next_tab[n][BUFFER_SIZE + size + 1] = '\0';
+    size++;
+    while (--size > 0)
     next_tab[n][BUFFER_SIZE + size] = fd[size - 1];
-  size++;
-  while (--size >= -BUFFER_SIZE)
     next_tab[n][BUFFER_SIZE + size] = '\0';
-	next_tab[n + 1] = NULL;
-	return (next_tab);
+    next_tab[n + 1] = NULL;
+    return (next_tab);
+  }
+  else
+    return (tab);
 }
 
 
@@ -169,9 +177,9 @@ int get_next_line(int fd, char **line)
 	x = 0;
 	ret = 0;
   ffd = ft_itoa(fd, size);
-  write(1, "ok\n", 3);
-  if (s)
-    printf("s new : %s\n", s[x]);
+  if (!s)
+    if (!(s = (char **)malloc(2)))
+      return (-1);
   //   while (s[x])
   //   {
   //       if (s[x][BUFFER_SIZE + 1] == *ffd)
@@ -182,6 +190,7 @@ int get_next_line(int fd, char **line)
 
   if (!(s = new_tab(ffd, x, s, size + 1)))
     return (-1);
+  printf("s2 : %s\n", *s);
 	if ((ret = ft_carry(&s, x, fd, &line)) < 0)
 		return (0);
   printf("s : %s\n", *s);
