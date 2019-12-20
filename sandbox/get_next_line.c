@@ -2,52 +2,51 @@
 
 static void print_list(t_list *list)
 {
+  int x;
+
+  x = 0;
   while (list)
   {
-    printf("%d\n", list->fd);
+    printf("%d : %d\n", x, list->x);
     list = list->next;
+    x++;
   }
 }
 
 
-static t_list *add_fd(t_list *list, int fd)
+static t_list *add_fd(t_list *list, int x, t_list *begun)
 {
   t_list *tmp;
 
   if(!(tmp = malloc(sizeof(t_list))))
     return (NULL);
-  tmp->fd = fd;
+  tmp->x = x;
   tmp->next = NULL;
   if (list)
+  {
     list->next = tmp;
-  return (tmp);
+   }
+  return (begun);
 }
 
 
-int get_next_line(int fd)
+int get_next_line()
 {
   static t_list *list;
-  int yet;
+  t_list *begun;
+  int x;
 
-  yet = 0;
-  printf("fd : %d\n", fd);
-  while (list && yet != 1)
+  x = 0;
+  if (!(begun = malloc(sizeof(t_list))))
+    return (-1);
+  begun->next = list;
+  while (list)
   {
-    if (list->fd == fd)
-    {
-      yet = 1;
-      break;
-    }
-    printf("fd2 : %d\n", list->fd);
-    if (!list->next)
-      break;
+    x++;
     list = list->next;
   }
-  printf("yet : %d\n", yet);
-  if (yet == 0)
-    list = add_fd(list, fd);
-  else
-    list = list->next;
+  print_list(list);
+  list = add_fd(list, x, begun);
   print_list(list);
   return (0);
 }
