@@ -21,12 +21,13 @@ static t_list *add_fd(t_list *list, int x, t_list *begun)
   if(!(tmp = malloc(sizeof(t_list))))
     return (NULL);
   tmp->x = x;
-  tmp->next = NULL;
-  if (list)
-  {
-    list->next = tmp;
-   }
-  return (begun);
+  list = begun->next;
+  begun->next = tmp;
+  if (!list)
+    tmp->next = NULL;
+  else
+    tmp->next = list;
+  return (begun->next);
 }
 
 
@@ -39,13 +40,14 @@ int get_next_line()
   x = 0;
   if (!(begun = malloc(sizeof(t_list))))
     return (-1);
-  begun->next = list;
+  if (list)
+    begun->next = list;
   while (list)
   {
     x++;
     list = list->next;
   }
-  print_list(list);
+  printf("\nx : %d\n", x);
   list = add_fd(list, x, begun);
   print_list(list);
   return (0);
