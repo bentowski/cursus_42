@@ -7,48 +7,53 @@ static void print_list(t_list *list)
   x = 0;
   while (list)
   {
-    printf("%d : %d\n", x, list->x);
+    printf("%d : %d\n", x, list->fd);
     list = list->next;
     x++;
   }
 }
 
 
-static t_list *add_fd(t_list *list, int x, t_list *begun)
+static t_list *add_fd(t_list *clist, int fd, t_list *begun)
 {
   t_list *tmp;
 
   if(!(tmp = malloc(sizeof(t_list))))
     return (NULL);
-  tmp->x = x;
-  list = begun->next;
+  tmp->fd = fd;
+  clist = begun->next;
   begun->next = tmp;
-  if (!list)
+  if (!clist)
     tmp->next = NULL;
   else
-    tmp->next = list;
+    tmp->next = clist;
   return (begun->next);
 }
 
 
-int get_next_line()
+int get_next_line(int fd, char **list)
 {
-  static t_list *list;
+  static t_list *clist;
   t_list *begun;
-  int x;
+  int y;
 
-  x = 0;
+  y = 0;
   if (!(begun = malloc(sizeof(t_list))))
     return (-1);
-  if (list)
-    begun->next = list;
-  while (list)
+  if (clist)
+    begun->next = clist;
+  while (clist)
   {
-    x++;
-    list = list->next;
+    if (clist->fd == fd)
+    {
+      y = 1;
+      break;
+    }
+    clist = clist->next;
   }
-  printf("\nx : %d\n", x);
-  list = add_fd(list, x, begun);
-  print_list(list);
+  printf("\nfd : %d\n", fd);
+  if (y == 0)
+    clist = add_fd(clist, fd, begun);
+  print_list(clist);
   return (0);
 }

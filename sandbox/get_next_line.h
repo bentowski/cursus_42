@@ -9,12 +9,12 @@ typedef struct s_list t_list;
 struct s_list
 {
   char *str;
-  int x;
+  int fd;
   t_list *previous;
   t_list *next;
 };
 
-int get_next_line();
+int get_next_line(int fd, char **list);
 
 
 #endif
