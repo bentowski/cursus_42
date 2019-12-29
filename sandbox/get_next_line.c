@@ -1,17 +1,40 @@
 #include "get_next_line.h"
 
-static void print_list(t_list *list)
+// static void print_list(t_list *list)
+// {
+//   int x;
+//
+//   x = 0;
+//   while (list->next)
+//   {
+//     printf("%d : %d\n", x, list->fd);
+//     printf("s : %s\n", list->str);
+//     list = list->next;
+//     x++;
+//   }
+// }
+
+
+static char *ft_realloc(char *s, char courant)
 {
   int x;
+  int i;
+  char *new;
+  char *tmp;
 
   x = 0;
-  while (list->next)
-  {
-    printf("%d : %d\n", x, list->fd);
-    printf("s : %s\n", list->str);
-    list = list->next;
-    x++;
-  }
+  i = -1;
+  tmp = s;
+  while (s[x])
+  x++;
+  if (!((new = (char*)malloc(x + 2))))
+  return (NULL);
+  while (x > ++i)
+  new[i] = s[i];
+  new[i] = courant;
+  new[i + 1] = '\0';
+  free(tmp);
+  return (new);
 }
 
 static char	*ft_strdup(const char *s1)
@@ -24,8 +47,7 @@ static char	*ft_strdup(const char *s1)
   len = 0;
   if (!s1)
     return (NULL);
-  while (s1[len] && s1[len] != '\n')
-    len++;
+  while (s1[len++]);
   if (!(cpy = (char *)malloc(len + 1)))
     return (NULL);
   while(++x < len)
@@ -33,27 +55,6 @@ static char	*ft_strdup(const char *s1)
 	return (cpy);
 }
 
-static char *ft_realloc(char *s, char courant)
-{
-  int x;
-	int i;
-  char *new;
-	char *tmp;
-
-  x = 0;
-	i = -1;
-	tmp = s;
-  while (s[x])
-		x++;
-  if (!((new = (char*)malloc(x + 2))))
-    return (NULL);
-  while (x > ++i)
-    new[i] = s[i];
-	new[i] = courant;
-	new[i + 1] = '\0';
-	free(tmp);
-  return (new);
-}
 
 static int ft_carry(int fd, t_list *list, char ***line)
 {
@@ -73,6 +74,7 @@ static int ft_carry(int fd, t_list *list, char ***line)
     tocopy = ft_strdup(list->str);
   else if (!(tocopy = (char *)malloc(1)))
     return (-1);
+  printf("tocopy : %s\n", tocopy);
   while (1)
   {
     i = 0;
@@ -85,12 +87,14 @@ static int ft_carry(int fd, t_list *list, char ***line)
     if (courant[i] == '\n')
       break;
   }
-  printf("line : %s\n", tocopy);
   **line = ft_strdup(tocopy);
   free(tocopy);
-  while (i++ < ret)
-    save[x++] = courant[i];
-  list->str = ft_strdup(save);
+  if (courant[i + 1] != '\0')
+  {
+    while (i++ < ret)
+      save[x++] = courant[i];
+    list->str = ft_strdup(save);
+  }
   free(courant);
   return (ret);
 }
@@ -135,6 +139,8 @@ int get_next_line(int fd, char **line)
   if (y == 0)
     list = add_fd(list, fd, begun);
   ft_carry(fd, list, &line);
-  print_list(list);
+  printf("line : %s\n", *line);
   return (0);
 }
+
+// print_list(list);

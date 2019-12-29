@@ -21,7 +21,7 @@ int main()
   fd2 = open(filename2, O_RDONLY);
   fd3 = open(filename3, O_RDONLY);
   get_next_line(fd2, test);
-  get_next_line(fd3, test);
+  get_next_line(fd2, test);
   get_next_line(fd1, test);
   get_next_line(fd1, test);
   get_next_line(fd1, test);
