@@ -23,7 +23,8 @@ int main()
   get_next_line(fd2, test);
   get_next_line(fd3, test);
   get_next_line(fd1, test);
-  get_next_line(fd2, test);
+  get_next_line(fd1, test);
+  get_next_line(fd1, test);
   get_next_line(fd3, test);
   write(1, "end", 3);
 

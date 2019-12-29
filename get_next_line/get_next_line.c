@@ -14,25 +14,34 @@ void	ft_putstr_fd(char *s)
 	}
 }
 
-
-static char	*ft_itoa(int n, int size)
+static void	*ft_memcpy(void *dst, const void *src, size_t n)
 {
-	char	*str;
+	char *psrc;
+	char *pdst;
 
-	if (!(str = (char *)malloc(size)))
-		return (0);
-	str[size - 1] = '\0';
-	if (n == 0)
-		str[0] = '0';
+	psrc = (char *)src;
+	pdst = (char *)dst;
+	if (!src && !dst)
+		return (NULL);
 	while (n > 0)
 	{
-		str[size - 2] = n % 10 + '0';
-		n /= 10;
-		size--;
+		pdst[n - 1] = psrc[n - 1];
+		n--;
 	}
-	return ((char *)str);
+	return (dst);
 }
 
+static char	*ft_strdup(const char *s1)
+{
+	size_t	len;
+	char	*cpy;
+
+	len = ft_strlen(s1) + 1;
+	if (!(cpy = (char *)malloc(len)))
+		return (NULL);
+	ft_memcpy(cpy, s1, len);
+	return (cpy);
+}
 
 
 static char	*ft_strdup(const char *s1, int n, int select)
