@@ -135,7 +135,8 @@ static int ft_carry(int fd, t_list *list, char ***line)
       if (courant[i] == '\n')
         break;
     }
-  **line = ft_strdup(toreturn);
+  if (!(**line = ft_strdup(toreturn)))
+    return (-1);
   free(toreturn);
   if (courant[i + 1] != '\0')
   {
@@ -156,10 +157,15 @@ static int ft_checksave(const char *s)
 
   x = -1;
   if (s)
+  {
     while (s[++x])
+    {
       if (s[x] == '\n')
-        if (s[x + 1])
+      {
           return (1);
+      }
+    }
+  }
   return (0);
 }
 
@@ -167,22 +173,24 @@ static int ft_checksave(const char *s)
 static int ft_noread(t_list *list, char ***line)
 {
   char *saved;
+  char *toreturn;
   int x;
-  int y;
   int end;
 
   x = 0;
   end = 1;
+  write(1, "ok\n", 3);
   if (!(saved = ft_strdup(list->str)))
     return (-1);
   while (saved[x] && saved[x] != '\n')
-      if (!(**line = ft_realloc(**line, saved[x++])))
+      if (!(toreturn = ft_realloc(toreturn, saved[x++])))
         return (-1);
+  **line = ft_strdup(toreturn);
+  free(toreturn);
   if (saved[x] == '\0')
     end = 0;
-  while (saved[++x])
-    saved[y++] = saved[x];
-  saved[x] = '\0';
+  x++;
+  saved = ft_strdup(&saved[x]);
   if (!(list->str = ft_strdup(saved)))
     return (-1);
   free(saved);
