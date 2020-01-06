@@ -53,31 +53,6 @@ static char *ft_realloc(char *s, char courant)
   return (new);
 }
 
-
-static int ft_useagain(const char *s1, char **toreturn)
-{
-  int len;
-  int x;
-
-  x = -1;
-  len = 1;
-  if (!s1)
-    return (-1);
-  while (s1[len] && s1[len] != '\n')
-    len++;
-  if (!(*toreturn = (char *)malloc(len)))
-    return (-1);
-  while (++x < len && s1[x] != '\n')
-  {
-    if (s1[x] == '\n')
-      return (1);
-    *toreturn[x] = s1[x];
-  }
-  return (0);
-}
-
-
-
 static char	*ft_strdup(const char *s1)
 {
   int	  len;
@@ -96,33 +71,28 @@ static char	*ft_strdup(const char *s1)
 	return (cpy);
 }
 
-
-
 static int ft_carry(int fd, t_list *list, char ***line)
 {
   char *courant;
   char *toreturn;
   char *save;
-  int retchar;
   int ret;
   int i;
   int x;
 
   x = 0;
-  retchar = 0;
   if (!(save = (char *)malloc(BUFFER_SIZE)))
     return (-1);
   if (!(courant = (char *)malloc(BUFFER_SIZE)))
     return (-1);
   if (list->str)
   {
-    if ((retchar = ft_useagain(list->str, &toreturn)) < 0)
+    if (!(toreturn = ft_strdup(list->str)))
       return (-1);
   }
   else if (!(toreturn = (char *)malloc(1)))
     return (-1);
-  printf("toreturn : %s\n", toreturn);
-  if (retchar == 0)
+  // printf("toreturn : %s\n", toreturn);
     while (1)
     {
       i = 0;
@@ -144,8 +114,8 @@ static int ft_carry(int fd, t_list *list, char ***line)
       save[x++] = courant[i];
     list->str = ft_strdup(save);
   }
-  printf("save : %s\n", save);
-  printf("\n");
+  // printf("save : %s\n", save);
+  // printf("\n");
   free(courant);
   return (ret);
 }
@@ -157,15 +127,9 @@ static int ft_checksave(const char *s)
 
   x = -1;
   if (s)
-  {
     while (s[++x])
-    {
       if (s[x] == '\n')
-      {
           return (1);
-      }
-    }
-  }
   return (0);
 }
 
@@ -174,17 +138,21 @@ static int ft_noread(t_list *list, char ***line)
 {
   char *saved;
   char *toreturn;
+  int len;
   int x;
   int end;
 
-  x = 0;
+  x = -1;
   end = 1;
-  write(1, "ok\n", 3);
+  len = 0;
   if (!(saved = ft_strdup(list->str)))
     return (-1);
-  while (saved[x] && saved[x] != '\n')
-      if (!(toreturn = ft_realloc(toreturn, saved[x++])))
-        return (-1);
+  while (saved[len++] != '\n');
+  if (!(toreturn = (char *)malloc(len + 1)))
+    return (-1);
+  while (x++ < len - 2)
+      toreturn[x] = saved[x];
+  toreturn[x] = '\0';
   **line = ft_strdup(toreturn);
   free(toreturn);
   if (saved[x] == '\0')
@@ -202,9 +170,11 @@ int get_next_line(int fd, char **line)
 {
   static t_list *list;
   t_list *begun;
+  int ret;
   int y;
 
   y = 0;
+  ret = 1;
   if (!(begun = malloc(sizeof(t_list))))
     return (-1);
   if (list)
@@ -222,10 +192,10 @@ int get_next_line(int fd, char **line)
     list = add_fd(list, fd, begun);
   if (ft_checksave(list->str) != 0)
   {
-    ft_noread(list, &line);
+    ret = ft_noread(list, &line);
   }
   else
-    ft_carry(fd, list, &line);
+    ret = ft_carry(fd, list, &line);
   printf("line : %s\n", *line);
-  return (0);
+  return (ret);
 }
