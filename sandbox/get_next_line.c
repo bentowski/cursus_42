@@ -82,8 +82,6 @@ static int ft_carry(int fd, t_list *list, char ***line)
     list->str = ft_strdup(save);
     free(save);
   }
-  else
-    free(list->str);
   free(courant);
   return (ret);
 }
@@ -122,14 +120,12 @@ static int ft_noread(t_list *list, char ***line)
     toreturn[x] = saved[x];
   toreturn[x] = '\0';
   **line = ft_strdup(toreturn);
-  free(toreturn);
   if (saved[x] == '\0')
     end = 0;
   x++;
   saved = ft_strdup(&saved[x]);
   if (!(list->str = ft_strdup(saved)))
     return (-1);
-  free(saved);
   return (end);
 }
 
@@ -149,6 +145,19 @@ static t_list *add_fd(t_list *list, int fd, t_list *begun)
     tmp->next = list;
   return (begun->next);
 }
+
+// static void ft_free(t_list *list, int fd, t_list *begun)
+// {
+//   list = begun;
+//   while (list->next->fd != fd)
+//     list = list->next;
+//   while (list->next->next != NULL)
+//   {
+//     list->next = list->next->next;
+//     list = list->next;
+//   }
+//   free(list->next);
+// }
 
 int get_next_line(int fd, char **line)
 {
@@ -174,11 +183,13 @@ int get_next_line(int fd, char **line)
   }
   if (y == 0)
     list = add_fd(list, fd, begun);
-  free(begun);
   if (ft_checksave(list->str) != 0)
     ret = ft_noread(list, &line);
   else
     ret = ft_carry(fd, list, &line);
   printf("line : %s\n", *line);
+  // if (ret == 1)
+  //   ft_free(list, fd, begun);
+  free(begun);
   return (ret);
 }
