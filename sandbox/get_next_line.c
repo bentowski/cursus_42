@@ -20,7 +20,7 @@ static char *ft_realloc(char *s, char courant)
   return (new);
 }
 
-static char	*ft_strdup(const char *s1)
+static char	*ft_strdup(char *s1)
 {
   int	  len;
   char *cpy;
@@ -120,12 +120,14 @@ static int ft_noread(t_list *list, char ***line)
     toreturn[x] = saved[x];
   toreturn[x] = '\0';
   **line = ft_strdup(toreturn);
+  free(toreturn);
   if (saved[x] == '\0')
     end = 0;
   x++;
   saved = ft_strdup(&saved[x]);
   if (!(list->str = ft_strdup(saved)))
     return (-1);
+  free(saved);
   return (end);
 }
 
@@ -188,8 +190,6 @@ int get_next_line(int fd, char **line)
   else
     ret = ft_carry(fd, list, &line);
   printf("line : %s\n", *line);
-  // if (ret == 1)
-  //   ft_free(list, fd, begun);
   free(begun);
   return (ret);
 }
