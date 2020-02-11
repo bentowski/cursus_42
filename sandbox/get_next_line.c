@@ -17,7 +17,7 @@ static char *ft_realloc(char *s, char courant)
   new[i] = courant;
   new[i + 1] = '\0';
   free(s);
-  return (new);
+  return (new);bbaudry
 }
 
 static char	*ft_strdup(char *s1)
@@ -130,36 +130,6 @@ static int ft_noread(t_list *list, char ***line)
   free(saved);
   return (end);
 }
-
-static t_list *add_fd(t_list *list, int fd, t_list *begun)
-{
-  t_list *tmp;
-
-  if(!(tmp = malloc(sizeof(t_list))))
-    return (NULL);
-  list = begun->next;
-  tmp->fd = fd;
-  tmp->str = NULL;
-  begun->next = tmp;
-  if (!list)
-    tmp->next = NULL;
-  else
-    tmp->next = list;
-  return (begun->next);
-}
-
-// static void ft_free(t_list *list, int fd, t_list *begun)
-// {
-//   list = begun;
-//   while (list->next->fd != fd)
-//     list = list->next;
-//   while (list->next->next != NULL)
-//   {
-//     list->next = list->next->next;
-//     list = list->next;
-//   }
-//   free(list->next);
-// }
 
 int get_next_line(int fd, char **line)
 {
