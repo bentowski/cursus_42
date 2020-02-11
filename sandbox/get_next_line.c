@@ -17,7 +17,7 @@ static char *ft_realloc(char *s, char courant)
   new[i] = courant;
   new[i + 1] = '\0';
   free(s);
-  return (new);bbaudry
+  return (new);
 }
 
 static char	*ft_strdup(char *s1)
