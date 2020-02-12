@@ -11,7 +11,7 @@ static int ft_checksave(const char *s)
     return (-1);
   while (s[len++]);
   while (s[++x])
-    if (s[x] == '\n' || (s[x] == '\0' && x < len))
+    if (s[x] == '\n')
       return (1);
   return (0);
 }
@@ -46,7 +46,6 @@ static char	*ft_strdup(char *s1)
   len = 0;
   if (!s1)
     return (NULL);
-  write(1, "ok\n", 3);
   while (s1[len++]);
   if (!(cpy = (char *)malloc(len + 1)))
     return (NULL);
@@ -61,16 +60,18 @@ int ft_read(int fd, char ***line, char **saved)
   char *toreturn;
   int ret;
   int i;
+  int x;
 
-  if (!(courant = (char *)malloc(BUFFER_SIZE)))
+  x = 0;
+  if (!(courant = (char *)malloc(BUFFER_SIZE + 1)))
     return (-1);
-  if (!saved)
+  if (*saved)
   {
     if (!(toreturn = ft_strdup(*saved)))
       return (-1);
-    free(saved);
+    free(*saved);
   }
- if (!(toreturn = (char *)malloc(1)))
+ else if (!(toreturn = (char *)malloc(1)))
     return (-1);
   while (1)
   {
@@ -85,9 +86,11 @@ int ft_read(int fd, char ***line, char **saved)
   if (!(**line = ft_strdup(toreturn)))
     return (-1);
   free(toreturn);
-  if (courant[i] == '\0' && i < ret)
-    return (0);
-  if (!(*saved = ft_strdup(courant)))
+  while (x <= BUFFER_SIZE)
+    if (courant[x++] == '\0')
+      return (0);
+  i++;
+  if (!(*saved = ft_strdup(&courant[i])))
     return (-1);
   free(courant);
   return (1);
@@ -111,6 +114,7 @@ static int ft_noread(char **saved, char ***line)
     toreturn[x] = *saved[x];
   if (!(**line = ft_strdup(toreturn)))
     return (-1);
+  free(toreturn);
   if (!(*saved = ft_strdup(saved[len])))
     return (-1);
   return (1);
@@ -122,12 +126,12 @@ int get_next_line(int fd, char **line)
   static char *global[255];
   int ret;
 
-  if (ft_checksave(global[fd]))
+  if (ft_checksave(global[fd]) == 1)
   {
     if (!(ft_noread(&global[fd], &line)))
       return (0);
   }
-  else if (!(ret = ft_read(fd, &line, &global[fd])))
+  if (!(ret = ft_read(fd, &line, &global[fd])))
     return (0);
   return (1);
 }
