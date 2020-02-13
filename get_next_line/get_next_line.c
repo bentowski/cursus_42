@@ -60,9 +60,7 @@ int ft_read(int fd, char ***line, char **saved)
   char *toreturn;
   int ret;
   int i;
-  int x;
 
-  x = 0;
   if (!(courant = (char *)malloc(BUFFER_SIZE + 1)))
     return (-1);
   if (*saved)
@@ -78,17 +76,20 @@ int ft_read(int fd, char ***line, char **saved)
     i = 0;
     if ((ret = read(fd, courant, BUFFER_SIZE)) < 0)
       return (-1);
+    if (ret == 0)
+    {
+      free(courant);
+      free(toreturn);
+      return (0);
+    }
     while (i < ret && courant[i] !='\n' && courant[i] != '\0')
       toreturn = ft_realloc(toreturn, courant[i++]);
-    if (courant[i] == '\n' || (courant[i] == '\0' && i < ret))
+    if (courant[i] == '\n')
       break;
   }
   if (!(**line = ft_strdup(toreturn)))
     return (-1);
   free(toreturn);
-  while (x <= BUFFER_SIZE)
-    if (courant[x++] == '\0')
-      return (0);
   i++;
   if (!(*saved = ft_strdup(&courant[i])))
     return (-1);
@@ -100,38 +101,53 @@ int ft_read(int fd, char ***line, char **saved)
 static int ft_noread(char **saved, char ***line)
 {
   char *toreturn;
+  char *tmp;
   int len;
   int x;
 
   len = 0;
   x = -1;
-  while (*saved[len] != '\n' && saved[len] != '\0')
+  if (!(tmp = ft_strdup(*saved)))
+    return (-1);
+  while (tmp[len] != '\0')
+  {
+    if (tmp[len] == '\n')
+      break;
     len++;
+  }
   if (!(toreturn = (char *)malloc(len + 1)))
     return (-1);
   toreturn[len + 1] = '\0';
   while (len > x++)
-    toreturn[x] = *saved[x];
+    toreturn[x] = tmp[x];
   if (!(**line = ft_strdup(toreturn)))
     return (-1);
   free(toreturn);
-  if (!(*saved = ft_strdup(saved[len])))
+  free(*saved);
+  if (!(*saved = ft_strdup(&tmp[len + 1])))
     return (-1);
+  free(tmp);
   return (1);
 }
-
 
 int get_next_line(int fd, char **line)
 {
   static char *global[255];
-  int ret;
 
-  if (ft_checksave(global[fd]) == 1)
+  if (fd > 0)
   {
-    if (!(ft_noread(&global[fd], &line)))
+    if (ft_checksave(global[fd]) == 1)
+    {
+      if (!(ft_noread(&global[fd], &line)))
+        return (0);
+      printf("line : %s\n", *line);
+      printf("saved : %s\n", global[fd]);
+    }
+    else if ((ft_read(fd, &line, &global[fd])) == 0)
       return (0);
+    printf("read line : %s\n", *line);
+    printf("read saved : %s\n", global[fd]);
+    return (1);
   }
-  if (!(ret = ft_read(fd, &line, &global[fd])))
-    return (0);
-  return (1);
+  return (-1);
 }

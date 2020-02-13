@@ -52,12 +52,12 @@ int main(int ac, char **av)
     while ((ret = get_next_line(fd, &line)) > 0)
     {
         if (line)
-            printf("%s\n", line);
+            // printf("%s\n", line);
         i++;
         free(line);
     }
     printf("%s\nFIN : %d\n", line, ret);
     close(fd);
-    free(line);
+    // system("leaks a.out");
     return (0);
 }
