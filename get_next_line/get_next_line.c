@@ -118,7 +118,7 @@ static int ft_noread(char **saved, char ***line)
   if (!(toreturn = (char *)malloc(len + 1)))
     return (-1);
   toreturn[len + 1] = '\0';
-  while (len > x++)
+  while (len - 1 > x++)
     toreturn[x] = tmp[x];
   if (!(**line = ft_strdup(toreturn)))
     return (-1);
@@ -140,13 +140,13 @@ int get_next_line(int fd, char **line)
     {
       if (!(ft_noread(&global[fd], &line)))
         return (0);
-      printf("line : %s\n", *line);
-      printf("saved : %s\n", global[fd]);
+      // printf("line : %s\n", *line);
+      // printf("saved : %s\n", global[fd]);
     }
     else if ((ft_read(fd, &line, &global[fd])) == 0)
       return (0);
-    printf("read line : %s\n", *line);
-    printf("read saved : %s\n", global[fd]);
+    // printf("read line : %s\n", *line);
+    // printf("read saved : %s\n", global[fd]);
     return (1);
   }
   return (-1);
