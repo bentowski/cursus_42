@@ -49,7 +49,7 @@ int main(int ac, char **av)
     (void)ac;
     fd = open(av[1], O_RDONLY);
     printf("debut\n");
-    while ((ret = get_next_line(fd, &line)) > 0)
+    while ((ret = get_next_line(1, &line)) > 0)
     {
         if (line)
             printf("%s\n%d\n", line, ret);

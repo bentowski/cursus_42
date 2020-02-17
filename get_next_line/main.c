@@ -56,8 +56,8 @@ int main(int ac, char **av)
         i++;
         free(line);
     }
-    printf("%s\nFIN : %d\n", line, ret);
+    printf("\nFIN : %d\n", ret);
     close(fd);
-    // system("leaks a.out");
+    system("leaks a.out");
     return (0);
 }
