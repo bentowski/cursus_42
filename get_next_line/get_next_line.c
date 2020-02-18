@@ -1,5 +1,20 @@
 #include "get_next_line.h"
 
+static int ft_checksave(const char *s)
+{
+  int x;
+  int len;
+
+  x = -1;
+  len = 0;
+  if (!s)
+    return (-1);
+  while (s[len++]);
+  while (s[++x])
+    if (s[x] == '\n')
+      return (1);
+  return (0);
+}
 
 static char	*ft_strdup(char *s1)
 {
@@ -82,6 +97,7 @@ static int ft_readdeux(int fd, char **toreturn, char ***saved)
 static int ft_read(int fd, char ***line, char **saved)
 {
   char *toreturn;
+  int ret;
 
   if (*saved)
   {
@@ -91,12 +107,12 @@ static int ft_read(int fd, char ***line, char **saved)
   }
   else if (!(toreturn = (char *)malloc(1)))
     return (-1);
-  if (ft_readdeux(fd, &toreturn, &saved) == 0)
-    return (0);
+  if ((ret = ft_readdeux(fd, &toreturn, &saved)) <= 0)
+    return (ret);
   if (!(**line = ft_strdup(toreturn)))
     return (-1);
   free(toreturn);
-  return (1);
+  return (ret);
 }
 
 static int ft_noread(char **saved, char ***line)
@@ -131,25 +147,16 @@ static int ft_noread(char **saved, char ***line)
 int get_next_line(int fd, char **line)
 {
   static char *global[255];
-  int i;
-  int ok;
+  int ret;
 
-  ok = 0;
-  i = 0;
+  ret = 0;
   if (fd >= 0)
   {
-    if (global[fd])
-      while (global[fd][i++])
-        if (global[fd][i] == '\n')
-          ok = 1;
-    if (ok == 1)
-    {
-      if (!(ft_noread(&global[fd], &line)))
-        return (0);
-    }
-    else if ((ft_read(fd, &line, &global[fd])) == 0)
-      return (0);
-    return (1);
+    if (ft_checksave(global[fd]) == 1)
+      ret = ft_noread(&global[fd], &line);
+    else
+      ret = ft_read(fd, &line, &global[fd]);
+    return (ret);
   }
   return (-1);
 }
