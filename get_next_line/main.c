@@ -52,9 +52,11 @@ int main(int ac, char **av)
     while ((ret = get_next_line(fd, &line)) > 0)
     {
         if (line)
-            printf("%s\n", line);
+        {
+          printf("%s\n", line);
+          free(line);
+        }
         i++;
-        free(line);
     }
     printf("\nFIN : %d\n", ret);
     close(fd);

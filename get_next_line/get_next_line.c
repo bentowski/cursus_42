@@ -1,20 +1,5 @@
 #include "get_next_line.h"
 
-static int ft_checksave(const char *s)
-{
-  int x;
-  int len;
-
-  x = -1;
-  len = 0;
-  if (!s)
-    return (-1);
-  while (s[len++]);
-  while (s[++x])
-    if (s[x] == '\n')
-      return (1);
-  return (0);
-}
 
 static char	*ft_strdup(char *s1)
 {
@@ -34,28 +19,24 @@ static char	*ft_strdup(char *s1)
 	return (cpy);
 }
 
-size_t	ft_strlen(const char *s)
-{
-	int x;
-
-	x = 0;
-	while (s[x++] != '\0');
-	return (x);
-}
-
-
-char	*ft_strjoin(char *s1, char const *s2, int *i)
+static char	*ft_strjoin(char *s1, char const *s2, int *i)
 {
 	char	*d;
 	int		len;
+  int   len2;
 	int		y;
   int   x;
 
 	y = 0;
   x = 0;
-	if (!s1 || !s2)
+  len = 0;
+  len2 = 0;
+	if (!s2)
 		return (NULL);
-	len = ft_strlen(s1) + ft_strlen(s2) + 1;
+  while (s1[len++]);
+  while (s2[len2] && s2[len2] != '\n')
+    len2++;
+	len += len2 + 1;
 	if (!(d = (char *)malloc(len)))
 		return (NULL);
 	while (s1[x])
@@ -69,27 +50,30 @@ char	*ft_strjoin(char *s1, char const *s2, int *i)
 	return (d);
 }
 
-int ft_readdeux(int fd, char **toreturn, char ****line, int *i)
+static int ft_readdeux(int fd, char **toreturn, char ***saved)
 {
   int ret;
   char courant[BUFFER_SIZE + 1];
+  int i;
 
+  i = 0;
   courant[BUFFER_SIZE] = '\0';
   while (1)
   {
-    *i = 0;
+    i = 0;
     if ((ret = read(fd, courant, BUFFER_SIZE)) <= 0)
       break;
-    if (!(*toreturn = ft_strjoin(*toreturn, courant, i)))
+    if (!(*toreturn = ft_strjoin(*toreturn, courant, &i)))
       return (-1);
-    if (courant[*i] == '\n')
+    if (courant[0] == '\0')
+      return (0);
+    if (courant[i] == '\n')
       break;
   }
   if (ret < 0)
     return (-1);
-  if (!(***line = ft_strdup(*toreturn)))
+  if (!(**saved = ft_strdup(&courant[i + 1])))
     return (-1);
-  free(*toreturn);
   if (ret == 0)
     return (0);
   return (1);
@@ -97,9 +81,7 @@ int ft_readdeux(int fd, char **toreturn, char ****line, int *i)
 
 static int ft_read(int fd, char ***line, char **saved)
 {
-  char courant[BUFFER_SIZE + 1];
   char *toreturn;
-  int i;
 
   if (*saved)
   {
@@ -109,11 +91,11 @@ static int ft_read(int fd, char ***line, char **saved)
   }
   else if (!(toreturn = (char *)malloc(1)))
     return (-1);
-  if (ft_readdeux(fd, &toreturn, &line, &i) == 0)
+  if (ft_readdeux(fd, &toreturn, &saved) == 0)
     return (0);
-  i++;
-  if (!(*saved = ft_strdup(&courant[i])))
+  if (!(**line = ft_strdup(toreturn)))
     return (-1);
+  free(toreturn);
   return (1);
 }
 
@@ -149,10 +131,18 @@ static int ft_noread(char **saved, char ***line)
 int get_next_line(int fd, char **line)
 {
   static char *global[255];
+  int i;
+  int ok;
 
-  if (fd > 0)
+  ok = 0;
+  i = 0;
+  if (fd >= 0)
   {
-    if (ft_checksave(global[fd]) == 1)
+    if (global[fd])
+      while (global[fd][i++])
+        if (global[fd][i] == '\n')
+          ok = 1;
+    if (ok == 1)
     {
       if (!(ft_noread(&global[fd], &line)))
         return (0);
