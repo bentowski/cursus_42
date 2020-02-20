@@ -49,17 +49,17 @@ int main(int ac, char **av)
     (void)ac;
     fd = open(av[1], O_RDONLY);
     printf("debut\n");
-    while ((ret = get_next_line(1, &line)) > 0)
+    while ((ret = get_next_line(fd, &line)) > 0)
     {
         if (line)
         {
-          printf("%s\n", line);
+          printf("%d : %s\n", ret, line);
           free(line);
         }
         i++;
     }
-    printf("\nFIN : %d\n", ret);
+    printf("FIN : %d\n", ret);
     close(fd);
-    system("leaks a.out");
+    // system("leaks a.out");
     return (0);
 }

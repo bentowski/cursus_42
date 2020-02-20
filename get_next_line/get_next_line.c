@@ -87,8 +87,9 @@ static int ft_readdeux(int fd, char **toreturn, char ***saved)
   }
   if (ret < 0)
     return (-1);
-  if (!(**saved = ft_strdup(&courant[i + 1])))
-    return (-1);
+  if (courant[i + 1] != '\0')
+    if (!(**saved = ft_strdup(&courant[i + 1])))
+      return (-1);
   if (ret == 0)
     return (0);
   return (1);
@@ -99,7 +100,7 @@ static int ft_read(int fd, char ***line, char **saved)
   char *toreturn;
   int ret;
 
-  if (*saved)
+  if (*saved != NULL)
   {
     if (!(toreturn = ft_strdup(*saved)))
       return (-1);
@@ -156,6 +157,9 @@ int get_next_line(int fd, char **line)
       ret = ft_noread(&global[fd], &line);
     else
       ret = ft_read(fd, &line, &global[fd]);
+    // if (ret == 0)
+    //   free(global[fd]);
+    // printf("saved : %s\n", global[fd]);
     return (ret);
   }
   return (-1);
