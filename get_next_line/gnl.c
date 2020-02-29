@@ -156,7 +156,7 @@ static int ft_noread(char **saved, char ***line)
   if (!(toreturn = (char *)malloc(len + 1)))
     return (-1);
   toreturn[len + 1] = '\0';
-  while (len - 1 > x++)
+  while (len - 1> x++)
     toreturn[x] = tmp[x];
   if (!(**line = ft_strdup(toreturn)))
     return (-1);
