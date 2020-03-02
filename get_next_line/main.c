@@ -60,6 +60,6 @@ int main(int ac, char **av)
     }
     printf("FIN : %d\n", ret);
     close(fd);
-    // system("leaks a.out");
+    system("leaks a.out");
     return (0);
 }

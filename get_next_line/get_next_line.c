@@ -1,41 +1,5 @@
 #include "get_next_line.h"
 
-static int ft_checksave(const char *s)
-{
-  int x;
-  int len;
-
-  x = -1;
-  len = 0;
-  if (!s)
-    return (-1);
-  while (s[len++]);
-  while (s[++x])
-    if (s[x] == '\n')
-      return (1);
-  return (0);
-}
-
-// static char *ft_realloc(char *s, char courant)
-// {
-//   int x;
-//   int i;
-//   char *new;
-//
-//   x = 0;
-//   i = -1;
-//   while (s[x])
-//     x++;
-//   if (!((new = (char*)malloc(x + 2))))
-//     return (NULL);
-//   while (x > ++i)
-//     new[i] = s[i];
-//   new[i] = courant;
-//   new[i + 1] = '\0';
-//   free(s);
-//   return (new);
-// }
-
 static char	*ft_strdup(char *s1)
 {
   int	  len;
@@ -52,37 +16,6 @@ static char	*ft_strdup(char *s1)
   while(++x < len)
     cpy[x]= s1[x];
 	return (cpy);
-}
-
-static char	*ft_strjoin(char *s1, char const *s2, int *i)
-{
-	char	*d;
-	int		len;
-  int   len2;
-	int		y;
-  int   x;
-
-	y = 0;
-  x = 0;
-  len = 0;
-  len2 = 0;
-	if (!s2)
-		return (NULL);
-  while (s1[len++]);
-  while (s2[len2] && s2[len2] != '\n')
-    len2++;
-	len += len2 + 1;
-	if (!(d = (char *)malloc(len)))
-		return (NULL);
-	while (s1[x])
-		d[y++] = s1[x++];
-  x = 0;
-	while (s2[x] && s2[x] != '\n')
-		d[y++] = s2[x++];
-	d[y] = '\0';
-  *i = x;
-  free(s1);
-	return (d);
 }
 
 static int ft_readdeux(int fd, char **toreturn, char ***saved)
@@ -123,6 +56,7 @@ static int ft_read(int fd, char ***line, char **saved)
     if (!(toreturn = ft_strdup(*saved)))
       return (-1);
     free(*saved);
+    *saved = NULL;
   }
   else if (!(toreturn = (char *)malloc(1)))
     return (-1);
@@ -150,12 +84,13 @@ static int ft_noread(char **saved, char ***line)
   if (!(tmp = ft_strdup(*saved)))
     return (-1);
   free(*saved);
+  *saved = NULL;
   while (tmp[++len] != '\0')
     if (tmp[len] == '\n')
       break;
   if (!(toreturn = (char *)malloc(len + 1)))
     return (-1);
-  toreturn[len + 1] = '\0';
+  toreturn[len] = '\0';
   while (len - 1 > x++)
     toreturn[x] = tmp[x];
   if (!(**line = ft_strdup(toreturn)))
@@ -171,11 +106,20 @@ int get_next_line(int fd, char **line)
 {
   static char *global[255];
   int ret;
+  int ok;
+  int x;
 
-  ret = 0;
+  ok = 0;
+  x = 0;
   if (fd >= 0)
   {
-    if (ft_checksave(global[fd]) == 1)
+    if (global[fd])
+    {
+      while (global[fd][++x])
+        if (global[fd][x] == '\n')
+          ok = 1;
+    }
+    if (ok == 1)
       ret = ft_noread(&global[fd], &line);
     else
       ret = ft_read(fd, &line, &global[fd]);
