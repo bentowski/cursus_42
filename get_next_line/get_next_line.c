@@ -30,6 +30,7 @@ static	char	*ft_strdup(char *s1)
 		return (NULL);
 	while (++x < len)
 		cpy[x] = s1[x];
+	cpy[x] = '\0';
 	return (cpy);
 }
 
@@ -73,8 +74,12 @@ static	int		ft_read(int fd, char ***line, char **saved)
 		free(*saved);
 		*saved = NULL;
 	}
-	else if (!(toreturn = (char *)malloc(1)))
-		return (-1);
+	else
+	{
+ 		if (!(toreturn = (char *)malloc(1)))
+			return (-1);
+		toreturn[0] = '\0';
+	}
 	if ((ret = ft_readdeux(fd, &toreturn, &saved)) <= 0)
 	{
 		free(toreturn);
@@ -93,15 +98,14 @@ static	int		ft_noread(char **saved, char ***line)
 	int		len;
 	int		x;
 
-	len = -1;
+	len = 0;
 	x = -1;
 	if (!(tmp = ft_strdup(*saved)))
 		return (-1);
 	free(*saved);
 	*saved = NULL;
-	while (tmp[++len] != '\0')
-		if (tmp[len] == '\n')
-			break ;
+	while (tmp[len] != '\0' && tmp[len] != '\n')
+			len++;
 	if (!(toreturn = (char *)malloc(len + 1)))
 		return (-1);
 	toreturn[len] = '\0';
@@ -118,7 +122,7 @@ static	int		ft_noread(char **saved, char ***line)
 
 int				get_next_line(int fd, char **line)
 {
-	static	char	*global[255];
+	static	char	*saved[255];
 	int				ret;
 	int				ok;
 	int				x;
@@ -127,16 +131,17 @@ int				get_next_line(int fd, char **line)
 	x = 0;
 	if (fd >= 0)
 	{
-		if (global[fd])
+		if (saved[fd])
 		{
-			while (global[fd][++x])
-				if (global[fd][x] == '\n')
+			while (saved[fd][++x])
+				if (saved[fd][x] == '\n')
 					ok = 1;
 		}
 		if (ok == 1)
-			ret = ft_noread(&global[fd], &line);
+			ret = ft_noread(&saved[fd], &line);
 		else
-			ret = ft_read(fd, &line, &global[fd]);
+			ret = ft_read(fd, &line, &saved[fd]);
+		printf("\nline saved : [%s]\n\n", saved[fd]);
 		return (ret);
 	}
 	return (-1);
