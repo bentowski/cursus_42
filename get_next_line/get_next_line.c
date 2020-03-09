@@ -141,7 +141,6 @@ int				get_next_line(int fd, char **line)
 			ret = ft_noread(&saved[fd], &line);
 		else
 			ret = ft_read(fd, &line, &saved[fd]);
-		printf("\nline saved : [%s]\n\n", saved[fd]);
 		return (ret);
 	}
 	return (-1);
