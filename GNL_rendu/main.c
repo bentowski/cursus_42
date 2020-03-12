@@ -28,6 +28,6 @@ int main(int ac, char **av)
     printf("%d : %s\n", ret, line);
     free(line);
     close(fd);
-    system("leaks a.out");
+    // system("leaks a.out");
     return (0);
 }

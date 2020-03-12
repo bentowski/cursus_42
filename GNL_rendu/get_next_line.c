@@ -41,12 +41,15 @@ static	int		ft_readdeux(int fd, char **toreturn, char ***saved)
 	int		i;
 
 	i = 0;
-	courant[BUFFER_SIZE] = '\0';
+	if (BUFFER_SIZE >= 0)
+		courant[BUFFER_SIZE] = '\0';
 	while (1)
 	{
 		i = 0;
 		if ((ret = read(fd, courant, BUFFER_SIZE)) <= 0)
 			break ;
+		if (ret < BUFFER_SIZE)
+			courant[ret] = '\0';
 		if (!(*toreturn = ft_strjoin(*toreturn, courant, &i)))
 			return (-1);
 		if (courant[i] == '\n')
@@ -127,7 +130,7 @@ int				get_next_line(int fd, char **line)
 
 	ok = 0;
 	x = -1;
-	if (fd >= 0)
+	if (fd >= 0 && BUFFER_SIZE > 0)
 	{
 		if (saved[fd])
 		{
