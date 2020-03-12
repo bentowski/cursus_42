@@ -5,7 +5,7 @@
 ###################################
 
 #Edit the next line with the path of your libft project.
-PATH_GNL="../cursus_42/get_next_line"
+PATH_GNL="../GNL_rendu"
 
 #If you use a relative path, don't put double quotes.
 #For example :
