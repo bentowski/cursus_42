@@ -168,7 +168,7 @@ int ft_printf(const char *line, ...)
       if (line[x] == '%')
         write(1, "%", 1);
       (*functions[ft_disturb(x, line, allindexs, &flags)])(&list_args, &flags);
-      while ((flags.decalage--) > 0)
+      while (flags.decalage-- > 0)
         x++;
     }
     else if (line[x] != '%')
