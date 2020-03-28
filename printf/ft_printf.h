@@ -13,6 +13,7 @@ typedef struct s_struct
   int negative;
   int zero;
   int cutter;
+  int decalage;
 }               t_flags;
 
 #endif
