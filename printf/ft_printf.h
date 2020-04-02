@@ -14,6 +14,7 @@ typedef struct s_struct
   int zero;
   int cutter;
   int decalage;
+  int constante;
 }               t_flags;
 
 #endif

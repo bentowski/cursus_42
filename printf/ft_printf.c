@@ -6,7 +6,18 @@ int ft_nblen(int nb)
     int n;
 
     n = nb;
-    x = 0;
+    x = 1;
+    if (n < 0)
+    {
+      n = -n;
+      x++;
+    }
+    while ((n / 10) > 0)
+    {
+      n = n / 10;
+      x++;
+    }
+    return (x);
 }
 
 void ft_c(va_list *list_args, t_flags *flags)
@@ -21,23 +32,24 @@ void ft_s(va_list *list_args, t_flags *flags)
 
 void ft_printzero(int *lenght, t_flags *flags)
 {
-  write(1, "ok\n", 3);
-  printf("%d\n", *lenght);
+  int len;
+
+  len = *lenght;
   if (flags->negative == 0)
   {
-    while (*lenght > 0)
+    while (len > 0)
     {
-      if (flags->zero == 1)
+      if (flags->zero == 1 || flags->cutter == 1)
         write(1, "0", 1);
       else
         write(1, " ", 1);
-      *lenght--;
+      len--;
     }
   }
   else
   {
-    while (*lenght-- > 0)
-      write(1, "x", 1);
+    while (len-- > 0)
+      write(1, " ", 1);
   }
 }
 
@@ -46,8 +58,21 @@ void ft_d(va_list *list_args, t_flags *flags)
   int lenght;
   int nb;
 
+  if (flags->cutter == 1)
+    flags->negative = 0;
+  if (flags->constante == 1)
+    flags->precision = va_arg(*list_args, int);
   nb = va_arg(*list_args, int);
-  lenght = ft_nblen(nb) - flags->precision;
+  lenght = flags->precision - ft_nblen(nb);
+  if (nb == 0 && flags->cutter == 1 && flags->precision == 0)
+    return;
+  if (nb < 0 && (flags->zero == 1 || flags->cutter == 1))
+  {
+    if (flags->cutter == 1)
+      lenght++;
+    write(1, "-", 1);
+    nb = -nb;
+  }
   if (flags->negative == 0)
   {
     ft_printzero(&lenght, flags);
@@ -119,8 +144,11 @@ int ft_disturb(int i, const char *target, char *allindexs, t_flags *flags)
       flags->zero = 1;
       x++;
     }
-    // else if (target[x] == "*")
-    //   flags->precision = ???;
+    else if (target[x] == '*')
+    {
+      flags->constante = 1;
+      x++;
+    }
     else if (target[x] >= '1' && target[x] <= '9')
     {
       while (target[x] >= '0' && target[x] <= '9')
@@ -144,7 +172,7 @@ void ft_init(t_flags *flags)
   flags->zero = 0;
   flags->cutter = 0;
   flags->decalage = 0;
-
+  flags->constante = 0;
 }
 
 
@@ -178,8 +206,31 @@ int ft_printf(const char *line, ...)
 
 int main()
 {
-  int x;
+  int enteri;
+  int precision;
 
-  x = 7;
-  ft_printf("petit test ici avec %05d nombre pour voir\n", x);
+  enteri = -05;
+  precision = 5;
+  printf("d 1 : |%.d|\n", enteri);
+  ft_printf("d 1 : |%.d|\n\n", enteri);
+  printf("d 2 : |%-d|\n", enteri);
+  ft_printf("d 2 : |%-d|\n\n", enteri);
+  printf("d 3 : |%*d|\n", precision, enteri);
+  ft_printf("d 3 : |%*d|\n\n", precision, enteri);
+  printf("d 4 : |%0d|\n", enteri);
+  ft_printf("d 4 : |%0d|\n\n", enteri);
+  printf("d 5 : |%-.d|\n", enteri);
+  ft_printf("d 5 : |%-.d|\n\n", enteri);
+  printf("d 6 : |%04d|\n", enteri);
+  ft_printf("d 6 : |%04d|\n\n", enteri);
+  printf("d 7 : |%.0d|\n", enteri);
+  ft_printf("d 7 : |%.0d|\n\n", enteri);
+  printf("d 8 : |%-.0d|\n", enteri);
+  ft_printf("d 8 : |%-.0d|\n\n", enteri);
+  printf("d 9 : |%-.*d|\n", precision, enteri);
+  ft_printf("d 9 : |%-.*d|\n\n", precision, enteri);
+  printf("d 10 : |%-*d|\n", precision, enteri);
+  ft_printf("d 10 : |%-*d|\n\n", precision, enteri);
+  printf("d 11 : |%0*d|\n", precision, enteri);
+  ft_printf("d 11 : |%0*d|\n\n", precision, enteri);
 }
