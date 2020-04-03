@@ -22,7 +22,7 @@ int main()
 
   printf("\n\n\n");
 
-  printf("c 1 : |\\%-8c|\n", greetings[3]);
+  printf("c 1 : |%-8c|\n", greetings[3]);
   printf("c 2 : |%8c|\n", greetings[3]);
   printf("c 3 : |%c|\n", greetings[3]);
   printf("c 4 : |%-c|\n", greetings[3]);
