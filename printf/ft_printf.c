@@ -87,7 +87,40 @@ void ft_d(va_list *list_args, t_flags *flags)
 
 void ft_s(va_list *list_args, t_flags *flags)
 {
+  char *s;
+  int lenght;
+  int x;
 
+  x = 0;
+  if (flags->constante == 1)
+    flags->precision = va_arg(*list_args, int);
+  s = va_arg(*list_args, char *);
+  lenght = ft_strlen(s);
+  if (lenght > flags->precision && flags->cutter == 1)
+  {
+    while (flags->precision-- > 0)
+      ft_write(s[x++]);
+  }
+  else if (flags->cutter == 1)
+  {
+    while (s[x])
+      ft_write(s[x++]);
+  }
+  else if (flags->negative == 0)
+  {
+    while (flags->precision-- > lenght)
+      ft_write(' ');
+    while(s[x])
+      ft_write(s[x++]);
+  }
+  else
+  {
+    flags->precision -= lenght;
+    while (s[x])
+      ft_write(s[x++]);
+    while (flags->precision-- > 0)
+      ft_write(' ');
+  }
 }
 
 void ft_x(va_list *list_args, t_flags *flags)
@@ -183,34 +216,52 @@ int ft_printf(const char *line, ...)
 
 int main()
 {
-  int enteri;
   int precision;
-  char d;
+  char *greetings;
 
-  d = 0;
+  greetings = "test juste comme";
   precision = 5;
-  while (d < 88)
-  {
-    enteri = d;
-    printf("c 1 : |%-8c|\n", d);
-    ft_printf("c 1 : |%-8c|\n\n", d);
-    printf("c 2 : |%8c|\n", d);
-    ft_printf("c 2 : |%8c|\n\n", d);
-    printf("c 3 : |%c|\n", d);
-    ft_printf("c 3 : |%c|\n\n", d);
-    printf("c 4 : |%-c|\n", d);
-    ft_printf("c 4 : |%-c|\n\n", d);
-    printf("c 5 : |%-*c|\n", precision, d);
-    ft_printf("c 5 : |%-*c|\n\n", precision, d);
-    printf("c 6 : |%*c|\n", precision, d);
-    ft_printf("c 6 : |%*c|\n\n", precision, d);
-    printf("c 7 : |%-*c|\n", precision, d);
-    ft_printf("c 7 : |%-*c|\n\n", precision, d);
-    write(1, "\n\n\n\n", 4);
-    printf("%d\n", enteri);
-    d++;
-  }
+  printf("s 1 : |%-.s|\n", greetings);
+  ft_printf("s 1 : |%-.s|\n\n", greetings);
+  printf("s 2 : |%.s|\n", greetings);
+  ft_printf("s 2 : |%.s|\n\n", greetings);
+  printf("s 3 : |%-8s|\n", greetings);
+  ft_printf("s 3 : |%-8s|\n\n", greetings);
+  printf("s 4 : |%.32s|\n", greetings);
+  ft_printf("s 4 : |%.32s|\n\n", greetings);
+  printf("s 5 : |%-s|\n", greetings);
+  ft_printf("s 5 : |%-s|\n\n", greetings);
+  printf("s 6 : |%-.s|\n", greetings);
+  ft_printf("s 6 : |%-.s|\n\n", greetings);
+  printf("s 7 : |%-.*s|\n", precision, greetings);
+  ft_printf("s 7 : |%-.*s|\n\n", precision, greetings);
+  printf("s 8 : |%*s|\n", precision, greetings);
+  ft_printf("s 8 : |%*s|\n\n", precision, greetings);
+  printf("s 9 : |%.*s|\n", precision , greetings);
+  ft_printf("s 9 : |%.*s|\n\n", precision , greetings);
+  printf("s 10 : |%-.*s|\n", precision, greetings);
+  ft_printf("s 10 : |%-.*s|\n\n", precision, greetings);
+  printf("s 11 : |%-*s|\n", precision , greetings);
+  ft_printf("s 11 : |%-*s|\n\n", precision , greetings);
 }
+
+
+//======== Test c ==========
+// printf("c 1 : |%-8c|\n", d);
+// ft_printf("c 1 : |%-8c|\n\n", d);
+// printf("c 2 : |%8c|\n", d);
+// ft_printf("c 2 : |%8c|\n\n", d);
+// printf("c 3 : |%c|\n", d);
+// ft_printf("c 3 : |%c|\n\n", d);
+// printf("c 4 : |%-c|\n", d);
+// ft_printf("c 4 : |%-c|\n\n", d);
+// printf("c 5 : |%-*c|\n", precision, d);
+// ft_printf("c 5 : |%-*c|\n\n", precision, d);
+// printf("c 6 : |%*c|\n", precision, d);
+// ft_printf("c 6 : |%*c|\n\n", precision, d);
+// printf("c 7 : |%-*c|\n", precision, d);
+// ft_printf("c 7 : |%-*c|\n\n", precision, d);
+
 
 
 // ======== Test d ============
