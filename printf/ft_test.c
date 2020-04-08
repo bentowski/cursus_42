@@ -5,20 +5,20 @@ int main()
 {
   int precision = 8;
   int biggerPrecision = 16;
-  int enteri = 170;
+  int enteri = 15253;
   const char *greetings = "Hello world";
 
-  printf("s 1 : |%-.s|\n", greetings);
-  printf("s 2 : |%.s|\n", greetings);
-  printf("s 3 : |%8s|\n", greetings);
-  printf("s 4 : |%.8s|\n", greetings);
-  printf("s 5 : |%-s|\n", greetings);
-  printf("s 6 : |%-.s|\n", greetings);
-  printf("s 7 : |%-.*s|\n", precision, greetings);
-  printf("s 8 : |%*s|\n", biggerPrecision, greetings);
-  printf("s 9 : |%.*s|\n", biggerPrecision , greetings);
-  printf("s 10 : |%-.*s|\n", biggerPrecision, greetings);
-  printf("s 11 : |%-*s|\n", biggerPrecision , greetings);
+  printf("s 1 : |%-.x|\n", enteri);
+  printf("s 2 : |%.x|\n", enteri);
+  printf("s 3 : |%8x|\n", enteri);
+  printf("s 4 : |%.8x|\n", enteri);
+  printf("s 5 : |%-x|\n", enteri);
+  printf("s 6 : |%-.x|\n", enteri);
+  printf("s 7 : |%-.*x|\n", precision, enteri);
+  printf("s 8 : |%*x|\n", biggerPrecision, enteri);
+  printf("s 9 : |%.*x|\n", biggerPrecision , enteri);
+  printf("s 10 : |%-.*x|\n", biggerPrecision, enteri);
+  printf("s 11 : |%-*x|\n", biggerPrecision , enteri);
 
   // printf("\n\n\n");
   //

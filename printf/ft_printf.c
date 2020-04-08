@@ -5,29 +5,12 @@ void ft_write(char c)
   write(1, &c, 1);
 }
 
-int ft_nblen(int nb)
-{
-    int x;
-    int n;
-
-    n = nb;
-    x = 1;
-    if (n < 0)
-    {
-      n = -n;
-      x++;
-    }
-    while (( n = n / 10) > 0)
-      x++;
-    return (x);
-}
-
 void ft_c(va_list *list_args, t_flags *flags)
 {
   char c;
 
   if (flags->constante == 1)
-    flags->precision = va_arg(*list_args, int);
+  flags->precision = va_arg(*list_args, int);
   c = va_arg(*list_args, int);
   if (flags->negative == 0)
   {
@@ -41,6 +24,31 @@ void ft_c(va_list *list_args, t_flags *flags)
     while (--flags->precision > 0)
       ft_write(' ');
   }
+}
+
+int ft_nblen(int nb, int opt)
+{
+  int x;
+  int n;
+
+  n = nb;
+  x = 1;
+  if (opt == 1)
+  {
+    if (n < 0)
+    {
+      n = -n;
+      x++;
+    }
+    while (( n = n / 10) > 0)
+      x++;
+  }
+  if (opt == 2)
+  {
+    while ((nb = nb / 16) > 0)
+      x++;
+  }
+  return (x);
 }
 
 void ft_d2(int *lenght, t_flags *flags, int nb)
@@ -72,7 +80,7 @@ void ft_d(va_list *list_args, t_flags *flags)
   if (flags->constante == 1)
     flags->precision = va_arg(*list_args, int);
   nb = va_arg(*list_args, int);
-  lenght = flags->precision - ft_nblen(nb);
+  lenght = flags->precision - ft_nblen(nb, 1);
   if (nb == 0 && flags->cutter == 1 && flags->precision == 0)
     return;
   if (nb < 0 && (flags->zero == 1 || flags->cutter == 1))
@@ -123,9 +131,57 @@ void ft_s(va_list *list_args, t_flags *flags)
   }
 }
 
+void ft_candwrite(int nb)
+{
+  int temp1;
+  int temp2;
+
+  if (nb > 16)
+  {
+    ft_candwrite(nb / 16);
+    temp1 = nb / 16;
+    temp2 = nb - (temp1 * 16);
+    temp1 = nb;
+  }
+  else
+    temp2 = nb;
+  if (temp2 > 9)
+  {
+    ft_write(temp2 + 87);
+  }
+  else
+  {
+    ft_write(temp2 + 48);
+  }
+}
+
 void ft_x(va_list *list_args, t_flags *flags)
 {
+  int nb;
 
+  if (flags->constante == 1)
+    flags->precision = va_arg(*list_args, int);
+  nb = va_arg(*list_args, int);
+  if (flags->precision != 0)
+    flags->precision -= ft_nblen(nb, 2);
+  if (nb == 0 && flags->cutter == 1 && flags->precision == 0)
+    return;
+  if (flags->negative == 1 && flags->cutter == 0)
+  {
+    ft_candwrite(nb);
+    while (flags->precision-- > 0)
+      ft_write(' ');
+  }
+  else
+  {
+    if (flags->zero ==1 || flags->cutter == 1)
+      while (flags->precision-- > 0)
+        ft_write('0');
+    else
+      while (flags->precision-- > 0)
+      ft_write(' ');
+    ft_candwrite(nb);
+  }
 }
 
 void ft_X(va_list *list_args, t_flags *flags)
@@ -217,33 +273,65 @@ int ft_printf(const char *line, ...)
 int main()
 {
   int precision;
+  int enteri;
   char *greetings;
 
   greetings = "test juste comme";
-  precision = 5;
-  printf("s 1 : |%-.s|\n", greetings);
-  ft_printf("s 1 : |%-.s|\n\n", greetings);
-  printf("s 2 : |%.s|\n", greetings);
-  ft_printf("s 2 : |%.s|\n\n", greetings);
-  printf("s 3 : |%-8s|\n", greetings);
-  ft_printf("s 3 : |%-8s|\n\n", greetings);
-  printf("s 4 : |%.32s|\n", greetings);
-  ft_printf("s 4 : |%.32s|\n\n", greetings);
-  printf("s 5 : |%-s|\n", greetings);
-  ft_printf("s 5 : |%-s|\n\n", greetings);
-  printf("s 6 : |%-.s|\n", greetings);
-  ft_printf("s 6 : |%-.s|\n\n", greetings);
-  printf("s 7 : |%-.*s|\n", precision, greetings);
-  ft_printf("s 7 : |%-.*s|\n\n", precision, greetings);
-  printf("s 8 : |%*s|\n", precision, greetings);
-  ft_printf("s 8 : |%*s|\n\n", precision, greetings);
-  printf("s 9 : |%.*s|\n", precision , greetings);
-  ft_printf("s 9 : |%.*s|\n\n", precision , greetings);
-  printf("s 10 : |%-.*s|\n", precision, greetings);
-  ft_printf("s 10 : |%-.*s|\n\n", precision, greetings);
-  printf("s 11 : |%-*s|\n", precision , greetings);
-  ft_printf("s 11 : |%-*s|\n\n", precision , greetings);
+  precision = 19;
+  enteri = -2147483640;
+
+  while (enteri > -2147483648)
+  {
+    printf("x 1 : |%.x|\n\n", enteri);
+    // ft_printf("x 1 : |%.x|\n\n", enteri);
+    // printf("x 2 : |%-x|\n", enteri);
+    // ft_printf("x 2 : |%-x|\n\n", enteri);
+    // printf("x 3 : |%*x|\n", precision, enteri);
+    // ft_printf("x 3 : |%*x|\n\n", precision, enteri);
+    // printf("x 4 : |%0x|\n", enteri);
+    // ft_printf("x 4 : |%0x|\n\n", enteri);
+    // printf("x 5 : |%-.x|\n", enteri);
+    // ft_printf("x 5 : |%-.x|\n\n", enteri);
+    // printf("x 6 : |%04x|\n", enteri);
+    // ft_printf("x 6 : |%04x|\n\n", enteri);
+    // printf("x 7 : |%.0x|\n", enteri);
+    // ft_printf("x 7 : |%.0x|\n\n", enteri);
+    // printf("x 8 : |%-.0x|\n", enteri);
+    // ft_printf("x 8 : |%-.0x|\n\n", enteri);
+    // printf("x 9 : |%-.*x|\n", precision, enteri);
+    // ft_printf("x 9 : |%-.*x|\n\n", precision, enteri);
+    // printf("x 10 : |%-*x|\n", precision, enteri);
+    // ft_printf("x 10 : |%-*x|\n\n", precision, enteri);
+    // printf("x 11 : |%0*x|\n", precision, enteri);
+    // ft_printf("x 11 : |%0*x|\n\n", precision, enteri);
+    enteri--;
+  }
 }
+
+
+// =========== Test s ==========
+// printf("s 1 : |%-.s|\n", greetings);
+// ft_printf("s 1 : |%-.s|\n\n", greetings);
+// printf("s 2 : |%.s|\n", greetings);
+// ft_printf("s 2 : |%.s|\n\n", greetings);
+// printf("s 3 : |%-8s|\n", greetings);
+// ft_printf("s 3 : |%-8s|\n\n", greetings);
+// printf("s 4 : |%.32s|\n", greetings);
+// ft_printf("s 4 : |%.32s|\n\n", greetings);
+// printf("s 5 : |%-s|\n", greetings);
+// ft_printf("s 5 : |%-s|\n\n", greetings);
+// printf("s 6 : |%-.s|\n", greetings);
+// ft_printf("s 6 : |%-.s|\n\n", greetings);
+// printf("s 7 : |%-.*s|\n", precision, greetings);
+// ft_printf("s 7 : |%-.*s|\n\n", precision, greetings);
+// printf("s 8 : |%*s|\n", precision, greetings);
+// ft_printf("s 8 : |%*s|\n\n", precision, greetings);
+// printf("s 9 : |%.*s|\n", precision , greetings);
+// ft_printf("s 9 : |%.*s|\n\n", precision , greetings);
+// printf("s 10 : |%-.*s|\n", precision, greetings);
+// ft_printf("s 10 : |%-.*s|\n\n", precision, greetings);
+// printf("s 11 : |%-*s|\n", precision , greetings);
+// ft_printf("s 11 : |%-*s|\n\n", precision , greetings);
 
 
 //======== Test c ==========
