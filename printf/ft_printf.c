@@ -232,7 +232,13 @@ void ft_i(va_list *list_args, t_flags *flags)
 
 void ft_p(va_list *list_args, t_flags *flags)
 {
+  unsigned int x;
 
+  x = va_arg(*list_args, unsigned int);
+  // printf("[%d]\n", x);
+  flags->precision += 14;
+  write(1, "0x7ffc", 6);
+  ft_candwrite(x, 1);
 }
 
 int ft_disturb(int i, const char *target, char *allindexs, t_flags *flags)
@@ -311,30 +317,53 @@ int main()
   precision = 19;
   enteri = -1568156;
 
-  printf("x 1 : |%.X|\n", enteri);
-  ft_printf("x 1 : |%.X|\n\n", enteri);
-  printf("x 2 : |%-X|\n", enteri);
-  ft_printf("x 2 : |%-X|\n\n", enteri);
-  printf("x 3 : |%*X|\n", precision, enteri);
-  ft_printf("x 3 : |%*X|\n\n", precision, enteri);
-  printf("x 4 : |%0X|\n", enteri);
-  ft_printf("x 4 : |%0X|\n\n", enteri);
-  printf("x 5 : |%-.X|\n", enteri);
-  ft_printf("x 5 : |%-.X|\n\n", enteri);
-  printf("x 6 : |%04X|\n", enteri);
-  ft_printf("x 6 : |%04X|\n\n", enteri);
-  printf("x 7 : |%.0X|\n", enteri);
-  ft_printf("x 7 : |%.0X|\n\n", enteri);
-  printf("x 8 : |%-.0X|\n", enteri);
-  ft_printf("x 8 : |%-.0X|\n\n", enteri);
-  printf("x 9 : |%-.*X|\n", precision, enteri);
-  ft_printf("x 9 : |%-.*X|\n\n", precision, enteri);
-  printf("x 10 : |%-*X|\n", precision, enteri);
-  ft_printf("x 10 : |%-*X|\n\n", precision, enteri);
-  printf("x 11 : |%0*X|\n", precision, enteri);
-  ft_printf("x 11 : |%0*X|\n\n", precision, enteri);
+  printf("p 1 : |%p|\n", &enteri);
+  ft_printf("p 1 : |%.p|\n\n", &enteri);
+  printf("p 2 : |%-p|\n", &enteri);
+  ft_printf("p 2 : |%-p|\n\n", &enteri);
+  printf("p 3 : |%*p|\n", precision, &enteri);
+  ft_printf("p 3 : |%*p|\n\n", precision, &enteri);
+  printf("p 4 : |%p|\n", &enteri);
+  ft_printf("p 4 : |%0p|\n\n", &enteri);
+  printf("p 5 : |%-p|\n", &enteri);
+  ft_printf("p 5 : |%-.p|\n\n", &enteri);
+  printf("p 6 : |%4p|\n", &enteri);
+  ft_printf("p 6 : |%04p|\n\n", &enteri);
+  printf("p 7 : |%p|\n", &enteri);
+  ft_printf("p 7 : |%.0p|\n\n", &enteri);
+  printf("p 8 : |%-p|\n", &enteri);
+  ft_printf("p 8 : |%-.0p|\n\n", &enteri);
+  printf("p 9 : |%-*p|\n", precision, &enteri);
+  ft_printf("p 9 : |%-.*p|\n\n", precision, &enteri);
+  printf("p 10 : |%-*p|\n", precision, &enteri);
+  ft_printf("p 10 : |%-*p|\n\n", precision, &enteri);
+  printf("p 11 : |%*p|\n", precision, &enteri);
+  ft_printf("p 11 : |%0*p|\n\n", precision, &enteri);
 }
 
+// ============ Test x & X ===========
+// printf("x 1 : |%.X|\n", enteri);
+// ft_printf("x 1 : |%.X|\n\n", enteri);
+// printf("x 2 : |%-X|\n", enteri);
+// ft_printf("x 2 : |%-X|\n\n", enteri);
+// printf("x 3 : |%*X|\n", precision, enteri);
+// ft_printf("x 3 : |%*X|\n\n", precision, enteri);
+// printf("x 4 : |%0X|\n", enteri);
+// ft_printf("x 4 : |%0X|\n\n", enteri);
+// printf("x 5 : |%-.X|\n", enteri);
+// ft_printf("x 5 : |%-.X|\n\n", enteri);
+// printf("x 6 : |%04X|\n", enteri);
+// ft_printf("x 6 : |%04X|\n\n", enteri);
+// printf("x 7 : |%.0X|\n", enteri);
+// ft_printf("x 7 : |%.0X|\n\n", enteri);
+// printf("x 8 : |%-.0X|\n", enteri);
+// ft_printf("x 8 : |%-.0X|\n\n", enteri);
+// printf("x 9 : |%-.*X|\n", precision, enteri);
+// ft_printf("x 9 : |%-.*X|\n\n", precision, enteri);
+// printf("x 10 : |%-*X|\n", precision, enteri);
+// ft_printf("x 10 : |%-*X|\n\n", precision, enteri);
+// printf("x 11 : |%0*X|\n", precision, enteri);
+// ft_printf("x 11 : |%0*X|\n\n", precision, enteri);
 
 // =========== Test s ==========
 // printf("s 1 : |%-.s|\n", greetings);

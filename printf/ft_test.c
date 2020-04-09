@@ -8,17 +8,17 @@ int main()
   int enteri = 15253;
   const char *greetings = "Hello world";
 
-  printf("s 1 : |%-.x|\n", enteri);
-  printf("s 2 : |%.x|\n", enteri);
-  printf("s 3 : |%8x|\n", enteri);
-  printf("s 4 : |%.8x|\n", enteri);
-  printf("s 5 : |%-x|\n", enteri);
-  printf("s 6 : |%-.x|\n", enteri);
-  printf("s 7 : |%-.*x|\n", precision, enteri);
-  printf("s 8 : |%*x|\n", biggerPrecision, enteri);
-  printf("s 9 : |%.*x|\n", biggerPrecision , enteri);
-  printf("s 10 : |%-.*x|\n", biggerPrecision, enteri);
-  printf("s 11 : |%-*x|\n", biggerPrecision , enteri);
+  printf("p 1 : |%-.p|\n", enteri);
+  printf("p 2 : |%.p|\n", enteri);
+  printf("p 3 : |%8p|\n", enteri);
+  printf("p 4 : |%.8p|\n", enteri);
+  printf("p 5 : |%-p|\n", enteri);
+  printf("p 6 : |%-.p|\n", enteri);
+  printf("p 7 : |%-.*p|\n", precision, enteri);
+  printf("p 8 : |%*p|\n", precision, enteri);
+  printf("p 9 : |%.*p|\n", precision , enteri);
+  printf("p 10 : |%-.*p|\n", precision, enteri);
+  printf("p 11 : |%-*p|\n", precision , enteri);
 
   // printf("\n\n\n");
   //
