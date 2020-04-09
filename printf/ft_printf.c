@@ -135,14 +135,14 @@ void ft_s(va_list *list_args, t_flags *flags)
   }
 }
 
-void ft_candwrite(unsigned int nb)
+void ft_candwrite(unsigned int nb, int opt)
 {
   int temp1;
   int temp2;
 
   if (nb > 16)
   {
-    ft_candwrite(nb / 16);
+    ft_candwrite(nb / 16, opt);
     temp1 = nb / 16;
     temp2 = nb - (temp1 * 16);
     temp1 = nb;
@@ -151,7 +151,10 @@ void ft_candwrite(unsigned int nb)
     temp2 = nb;
   if (temp2 > 9)
   {
-    ft_write(temp2 + 87);
+    if (opt == 1)
+      ft_write(temp2 + 87);
+    else
+      ft_write(temp2 + 55);
   }
   else
   {
@@ -172,7 +175,7 @@ void ft_x(va_list *list_args, t_flags *flags)
     return;
   if (flags->negative == 1 && flags->cutter == 0)
   {
-    ft_candwrite(nb);
+    ft_candwrite(nb, 1);
     while (flags->precision-- > 0)
       ft_write(' ');
   }
@@ -184,13 +187,37 @@ void ft_x(va_list *list_args, t_flags *flags)
     else
       while (flags->precision-- > 0)
       ft_write(' ');
-    ft_candwrite(nb);
+    ft_candwrite(nb, 1);
   }
 }
 
 void ft_X(va_list *list_args, t_flags *flags)
 {
+  unsigned int nb;
 
+  if (flags->constante == 1)
+    flags->precision = va_arg(*list_args, int);
+  nb = va_arg(*list_args, unsigned int);
+  if (flags->precision != 0)
+    flags->precision -= ft_nblenx(nb);
+  if (nb == 0 && flags->cutter == 1 && flags->precision == 0)
+    return;
+  if (flags->negative == 1 && flags->cutter == 0)
+  {
+    ft_candwrite(nb, 2);
+    while (flags->precision-- > 0)
+      ft_write(' ');
+  }
+  else
+  {
+    if (flags->zero ==1 || flags->cutter == 1)
+      while (flags->precision-- > 0)
+        ft_write('0');
+    else
+      while (flags->precision-- > 0)
+      ft_write(' ');
+    ft_candwrite(nb, 2);
+  }
 }
 
 void ft_u(va_list *list_args, t_flags *flags)
@@ -284,28 +311,28 @@ int main()
   precision = 19;
   enteri = -1568156;
 
-  printf("x 1 : |%.x|\n", enteri);
-  ft_printf("x 1 : |%.x|\n\n", enteri);
-  printf("x 2 : |%-x|\n", enteri);
-  ft_printf("x 2 : |%-x|\n\n", enteri);
-  printf("x 3 : |%*x|\n", precision, enteri);
-  ft_printf("x 3 : |%*x|\n\n", precision, enteri);
-  printf("x 4 : |%0x|\n", enteri);
-  ft_printf("x 4 : |%0x|\n\n", enteri);
-  printf("x 5 : |%-.x|\n", enteri);
-  ft_printf("x 5 : |%-.x|\n\n", enteri);
-  printf("x 6 : |%04x|\n", enteri);
-  ft_printf("x 6 : |%04x|\n\n", enteri);
-  printf("x 7 : |%.0x|\n", enteri);
-  ft_printf("x 7 : |%.0x|\n\n", enteri);
-  printf("x 8 : |%-.0x|\n", enteri);
-  ft_printf("x 8 : |%-.0x|\n\n", enteri);
-  printf("x 9 : |%-.*x|\n", precision, enteri);
-  ft_printf("x 9 : |%-.*x|\n\n", precision, enteri);
-  printf("x 10 : |%-*x|\n", precision, enteri);
-  ft_printf("x 10 : |%-*x|\n\n", precision, enteri);
-  printf("x 11 : |%0*x|\n", precision, enteri);
-  ft_printf("x 11 : |%0*x|\n\n", precision, enteri);
+  printf("x 1 : |%.X|\n", enteri);
+  ft_printf("x 1 : |%.X|\n\n", enteri);
+  printf("x 2 : |%-X|\n", enteri);
+  ft_printf("x 2 : |%-X|\n\n", enteri);
+  printf("x 3 : |%*X|\n", precision, enteri);
+  ft_printf("x 3 : |%*X|\n\n", precision, enteri);
+  printf("x 4 : |%0X|\n", enteri);
+  ft_printf("x 4 : |%0X|\n\n", enteri);
+  printf("x 5 : |%-.X|\n", enteri);
+  ft_printf("x 5 : |%-.X|\n\n", enteri);
+  printf("x 6 : |%04X|\n", enteri);
+  ft_printf("x 6 : |%04X|\n\n", enteri);
+  printf("x 7 : |%.0X|\n", enteri);
+  ft_printf("x 7 : |%.0X|\n\n", enteri);
+  printf("x 8 : |%-.0X|\n", enteri);
+  ft_printf("x 8 : |%-.0X|\n\n", enteri);
+  printf("x 9 : |%-.*X|\n", precision, enteri);
+  ft_printf("x 9 : |%-.*X|\n\n", precision, enteri);
+  printf("x 10 : |%-*X|\n", precision, enteri);
+  ft_printf("x 10 : |%-*X|\n\n", precision, enteri);
+  printf("x 11 : |%0*X|\n", precision, enteri);
+  ft_printf("x 11 : |%0*X|\n\n", precision, enteri);
 }
 
 
