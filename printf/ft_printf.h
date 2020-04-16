@@ -17,4 +17,6 @@ typedef struct s_struct
   int constante;
 }               t_flags;
 
+int ft_printf(const char *line, ...);
+
 #endif
