@@ -5,6 +5,8 @@ void ft_write(char c)
   write(1, &c, 1);
 }
 
+
+
 void ft_c(va_list *list_args, t_flags *flags)
 {
   char c;
