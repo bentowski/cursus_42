@@ -24,6 +24,7 @@ void ft_c(va_list *list_args, t_flags *flags)
     while (--flags->precision > 0)
       ft_write(' ');
   }
+  flags->printed += 1;
 }
 
 int ft_nblenx(unsigned int nb)
@@ -45,27 +46,32 @@ int ft_nblend(int nb)
 
   n = nb;
   x = 1;
-    if (n < 0)
-    {
-      n = -n;
-      x++;
-    }
-    while (( n = n / 10) > 0)
-      x++;
+  if (nb == -2147483648)
+    return (0);
+  if (n < 0)
+  {
+    n = -n;
+    x++;
+  }
+  while (( n = n / 10) > 0)
+    x++;
   return (x);
 }
 
-void ft_d2(int *lenght, t_flags *flags, int nb)
+void ft_d2(t_flags *flags, int nb)
 {
-  int len;
-
-  len = *lenght;
-  if (nb == -2147483648)
-    len -= 9;
+  if (flags->precision < 0)
+    flags->precision = 0;
+  flags->printed += flags->precision;
   if (flags->negative == 0)
   {
-    while (len-- > 0)
-      (flags->zero == 1 || flags->cutter == 1) ? ft_write('0') : ft_write(' ');
+    while (flags->precision-- < 0)
+    {
+      if ((flags->zero == 1 || flags->cutter == 1))
+        ft_write('0');
+      else
+        ft_write(' ');
+    }
     if (nb <= 2147483647 && nb != -2147483648)
       ft_putnbr_fd(nb, 1);
     else if (nb == -2147483648)
@@ -79,14 +85,13 @@ void ft_d2(int *lenght, t_flags *flags, int nb)
   else
   {
     ft_putnbr_fd(nb, 1);
-    while (len-- > 0)
+    while (flags->precision-- > 0)
       ft_write(' ');
   }
 }
 
 void ft_d(va_list *list_args, t_flags *flags)
 {
-  int lenght;
   int nb;
 
   if (flags->cutter == 1)
@@ -94,17 +99,20 @@ void ft_d(va_list *list_args, t_flags *flags)
   if (flags->constante == 1)
     flags->precision = va_arg(*list_args, int);
   nb = va_arg(*list_args, int);
-  lenght = flags->precision - ft_nblend(nb);
+  flags->precision -= ft_nblend(nb);
+  flags->printed += ft_nblend(nb);
   if (nb == 0 && flags->cutter == 1 && flags->precision == 0)
     return;
+  if (nb < 0)
+    flags->printed++;
   if (nb < 0 && (flags->zero == 1 || flags->cutter == 1))
   {
     if (flags->cutter == 1)
-      lenght++;
+      flags->precision++;
     ft_write('-');
     nb = -nb;
   }
-  ft_d2(&lenght, flags, nb);
+  ft_d2(flags, nb);
 }
 
 void ft_s(va_list *list_args, t_flags *flags)
@@ -118,6 +126,7 @@ void ft_s(va_list *list_args, t_flags *flags)
     flags->precision = va_arg(*list_args, int);
   s = va_arg(*list_args, char *);
   lenght = ft_strlen(s);
+  flags->printed += lenght;
   if (lenght > flags->precision && flags->cutter == 1)
   {
     while (flags->precision-- > 0)
@@ -179,6 +188,9 @@ void ft_x(va_list *list_args, t_flags *flags)
   nb = va_arg(*list_args, unsigned long int);
   if (flags->precision != 0)
     flags->precision -= ft_nblenx(nb);
+  flags->printed += ft_nblenx(nb);
+  if (flags->precision > 0)
+    flags->printed += flags->precision;
   if (nb == 0 && flags->cutter == 1 && flags->precision == 0)
     return;
   if (flags->negative == 1 && flags->cutter == 0)
@@ -194,7 +206,7 @@ void ft_x(va_list *list_args, t_flags *flags)
         ft_write('0');
     else
       while (flags->precision-- > 0)
-      ft_write(' ');
+        ft_write(' ');
     ft_candwrite(nb, 1);
   }
 }
@@ -208,6 +220,9 @@ void ft_X(va_list *list_args, t_flags *flags)
   nb = va_arg(*list_args, unsigned long int);
   if (flags->precision != 0)
     flags->precision -= ft_nblenx(nb);
+  flags->printed += ft_nblenx(nb);
+  if (flags->precision > 0)
+    flags->printed += flags->precision;
   if (nb == 0 && flags->cutter == 1 && flags->precision == 0)
     return;
   if (flags->negative == 1 && flags->cutter == 0)
@@ -223,7 +238,7 @@ void ft_X(va_list *list_args, t_flags *flags)
         ft_write('0');
     else
       while (flags->precision-- > 0)
-      ft_write(' ');
+        ft_write(' ');
     ft_candwrite(nb, 2);
   }
 }
@@ -251,7 +266,9 @@ void ft_u(va_list *list_args, t_flags *flags)
     flags->precision = va_arg(*list_args, int);
   nb = va_arg(*list_args, unsigned int);
   flags->precision -= ft_nblenx(nb);
-
+  flags->printed += ft_nblenx(nb);
+  if (flags->precision > 0)
+    flags->printed += flags->precision;
   if (nb == 0 && flags->cutter == 1 && flags->precision == 0)
     return;
   if (flags->negative == 0)
@@ -276,6 +293,7 @@ void ft_p(va_list *list_args, t_flags *flags)
     flags->precision = va_arg(*list_args, int) - 14;
   else
     flags->precision -= 14;
+  flags->printed += flags->precision + 16;
   x = va_arg(*list_args, unsigned long int);
   if (flags->negative == 0)
   {
@@ -331,6 +349,7 @@ void ft_init(t_flags *flags)
   flags->cutter = 0;
   flags->decalage = 0;
   flags->constante = 0;
+  flags->printed += 0;
 }
 
 int ft_printf(const char *line, ...)
@@ -352,11 +371,13 @@ int ft_printf(const char *line, ...)
       if (line[x] == '%')
         ft_write(line[x]);
       (*functions[ft_disturb(x, line, allindexs, &flags)])(&list_args, &flags);
+      printf(" [%d] ", flags.printed);
       while (flags.decalage-- > 0)
         x++;
+      flags.printed++;
     }
     else if (line[x] != '%')
       ft_write(line[x]);
   }
-  return (0);
+  return (flags.printed);
 }
