@@ -5,7 +5,6 @@
 # include <unistd.h>
 # include <stdarg.h>
 # include <stdio.h>
-# include "libft/libft.h"
 
 typedef struct s_struct
 {
@@ -18,5 +17,8 @@ typedef struct s_struct
 }               t_flags;
 
 int ft_printf(const char *line, ...);
+void	ft_putchar_fd(char c, int fd);
+void	ft_putnbr_fd(int n, int fd);
+size_t	ft_strlen(const char *s);
 
 #endif
