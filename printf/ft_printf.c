@@ -9,7 +9,7 @@ void ft_c(va_list *list_args, t_flags *flags)
 {
   char c;
 
-  if (flags->constante == 1)
+  if (flags->constantep == 1)
   flags->precision = va_arg(*list_args, int);
   c = va_arg(*list_args, int);
   if (flags->negative == 0)
@@ -60,6 +60,7 @@ int ft_nblend(int nb)
 void ft_d2(t_flags *flags, int nb)
 {
   flags->printed += flags->precision;
+  // printf(" [%d, %d] ", nb, flags->precision);
   if (flags->negative == 0)
   {
     while (flags->precision-- > 0)
@@ -114,7 +115,7 @@ void ft_d(va_list *list_args, t_flags *flags)
 
   if (flags->cutter == 1)
     flags->negative = 0;
-  if (flags->constante == 1)
+  if (flags->constantep == 1)
     flags->precision = va_arg(*list_args, int);
   nb = va_arg(*list_args, int);
   len = ft_nblend(nb);
@@ -123,15 +124,16 @@ void ft_d(va_list *list_args, t_flags *flags)
   else
     flags->precision = 0;
   flags->printed += len;
-  if (nb == 0 && flags->cutter == 1 && flags->precision == 0)
-    return;
+  // if (flags->cutter == 1 && nb == 0)
+  //   flags->precision++;
+  printf(" {%d, %d} ", nb, flags->precision);
   if (nb < 0 && (flags->zero == 1 || flags->cutter == 1))
   {
-    // if (flags->cutter == 1)
-    //   flags->precision++;
     ft_write('-');
     nb = -nb;
   }
+  if (nb == 0 && (flags->cutter == 0 || flags->precision == 0))
+    return;
   ft_d2(flags, nb);
 }
 
@@ -142,7 +144,7 @@ void ft_s(va_list *list_args, t_flags *flags)
   int x;
 
   x = 0;
-  if (flags->constante == 1)
+  if (flags->constantep == 1)
     flags->precision = va_arg(*list_args, int);
   s = va_arg(*list_args, char *);
   lenght = ft_strlen(s);
@@ -202,7 +204,7 @@ void ft_x(va_list *list_args, t_flags *flags)
 {
   unsigned long int nb;
 
-  if (flags->constante == 1)
+  if (flags->constantep == 1)
     flags->precision = va_arg(*list_args, int);
   nb = va_arg(*list_args, unsigned long int);
   if (flags->precision != 0)
@@ -231,7 +233,7 @@ void ft_X(va_list *list_args, t_flags *flags)
 {
   unsigned long int nb;
 
-  if (flags->constante == 1)
+  if (flags->constantep == 1)
     flags->precision = va_arg(*list_args, int);
   nb = va_arg(*list_args, unsigned long int);
   if (flags->precision != 0)
@@ -275,7 +277,7 @@ void ft_u(va_list *list_args, t_flags *flags)
 
   if (flags->cutter == 1)
     flags->negative = 0;
-  if (flags->constante == 1)
+  if (flags->constantep == 1)
     flags->precision = va_arg(*list_args, int);
   nb = va_arg(*list_args, unsigned int);
   flags->precision -= ft_nblenx(nb, 10);
@@ -299,7 +301,7 @@ void ft_p(va_list *list_args, t_flags *flags)
 {
   unsigned long int x;
 
-  if (flags->constante == 1)
+  if (flags->constantep == 1)
     flags->precision = va_arg(*list_args, int) - 14;
   else
     flags->precision -= 14;
@@ -341,11 +343,18 @@ int ft_disturb(int i, const char *target, char *allindexs, t_flags *flags)
     else if (flags->precision == 0)
     {
       if (target[x] == '*')
-        flags->constante = 1;
+        if (flags->cutter == 0)
+          flags->constantew = 1;
+        else
+          flags->constantep = 1;
       else if (target[x] >= '1' && target[x] <= '9')
       {
-        while (target[x] >= '0' && target[x] <= '9')
-          flags->precision = (flags->precision * 10) + (target[x++] - 48);
+        if (flags->cutter == 0)
+          while (target[x] >= '0' && target[x] <= '9')
+            flags->width = (flags->width * 10) + (target[x++] - 48);
+        else
+          while (target[x] >= '0' && target[x] <= '9')
+            flags->precision = (flags->precision * 10) + (target[x++] - 48);
         x--;
       }
     }
@@ -357,11 +366,13 @@ int ft_disturb(int i, const char *target, char *allindexs, t_flags *flags)
 void ft_init(t_flags *flags)
 {
   flags->precision = 0;
+  flags->width = 0;
   flags->negative = 0;
   flags->zero = 0;
   flags->cutter = 0;
   flags->decalage = 0;
-  flags->constante = 0;
+  flags->constantew = 0;
+  flags->constantep = 0;
 }
 
 int ft_printf(const char *line, ...)

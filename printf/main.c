@@ -24,7 +24,19 @@ int main()
 	// char	*t = "0x12345678";
 	// char	*u = "-0";
 
-	ft_printf("%-0i, %-0d, %-0d, %-0d, %-0d, %-0d, %-0d, %-0d", i, j, k, l, m, c, e, d);
+	ft_printf("[%4.*d]\n", 0, 0);
+
+	ft_printf("%.00004d\n", i);
+	ft_printf("%.4d\n", i);
+	// ft_printf("%-0i, %-0d, %-0d, %-0d, %-0d, %-0d, %-0d, %-0d", i, j, k, l, m, c, e, d);
+	ft_printf(" --- Return : %d\n",ft_printf("%1.i, %1.d, %1.d, %1.d, %1.d, %1.d, %1.d, %1.d", i, j, k, l, m, c, e, d)); //T23
+
+	ft_printf(" --- Return : %d\n",ft_printf("%.1i, %.1d, %.1d, %.1d, %.1d, %.1d, %.1d, %.1d", i, j, k, l, m, c, e, d)); //T24
+
+	ft_printf(" --- Return : %d\n",ft_printf("%1.1i, %1.1d, %1.1d, %1.1d, %1.1d, %1.1d, %1.1d, %1.1d", i, j, k, l, m, c, e, d)); //T25
+
+	ft_printf(" --- Return : %d\n",ft_printf("%-1.i, %-1.d, %-1.d, %-1.d, %-1.d, %-1.d, %-1d, %-1d", i, j, k, l, m, c, e, d)); //T28
+
 
   // ft_printf(" --- Return : %d\n", ft_printf("%i, %d, %d, %d, %d, %s, %c, %d, %u, %x, %X", i, j, k, l, m, n, c, c, j, j, j));
   // ft_printf(" --- Return : %d\n", ft_printf("%0i, %07d, %0d, %0d, %0d, %0d, %0d, %0d", i, j, k, l, m, c, e, d));
