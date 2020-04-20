@@ -24,7 +24,7 @@ int main()
 	// char	*t = "0x12345678";
 	// char	*u = "-0";
 
-	ft_printf(" --- Return : %d\n", ft_printf("%0.i, %0.d, %0.d, %0.d, %0.d, %0.d, %0.d, %0.d", i, j, k, l, m, c, e, d)); //T12
+	ft_printf("%-0i, %-0d, %-0d, %-0d, %-0d, %-0d, %-0d, %-0d", i, j, k, l, m, c, e, d);
 
   // ft_printf(" --- Return : %d\n", ft_printf("%i, %d, %d, %d, %d, %s, %c, %d, %u, %x, %X", i, j, k, l, m, n, c, c, j, j, j));
   // ft_printf(" --- Return : %d\n", ft_printf("%0i, %07d, %0d, %0d, %0d, %0d, %0d, %0d", i, j, k, l, m, c, e, d));
