@@ -11,13 +11,12 @@ typedef struct s_struct
 {
   int precision;
   int width;
-  int negative;
+  int neg;
   int zero;
   int cutter;
   int decalage;
   int printed;
-  int constantew;
-  int constantep;
+  int constante;
 }               t_flags;
 
 int ft_printf(const char *line, ...);
