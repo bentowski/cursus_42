@@ -16,7 +16,8 @@ typedef struct s_struct
   int cutter;
   int decalage;
   int printed;
-  int constante;
+  int constantep;
+  int constantew;
 }               t_flags;
 
 int ft_printf(const char *line, ...);

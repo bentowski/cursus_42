@@ -15,7 +15,7 @@ int ft_disturb(int i, const char *target, char *allindexs, t_flags *flags)
   while (target[++x] && (flags->decalage = x - i) >= 0)
   {
     y = -1;
-    while (y++ < 8)
+    while (y++ < 7)
       if (allindexs[y] == target[x])
         return (y);
     if (target[x] == '-')
@@ -24,22 +24,28 @@ int ft_disturb(int i, const char *target, char *allindexs, t_flags *flags)
       flags->cutter = 1;
     else if (target[x] == '0')
       flags->zero = 1;
-    else if (flags->precision == 0)
+    else if (flags->cutter == 1)
     {
       if (target[x] == '*')
-        flags->constante += 1;
+        flags->constantep += 1;
       else if (target[x] >= '1' && target[x] <= '9')
       {
-        if (flags->cutter == 0)
-          while (target[x] >= '0' && target[x] <= '9')
-            flags->width = (flags->width * 10) + (target[x++] - 48);
-        else
-          while (target[x] >= '0' && target[x] <= '9')
-            flags->precision = (flags->precision * 10) + (target[x++] - 48);
+        while (target[x] >= '0' && target[x] <= '9')
+          flags->precision = (flags->precision * 10) + (target[x++] - 48);
         x--;
       }
     }
-
+    else if (flags->cutter == 0)
+    {
+      if (target[x] == '*')
+        flags->constantew += 1;
+      else if (target[x] >= '1' && target[x] <= '9')
+      {
+        while (target[x] >= '0' && target[x] <= '9')
+          flags->width = (flags->width * 10) + (target[x++] - 48);
+        x--;
+      }
+    }
   }
   return (-1);
 }
@@ -52,7 +58,8 @@ void ft_init(t_flags *flags)
   flags->zero = 0;
   flags->cutter = 0;
   flags->decalage = 0;
-  flags->constante = 0;
+  flags->constantep = 0;
+  flags->constantew = 0;
 }
 
 int ft_printf(const char *line, ...)

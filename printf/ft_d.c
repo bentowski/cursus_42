@@ -23,33 +23,34 @@ static void ft_dgestion(t_flags *flags, int nb, int nblen)
 {
   if (flags->neg == 0)
   {
-    if (nb == 0 && flags->cutter == 1)
-      flags->width++;
-    while (flags->width-- > flags->precision + nblen)
-      ft_write(' ', flags);
-    while (flags->precision-- > nblen)
-    {
-      if (flags->zero == 1)
-        ft_write('0', flags);
-      else
-        ft_write(' ', flags);
-    }
+    // if (nb == 0 && flags->cutter == 1)
+    //   flags->width++;
+    // while (flags->width-- > flags->precision + nblen && flags->width > 0)
+    //   ft_write(' ', flags);
+    // while (flags->precision-- > nblen && flags->precision > 0)
+    // {
+    //   if (flags->zero == 1)
+    //     ft_write('0', flags);
+    //   else
+    //     ft_write(' ', flags);
+    // }
     ft_dputnbr(flags, nb);
   }
   else
   {
+    // write(1, "ok\n", 3);
     ft_dputnbr(flags, nb);
-    if (nb == 0 && flags->cutter == 1 && flags->precision <= 0)
-      flags->width++;
-    if (flags->width > flags->precision + nblen)
-      while (flags->width-- > flags->precision + nblen)
-        ft_write(' ', flags);
-    else
-      while (flags->width-- > nblen)
-        ft_write(' ', flags);
-    if (flags->cutter == 0)
-      while (flags->precision-- > nblen)
-        ft_write(' ', flags);
+    // if (nb == 0 && flags->cutter == 1 && flags->precision <= 0)
+    //   flags->width++;
+    // if (flags->width > flags->precision + nblen)
+    //   while (flags->width-- > 0)
+    //     printf("%d\n", flags->width);
+    // else
+    //   while (flags->width-- > nblen && flags->width > 0)
+    //     ft_write(' ', flags);
+    // if (flags->cutter == 0)
+    //   while (flags->precision-- > nblen && flags->precision > 0)
+    //     ft_write(' ', flags);
   }
 }
 
@@ -72,6 +73,5 @@ void ft_d(va_list *list_args, t_flags *flags)
       flags->precision++;
     nb = -nb;
   }
-  // printf("[%d] ", flags->neg);
   ft_dgestion(flags, nb, nblen);
 }

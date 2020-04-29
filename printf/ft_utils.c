@@ -71,17 +71,19 @@ void ft_putunbr_fd(long int n, int fd)
 
 void ft_flags(va_list *list_args, t_flags *flags)
 {
-  if (flags->constante == 2)
+
+  if (flags->constantew == 1)
   {
     flags->width = va_arg(*list_args, int);
-    flags->precision = va_arg(*list_args, int);
   }
-  else if (flags->constante == 1)
-    flags->width = va_arg(*list_args, int);
+  else if (flags->constantep == 1)
+    flags->precision = va_arg(*list_args, int);
+  printf("{%d, %d, %d} ", flags->neg, flags->width, flags->precision);
   if (flags->cutter == 1)
     flags->zero = 1;
   if (flags->width < 0)
     flags->neg = 1;
   if (flags->width < 0)
     flags->width *= -1;
+  printf("[%d, %d, %d] ", flags->neg, flags->width, flags->zero);
 }

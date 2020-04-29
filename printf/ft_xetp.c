@@ -4,7 +4,7 @@ void ft_p(va_list *list_args, t_flags *flags)
 {
   unsigned long int x;
 
-  if (flags->constante == 1)
+  if (flags->constantep == 1)
     flags->precision = va_arg(*list_args, int) - 14;
   else
     flags->precision -= 14;
@@ -29,7 +29,7 @@ void ft_x(va_list *list_args, t_flags *flags)
 {
   unsigned long int nb;
 
-  if (flags->constante == 1)
+  if (flags->constantep == 1)
     flags->precision = va_arg(*list_args, int);
   nb = va_arg(*list_args, unsigned long int);
   if (flags->precision != 0)
@@ -58,7 +58,7 @@ void ft_X(va_list *list_args, t_flags *flags)
 {
   unsigned long int nb;
 
-  if (flags->constante == 1)
+  if (flags->constantep == 1)
     flags->precision = va_arg(*list_args, int);
   nb = va_arg(*list_args, unsigned long int);
   if (flags->precision != 0)

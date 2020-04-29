@@ -7,7 +7,7 @@ void ft_u(va_list *list_args, t_flags *flags)
 
   if (flags->cutter == 1)
     flags->neg = 0;
-  if (flags->constante == 1)
+  if (flags->constantep == 1)
     flags->precision = va_arg(*list_args, int);
   nb = va_arg(*list_args, unsigned int);
   len = ft_nblenx(nb, 10);
