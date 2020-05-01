@@ -19,11 +19,17 @@ int ft_disturb(int i, const char *target, char *allindexs, t_flags *flags)
       if (allindexs[y] == target[x])
         return (y);
     if (target[x] == '-')
+    {
       flags->neg = 1;
+    }
     else if (target[x] == '.')
+    {
       flags->cutter = 1;
+    }
     else if (target[x] == '0')
+    {
       flags->zero = 1;
+    }
     else if (flags->cutter == 1)
     {
       if (target[x] == '*')
