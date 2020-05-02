@@ -4,7 +4,7 @@ void ft_c(va_list *list_args, t_flags *flags)
 {
   char c;
 
-  ft_flags(list_args, flags);
+  ft_flags(list_args, flags, 0);
   c = va_arg(*list_args, int);
   if (flags->neg == 0)
   {
@@ -27,7 +27,7 @@ void ft_s(va_list *list_args, t_flags *flags)
   int x;
 
   x = 0;
-  ft_flags(list_args, flags);
+  ft_flags(list_args, flags, 0);
   s = va_arg(*list_args, char *);
   lenght = ft_strlen(s);
   if (flags->neg == 1)

@@ -19,17 +19,15 @@ static void ft_dputnbr(t_flags *flags, int nb)
   }
 }
 
-static void ft_dgestion(t_flags *flags, int nb, int nblen)
+static void ft_dgestion(t_flags *flags, int nb, int nblen, int rest)
 {
+  if (nb == 0 && flags->precision == 0 && flags->cutter == 1)
+  {
+    flags->width++;
+    flags->zero = 0;
+  }
   if (flags->neg == 0)
   {
-    // if (nb == 0 && flags->cutter == 1 && flags->precision !)
-    //   flags->width++;
-    if (nb == 0 && flags->precision == 0 && flags->cutter == 1)
-    {
-      flags->width++;
-      flags->zero = 0;
-    }
     while (flags->width-- > flags->precision + nblen && flags->width > 0)
     {
       if (flags->zero == 1)
@@ -51,11 +49,8 @@ static void ft_dgestion(t_flags *flags, int nb, int nblen)
     ft_dputnbr(flags, nb);
     if (nb == 0 && flags->cutter == 1 && flags->precision < 0)
       ft_write('0', flags);
-    if (flags->width > flags->precision + nblen + 1)
-      while (flags->width-- > flags->precision + nblen + 1 && flags->width > 0)
-        ft_write(' ', flags);
-    else
-      while (flags->width-- > nblen + 1 && flags->width > 0)
+    if (flags->width > rest)
+      while (flags->width-- > rest && flags->width > 0)
         ft_write(' ', flags);
     if (flags->cutter == 0)
       while (flags->precision-- > nblen + 1)
@@ -67,12 +62,14 @@ void ft_d(va_list *list_args, t_flags *flags)
 {
   int nb;
   int nblen;
+  int rest;
 
-  ft_flags(list_args, flags);
+  ft_flags(list_args, flags, 1);
   nb = va_arg(*list_args, int);
   if (flags->cutter == 1 && nb == 0 && flags->width == 0 && flags->precision == 0)
     return;
   nblen = ft_nblend(nb);
+  // printf("{%d} ", nblen);
   flags->printed += nblen;
   if (nb < 0 && flags->zero == 1)
   {
@@ -82,5 +79,9 @@ void ft_d(va_list *list_args, t_flags *flags)
       flags->precision++;
     nb = -nb;
   }
-  ft_dgestion(flags, nb, nblen);
+  if (flags->precision < 0 || (flags->precision <= nblen && flags->cutter == 1))
+    rest = nblen;
+  else
+    rest = flags->precision + nblen;
+  ft_dgestion(flags, nb, nblen, rest);
 }

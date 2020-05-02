@@ -69,17 +69,31 @@ void ft_putunbr_fd(long int n, int fd)
   ft_putchar_fd(r + '0', fd);
 }
 
-void ft_flags(va_list *list_args, t_flags *flags)
+void ft_flags(va_list *list_args, t_flags *flags, int opt)
 {
 
-  if (flags->constantep == 1)
-    flags->precision = va_arg(*list_args, int);
   if (flags->constantew == 1)
     flags->width = va_arg(*list_args, int);
+  if (flags->constantep == 1)
+    flags->precision = va_arg(*list_args, int);
   if (flags->cutter == 1)
     flags->zero = 1;
-  if (flags->width < 0)
-    flags->neg = 1;
+  printf("%d, %d ", flags->width, opt);
+  if (opt == 0)
+  {
+    if (flags->width < 0)
+      flags->neg = 1;
+  }
+  else
+  {
+    if ((flags->width + flags->precision) < 0)
+    {
+      // write(1, "ok\n", 3);
+      flags->neg = 1;
+    }
+    else if (flags->width + flags->precision == 0)
+      flags->neg = 0;
+  }
   if (flags->width < 0)
     flags->width *= -1;
   printf("[%d, %d, %d, %d, %d] ", flags->neg, flags->width, flags->precision, flags->cutter, flags->zero);

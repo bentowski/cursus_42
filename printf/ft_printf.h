@@ -33,7 +33,7 @@ void ft_d(va_list *list_args, t_flags *flags);
 void ft_putunbr_fd(long int n, int fd);
 void ft_candwrite(t_flags *flags, unsigned long int nb, int opt);
 void ft_write(char c, t_flags *flags);
-void ft_flags(va_list *list_args, t_flags *flags);
+void ft_flags(va_list *list_args, t_flags *flags, int opt);
 
 
 
