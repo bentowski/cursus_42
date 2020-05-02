@@ -30,6 +30,8 @@ void ft_s(va_list *list_args, t_flags *flags)
   ft_flags(list_args, flags, 0);
   s = va_arg(*list_args, char *);
   lenght = ft_strlen(s);
+  if (flags->precision < 0)
+    flags->precision = lenght;
   if (flags->neg == 1)
   {
     if (flags->cutter == 0)
@@ -51,59 +53,60 @@ void ft_s(va_list *list_args, t_flags *flags)
     {
       if (flags->width > flags->precision && flags->precision > lenght)
       {
-        while (x < lenght - 1)
+        while (x < lenght)
           ft_write(s[x++], flags);
         while (flags->width-- > lenght)
           ft_write(' ', flags);
       }
       else if (flags->width > flags->precision && flags->precision == lenght)
       {
-        while (x < lenght - 1)
+        while (x < lenght)
           ft_write(s[x++], flags);
         while (flags->width-- > lenght)
           ft_write(' ', flags);
       }
       else if (flags->width > flags->precision && flags->precision < lenght)
       {
-        while (x < flags->precision - 1)
+        while (x < flags->precision)
           ft_write(s[x++], flags);
         while (flags->width-- > flags->precision)
           ft_write(' ', flags);
       }
       else if (flags->width == flags->precision && flags->precision > lenght)
       {
-        while (x < lenght - 1)
+        while (x < lenght)
           ft_write(s[x++], flags);
         while (flags->width-- > lenght)
           ft_write(' ', flags);
       }
       else if (flags->width == flags->precision && flags->precision < lenght)
       {
-        while (x < flags->precision - 1)
+        while (x < flags->precision)
           ft_write(s[x++], flags);
         while (flags->width-- > flags->precision)
           ft_write(' ', flags);
+      }
+      else if (flags->width == flags->precision && flags->precision == lenght)
+      {
+        while (x < lenght)
+          ft_write(s[x++], flags);
       }
       else if (flags->width < flags->precision && flags->precision == lenght)
       {
-        while (x < flags->precision - 1)
+        while (x < lenght)
           ft_write(s[x++], flags);
-        while (flags->width-- > flags->precision)
-          ft_write(' ', flags);
       }
       else if (flags->width < flags->precision && flags->precision > lenght)
       {
-        while (x < lenght - 1)
+        while (x < lenght)
           ft_write(s[x++], flags);
-        while (flags->width-- > flags->precision)
+        while (flags->width-- > lenght)
           ft_write(' ', flags);
       }
       else if (flags->width < flags->precision && flags->precision < lenght)
       {
-        while (x < flags->precision - 1)
+        while (x < flags->precision)
           ft_write(s[x++], flags);
-        while (flags->width-- > flags->precision)
-          ft_write(' ', flags);
       }
     }
   }
@@ -161,24 +164,25 @@ void ft_s(va_list *list_args, t_flags *flags)
         while (flags->precision-- > 0)
           ft_write(s[x++], flags);
       }
+      else if (flags->width == flags->precision && flags->precision == lenght)
+      {
+        while (lenght-- > 0)
+          ft_write(s[x++], flags);
+      }
       else if (flags->width < flags->precision && flags->precision == lenght)
       {
-        while (flags->width-- > flags->precision)
-          ft_write(' ', flags);
-        while (flags->precision-- > 0)
+        while (lenght-- > 0)
           ft_write(s[x++], flags);
       }
       else if (flags->width < flags->precision && flags->precision > lenght)
       {
-        while (flags->width-- > flags->precision)
+        while (flags->width-- > lenght)
           ft_write(' ', flags);
         while (lenght-- > 0)
           ft_write(s[x++], flags);
       }
       else if (flags->width < flags->precision && flags->precision < lenght)
       {
-        while (flags->width-- > flags->precision)
-          ft_write(' ', flags);
         while (flags->precision-- > 0)
           ft_write(s[x++], flags);
       }

@@ -31,30 +31,30 @@ int ft_nblend(int nb)
   return (x);
 }
 
-// void ft_candwrite(t_flags *flags, unsigned long int nb, int opt)
-// {
-//   int temp1;
-//   int temp2;
-//
-//   if (nb > 16)
-//   {
-//     ft_candwrite(flags, nb / 16, opt);
-//     temp1 = nb / 16;
-//     temp2 = nb - (temp1 * 16);
-//     temp1 = nb;
-//   }
-//   else
-//     temp2 = nb;
-//   if (temp2 > 9)
-//   {
-//     if (opt == 1)
-//       ft_write(temp2 + 87, flags);
-//     else
-//       ft_write(temp2 + 55, flags);
-//   }
-//   else
-//     ft_write(temp2 + 48, flags);
-// }
+void ft_candwrite(t_flags *flags, unsigned long int nb, int opt)
+{
+  int temp1;
+  int temp2;
+
+  if (nb > 16)
+  {
+    ft_candwrite(flags, nb / 16, opt);
+    temp1 = nb / 16;
+    temp2 = nb - (temp1 * 16);
+    temp1 = nb;
+  }
+  else
+    temp2 = nb;
+  if (temp2 > 9)
+  {
+    if (opt == 1)
+      ft_write(temp2 + 87, flags);
+    else
+      ft_write(temp2 + 55, flags);
+  }
+  else
+    ft_write(temp2 + 48, flags);
+}
 
 void ft_putunbr_fd(long int n, int fd)
 {
@@ -78,7 +78,7 @@ void ft_flags(va_list *list_args, t_flags *flags, int opt)
     flags->precision = va_arg(*list_args, int);
   if (flags->cutter == 1)
     flags->zero = 1;
-  printf("%d, %d ", flags->width, opt);
+  // printf("%d, %d ", flags->width, opt);
   if (opt == 0)
   {
     if (flags->width < 0)
@@ -96,5 +96,5 @@ void ft_flags(va_list *list_args, t_flags *flags, int opt)
   }
   if (flags->width < 0)
     flags->width *= -1;
-  printf("[%d, %d, %d, %d, %d] ", flags->neg, flags->width, flags->precision, flags->cutter, flags->zero);
+  // printf("[%d, %d, %d, %d, %d] ", flags->neg, flags->width, flags->precision, flags->cutter, flags->zero);
 }
