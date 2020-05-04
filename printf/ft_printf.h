@@ -29,7 +29,7 @@ void ft_p(va_list *list_args, t_flags *flags);
 void ft_u(va_list *list_args, t_flags *flags);
 void ft_s(va_list *list_args, t_flags *flags);
 void ft_c(va_list *list_args, t_flags *flags);
-void ft_d(va_list *list_args, t_flags *flags);
+void ft_di(va_list *list_args, t_flags *flags);
 void ft_putunbr_fd(long int n, int fd);
 void ft_candwrite(t_flags *flags, unsigned long int nb, int opt);
 void ft_write(char c, t_flags *flags);

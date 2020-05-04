@@ -1,6 +1,6 @@
 # include "ft_printf.h"
 
-static void ft_dputnbr(t_flags *flags, int nb)
+static void ft_diputnbr(t_flags *flags, int nb)
 {
   if (nb == 0 && flags->cutter == 1)
     if (flags->precision == -1 || (flags->neg == 1 && flags->precision <= 0))
@@ -19,7 +19,7 @@ static void ft_dputnbr(t_flags *flags, int nb)
   }
 }
 
-static void ft_dgestion(t_flags *flags, int nb, int nblen, int rest)
+static void ft_digestion(t_flags *flags, int nb, int nblen, int rest)
 {
   if (nb == 0 && flags->precision == 0 && flags->cutter == 1)
   {
@@ -42,11 +42,11 @@ static void ft_dgestion(t_flags *flags, int nb, int nblen, int rest)
       else
         ft_write(' ', flags);
     }
-    ft_dputnbr(flags, nb);
+    ft_diputnbr(flags, nb);
   }
   else
   {
-    ft_dputnbr(flags, nb);
+    ft_diputnbr(flags, nb);
     if (nb == 0 && flags->cutter == 1 && flags->precision < 0)
       ft_write('0', flags);
     if (flags->width > rest)
@@ -58,7 +58,7 @@ static void ft_dgestion(t_flags *flags, int nb, int nblen, int rest)
   }
 }
 
-void ft_d(va_list *list_args, t_flags *flags)
+void ft_di(va_list *list_args, t_flags *flags)
 {
   int nb;
   int nblen;
@@ -83,5 +83,5 @@ void ft_d(va_list *list_args, t_flags *flags)
     rest = nblen;
   else
     rest = flags->precision + nblen;
-  ft_dgestion(flags, nb, nblen, rest);
+  ft_digestion(flags, nb, nblen, rest);
 }

@@ -70,8 +70,8 @@ void ft_init(t_flags *flags)
 
 int ft_printf(const char *line, ...)
 {
-  void (*functions[8])(va_list *, t_flags *) = {ft_c, ft_s, ft_d, ft_x, ft_X,
-    ft_u, ft_d, ft_p};
+  void (*functions[8])(va_list *, t_flags *) = {ft_c, ft_s, ft_di, ft_x, ft_X,
+    ft_u, ft_di, ft_p};
   char allindexs[9] = {'c', 's', 'd', 'x', 'X', 'u', 'i', 'p', '\0'};
   va_list list_args;
   int x;
