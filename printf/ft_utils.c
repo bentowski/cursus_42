@@ -84,7 +84,7 @@ void ft_flags(va_list *list_args, t_flags *flags, int opt)
     if (flags->width < 0)
       flags->neg = 1;
   }
-  else
+  else if (opt == 1)
   {
     if ((flags->width + flags->precision) < 0)
     {
@@ -92,6 +92,13 @@ void ft_flags(va_list *list_args, t_flags *flags, int opt)
       flags->neg = 1;
     }
     else if (flags->width + flags->precision == 0)
+      flags->neg = 0;
+  }
+  else
+  {
+    if (flags->width < 0)
+        flags->neg = 1;
+    else
       flags->neg = 0;
   }
   if (flags->width < 0)
