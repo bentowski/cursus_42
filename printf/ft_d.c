@@ -64,7 +64,7 @@ void ft_di(va_list *list_args, t_flags *flags)
     flags->width++;
   if (nblen == 1 && (flags->width - 1 == flags->precision) && flags->cutter == 1 && flags->precision > 1)
     flags->width++;
-  printf("{%d, %d} ", nb, nblen);
+  // printf("{%d, %d} ", nb, nblen);
   if ((flags->neg != 1 && flags->zero != 1))
     while (flags->width-- > rest && flags->width > 0)
       ft_write(' ', flags);
