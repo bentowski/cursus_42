@@ -21,6 +21,8 @@ void ft_u(va_list *list_args, t_flags *flags)
       return;
   }
   flags->printed += len;
+  if (flags->cutter == 1 && flags->precision <= 1 && flags->precision >= 0)
+    flags->zero = 0;
   if (flags->precision < 0)
     flags->precision = 0;
   if (flags->precision < 0 || (flags->precision <= len && flags->cutter == 1))
@@ -29,9 +31,9 @@ void ft_u(va_list *list_args, t_flags *flags)
     rest = flags->precision + len;
   if (flags->neg == 0)
   {
-    while (flags->width-- > flags->precision + len)
+    while (flags->width-- > rest && flags->width > 0)
     {
-      if (flags->zero == 1 && (flags->cutter == 0 || flags->precision < 0))
+      if (flags->zero == 1)
         ft_write('0', flags);
       else
         ft_write(' ', flags);
@@ -48,7 +50,7 @@ void ft_u(va_list *list_args, t_flags *flags)
     if (nb == 0 && flags->cutter == 1 && flags->precision < -1)
       ft_write('0', flags);
     if (flags->width > rest)
-      while (flags->width-- > rest && flags->width > 0)
+      while (flags->width-- > flags->precision + len + 1 && flags->width > 0)
         ft_write(' ', flags);
   }
 }
