@@ -6,6 +6,25 @@ void ft_write(char c, t_flags *flags)
   flags->printed++;
 }
 
+void ft_constante(t_flags *flags, const char *target, int x, int opt)
+{
+    if (target[x] == '*' && opt == 1)
+      flags->constantep = 1;
+    else if (target[x] == '*' && opt == 2)
+      flags->constantew = 1;
+    else if (target[x] >= '1' && target[x] <= '9')
+    {
+      while (target[x] >= '0' && target[x] <= '9')
+      {
+        if (opt == 1)
+          flags->precision = (flags->precision * 10) + (target[x++] - 48);
+        else if (opt == 2)
+          flags->width = (flags->width * 10) + (target[x++] - 48);
+      }
+      x--;
+    }
+}
+
 int ft_disturb(int i, const char *target, char *allindexs, t_flags *flags)
 {
   int y;
@@ -19,39 +38,15 @@ int ft_disturb(int i, const char *target, char *allindexs, t_flags *flags)
       if (allindexs[y] == target[x])
         return (y);
     if (target[x] == '-')
-    {
       flags->neg = 1;
-    }
     else if (target[x] == '.')
-    {
       flags->cutter = 1;
-    }
     else if (target[x] == '0')
-    {
       flags->zero = 1;
-    }
     else if (flags->cutter == 1)
-    {
-      if (target[x] == '*')
-        flags->constantep += 1;
-      else if (target[x] >= '1' && target[x] <= '9')
-      {
-        while (target[x] >= '0' && target[x] <= '9')
-          flags->precision = (flags->precision * 10) + (target[x++] - 48);
-        x--;
-      }
-    }
+      ft_constante(flags, target, x, 1);
     else if (flags->cutter == 0)
-    {
-      if (target[x] == '*')
-        flags->constantew += 1;
-      else if (target[x] >= '1' && target[x] <= '9')
-      {
-        while (target[x] >= '0' && target[x] <= '9')
-          flags->width = (flags->width * 10) + (target[x++] - 48);
-        x--;
-      }
-    }
+      ft_constante(flags, target, x, 2);
   }
   return (-1);
 }

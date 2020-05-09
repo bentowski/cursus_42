@@ -12,10 +12,9 @@
 
 NAME    = libftprintf.a
 SRCS    =	ft_printf.c \
-					ft_d.c \
-					ft_setc.c \
-					ft_u.c \
-					ft_xetp.c \
+					ft_di.c \
+					ft_scp.c \
+					ft_xu.c \
 					ft_utils.c \
 					libft/ft_putnbr_fd.c \
 					libft/ft_putchar_fd.c \
