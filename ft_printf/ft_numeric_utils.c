@@ -11,14 +11,13 @@
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-#include "libft/ft_putnbr_fd.c"
 
 int		ft_flagsaffin(t_flags *flags, int rest, int len, int nb)
 {
 	if (nb == 0 && flags->cutter == 1 && flags->precision <= 0)
 		if (ft_nbzero(flags) == 1)
 			return (-1);
-	if (flags->opt != 0 && flags->opt != 32)
+	if (flags->opt != 0 && flags->opt != 32 && flags->opt != 3)
 		flags->printed += len;
 	if (flags->cutter == 1 && flags->precision <= 1 &&
 			flags->precision >= 0)
@@ -73,12 +72,23 @@ void	ft_ugestion(t_flags *flags, int rest, int len, unsigned long int nb)
 		ft_write('0', flags);
 	if (flags->opt == 2)
 		ft_putunbr_fd(nb, 1);
+	else if (flags->opt == 3)
+	{
+		if (nb == 0)
+			write(1, "(nil)", 5);
+		else
+		{
+			write(1, "0x", 2);
+			ft_candwrite(flags, nb, 32);
+		}
+	}
 	else
 		ft_candwrite(flags, nb, flags->opt);
 	if (flags->neg == 1)
 	{
-		if (nb == 0 && flags->cutter == 1 && flags->precision < -1)
-			ft_write('0', flags);
+		if (flags->opt != 3)
+			if (nb == 0 && flags->cutter == 1 && flags->precision < -1)
+				ft_write('0', flags);
 		ft_width(flags, rest);
 	}
 }

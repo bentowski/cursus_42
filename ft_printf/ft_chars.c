@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-#include "libft/ft_strlen.c"
 
 static	void	ft_sgestion(t_flags *flags, int lenght, int opt)
 {

@@ -97,32 +97,20 @@ void	ft_p(va_list *list_args, t_flags *flags)
 
 	rest = 0;
 	ft_flags(list_args, flags);
-	flags->opt = 32;
+	flags->opt = 3;
 	nb = va_arg(*list_args, unsigned long int);
 	len = ft_nblenx(nb, 16);
 	if ((rest = ft_flagsaffin(flags, rest, len, nb)) < 0)
 		return ;
-	if (flags->precision < 0)
-		flags->precision -= 14;
-	if (nb == 0)
-		rest += 4;
-	else
-		rest += 2;
-	if (flags->neg == 0)
-		while (flags->width-- > rest)
-			ft_write(' ', flags);
 	if (nb == 0)
 	{
-		write(1, "(nil)", 5);
+		rest += 4;
 		flags->printed += 5;
 	}
 	else
 	{
-		write(1, "0x", 2);
+		rest += 2;
 		flags->printed += 2;
-		ft_candwrite(flags, nb, 32);
 	}
-	if (flags->neg == 1)
-		while (flags->width-- > rest)
-			ft_write(' ', flags);
+	ft_ugestion(flags, rest, len, nb);
 }

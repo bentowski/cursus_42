@@ -16,7 +16,8 @@ SRCDIR    = ./
 
 LIBSRC	= libft/
 
-SRCS    	=	$(addprefix $(SRCDIR), *.c)
+SRCS    	=	$(addprefix $(SRCDIR), *.c libft/ft_putnbr_fd.c \
+							libft/ft_putchar_fd.c libft/ft_strlen.c)
 
 OBJ       = $(SRCS:.c=.o)
 

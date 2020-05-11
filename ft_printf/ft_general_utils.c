@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-#include "libft/ft_putchar_fd.c"
 
 int		ft_nblenx(unsigned int nb, int opt)
 {
