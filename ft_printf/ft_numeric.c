@@ -91,26 +91,38 @@ void	ft_xg(va_list *list_args, t_flags *flags)
 
 void	ft_p(va_list *list_args, t_flags *flags)
 {
-	unsigned long int	x;
+	unsigned long int	nb;
+	int					len;
+	int					rest;
 
-	if (flags->constantep == 1)
-		flags->precision = va_arg(*list_args, int) - 14;
-	else
+	rest = 0;
+	ft_flags(list_args, flags);
+	flags->opt = 32;
+	nb = va_arg(*list_args, unsigned long int);
+	len = ft_nblenx(nb, 16);
+	if ((rest = ft_flagsaffin(flags, rest, len, nb)) < 0)
+		return ;
+	if (flags->precision < 0)
 		flags->precision -= 14;
-	x = va_arg(*list_args, unsigned long int);
-	if (x == 0)
+	if (nb == 0)
+		rest += 4;
+	else
+		rest += 2;
+	if (flags->neg == 0)
+		while (flags->width-- > rest)
+			ft_write(' ', flags);
+	if (nb == 0)
 	{
 		write(1, "(nil)", 5);
 		flags->printed += 5;
-		return ;
 	}
-	if (flags->neg == 0)
-		while (flags->precision-- > 0)
-			ft_write(' ', flags);
-	write(1, "0x", 2);
-	flags->printed += 2;
-	ft_candwrite(flags, x, 32);
+	else
+	{
+		write(1, "0x", 2);
+		flags->printed += 2;
+		ft_candwrite(flags, nb, 32);
+	}
 	if (flags->neg == 1)
-		while (flags->precision-- > 0)
+		while (flags->width-- > rest)
 			ft_write(' ', flags);
 }
