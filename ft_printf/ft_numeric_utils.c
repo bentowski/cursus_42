@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+#include "libft/ft_putnbr_fd.c"
 
 int		ft_flagsaffin(t_flags *flags, int rest, int len, int nb)
 {

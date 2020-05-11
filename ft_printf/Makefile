@@ -18,15 +18,6 @@ LIBSRC	= libft/
 
 SRCS    	=	$(addprefix $(SRCDIR), *.c)
 
-# ft_printf.c \
-# 						ft_chars.c \
-# 						ft_general_utils.c \
-# 						ft_numeric_utils.c \
-# 						ft_numeric.c
-					# libft/ft_putnbr_fd.c \
-					# libft/ft_putchar_fd.c \
-					# libft/ft_strlen.c
-
 OBJ       = $(SRCS:.c=.o)
 
 CC        = gcc
@@ -37,15 +28,11 @@ LIB				= -L${LIBSRC} -lft
 
 LIB_MAKE	= ${MAKE} -C ${LIBSRC}
 
-# $(SRCDIR)%.o:    $(SRCDIR)%.c
-# 	$(CC) $(FLAGS) -o $@ -c $<
-
 all:	$(NAME)
 
-$(NAME): $(OBJ) libmake
+$(NAME): $(OBJ) libmake ft_printf.h
 	${CC} ${CFLAGS} ${LIB} -c ${SRCS}
 	ar rc ${NAME} ${OBJ}
-
 
 libmake:
 	${LIB_MAKE}
@@ -59,8 +46,3 @@ fclean:	clean
 	${LIB_MAKE} fclean
 
 re:	fclean all
-
-# test:	${NAME}
-# 	gcc ${NAME} main.c
-# 	./a.out
-# .PHONY:    all clean fclean re
