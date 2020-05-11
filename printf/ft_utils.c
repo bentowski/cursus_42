@@ -76,12 +76,36 @@ void ft_flags(va_list *list_args, t_flags *flags)
     flags->width = va_arg(*list_args, int);
   if (flags->constantep == 1)
     flags->precision = va_arg(*list_args, int);
-  // if (flags->cutter == 1)
-  //   flags->zero = 1;
   if (flags->width < 0)
   {
     flags->neg = 1;
     flags->width *= -1;
   }
   // printf("{%d, %d, %d, %d, %d} ", flags->neg, flags->width, flags->precision, flags->cutter, flags->zero);
+}
+
+
+int ft_nbzero(t_flags *flags)
+{
+  if (flags->precision == 0)
+    while (flags->width-- > 0)
+      ft_write(' ', flags);
+  else if (flags->precision < 0 && flags->width <= 1)
+    ft_write('0', flags);
+  if (flags->width <= 1)
+    return (1);
+  else
+    return (0);
+}
+
+int ft_flagsaffin(t_flags *flags, int rest, int len)
+{
+  if (flags->cutter == 1 && flags->precision <= 1 && flags->precision >= 0)
+    flags->zero = 0;
+  if (flags->precision < 0)
+    flags->precision = 0;
+  if (flags->precision <= len)
+    rest = len;
+  else
+    rest = flags->precision;
 }

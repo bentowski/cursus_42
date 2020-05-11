@@ -29,18 +29,7 @@ static void ft_ugestion(t_flags *flags, int rest, int len, unsigned long int nb,
   }
 }
 
-static int ft_nbzero(t_flags *flags)
-{
-  if (flags->precision == 0)
-    while (flags->width-- > 0)
-      ft_write(' ', flags);
-  else if (flags->precision < 0 && flags->width <= 1)
-    ft_write('0', flags);
-  if (flags->width <= 1)
-    return (1);
-  else
-    return (0);
-}
+
 
 void ft_u(va_list *list_args, t_flags *flags)
 {
@@ -59,7 +48,7 @@ void ft_u(va_list *list_args, t_flags *flags)
     flags->zero = 0;
   if (flags->precision < 0)
     flags->precision = 0;
-  if (flags->precision < 0 || (flags->precision <= len))
+  if (flags->precision <= len)
     rest = len;
   else
     rest = flags->precision;

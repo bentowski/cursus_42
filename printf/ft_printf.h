@@ -23,6 +23,7 @@ typedef struct s_struct
 int ft_printf(const char *line, ...);
 int ft_nblenx(unsigned int nb, int opt);
 int ft_nblend(int nb);
+int ft_nbzero(t_flags *flags);
 void ft_X(va_list *list_args, t_flags *flags);
 void ft_x(va_list *list_args, t_flags *flags);
 void ft_p(va_list *list_args, t_flags *flags);
