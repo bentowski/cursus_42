@@ -100,6 +100,8 @@ void	ft_p(va_list *list_args, t_flags *flags)
 	flags->opt = 3;
 	nb = va_arg(*list_args, unsigned long int);
 	len = ft_nblenx(nb, 16);
+	if (flags->precision > 14)
+		flags->precision = 14;
 	if ((rest = ft_flagsaffin(flags, rest, len, nb)) < 0)
 		return ;
 	if (nb == 0)
