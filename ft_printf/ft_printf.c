@@ -51,14 +51,14 @@ int		ft_choose(int i, const char *target, char *allindexs, t_flags *flags)
 	while (target[++x] && (flags->decalage = x - i) >= 0)
 	{
 		y = -1;
-		while (y++ < 7)
+		while (y++ < 8)
 			if (allindexs[y] == target[x])
 				return (y);
 		if (target[x] == '-')
 			flags->neg = 1;
 		else if (target[x] == '.')
 			flags->cutter = 1;
-		else if (target[x] == '0')
+		else if (target[x] == '0' && flags->neg == 0 && flags->cutter == 0)
 			flags->zero = 1;
 		else if (flags->cutter == 1)
 			x = ft_constante(flags, target, x, 1);
@@ -70,10 +70,10 @@ int		ft_choose(int i, const char *target, char *allindexs, t_flags *flags)
 
 void	ft_dispatch(va_list *list_args, t_flags *flags, const char *line)
 {
-	void	(*functions[8])(va_list *, t_flags *);
+	void	(*functions[9])(va_list *, t_flags *);
 	char	*allindexs;
 
-	allindexs = "csdxXuip";
+	allindexs = "csdxXuip%";
 	functions[0] = ft_c;
 	functions[1] = ft_s;
 	functions[2] = ft_di;
@@ -82,6 +82,7 @@ void	ft_dispatch(va_list *list_args, t_flags *flags, const char *line)
 	functions[5] = ft_u;
 	functions[6] = ft_di;
 	functions[7] = ft_p;
+	functions[8] = ft_pourcent;
 	if (line[++flags->suivi] != '%')
 		(*functions[ft_choose(flags->suivi, line, allindexs,
 					flags)])(list_args, flags);

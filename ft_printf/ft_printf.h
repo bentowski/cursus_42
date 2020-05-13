@@ -45,6 +45,7 @@ void			ft_u(va_list *list_args, t_flags *flags);
 void			ft_x(va_list *list_args, t_flags *flags);
 void			ft_xg(va_list *list_args, t_flags *flags);
 void			ft_p(va_list *list_args, t_flags *flags);
+void 			ft_pourcent(va_list *list_args, t_flags *flags);
 void			ft_flags(va_list *list_args, t_flags *flags);
 void			ft_putunbr_fd(long int n, int fd);
 void			ft_diputnbr(t_flags *flags, int nb, int len, int rest);

@@ -21,17 +21,17 @@ void	ft_di(va_list *list_args, t_flags *flags)
 	rest = 0;
 	ft_flags(list_args, flags);
 	flags->opt = 1;
-	nb = va_arg(*list_args, int);
-	len = ft_nblend(nb);
+	len = ft_nblend(nb = va_arg(*list_args, int));
 	if ((rest = ft_flagsaffin(flags, rest, len, nb)) < 0)
 		return ;
 	if (nb < 0)
+	{
 		if ((flags->precision > len || flags->precision + 1 == flags->width))
 			rest++;
-	if (nb < 0 && flags->neg == 0 && (flags->zero == 0 || flags->precision > 0))
-		ft_width(flags, rest);
-	if (nb < 0)
-	{
+		if (flags->precision >= len)
+			flags->width--;
+		if (flags->neg == 0 && (flags->zero == 0 || flags->precision > 0))
+			ft_width(flags, rest);
 		ft_write('-', flags);
 		flags->printed--;
 		if (flags->precision > 0)

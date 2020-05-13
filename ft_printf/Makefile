@@ -14,8 +14,6 @@ NAME    	= libftprintf.a
 
 SRCDIR    = ./
 
-LIBSRC	= libft/
-
 SRCS    	=	$(addprefix $(SRCDIR), *.c libft/ft_putnbr_fd.c \
 							libft/ft_putchar_fd.c libft/ft_strlen.c)
 
@@ -25,25 +23,16 @@ CC        = gcc
 
 CFLAGS    = -Wall -Werror -Wextra
 
-LIB				= -L${LIBSRC} -lft
-
-LIB_MAKE	= ${MAKE} -C ${LIBSRC}
-
 all:	$(NAME)
 
-$(NAME): $(OBJ) libmake ft_printf.h
-	${CC} ${CFLAGS} ${LIB} -c ${SRCS}
+$(NAME): $(OBJ) ft_printf.h
+	${CC} ${CFLAGS} -c ${SRCS}
 	ar rc ${NAME} ${OBJ}
-
-libmake:
-	${LIB_MAKE}
 
 clean:
 	rm -f $(OBJ)
-	${LIB_MAKE} clean
 
 fclean:	clean
 	rm -f $(NAME)
-	${LIB_MAKE} fclean
 
 re:	fclean all
