@@ -24,8 +24,8 @@ int main()
 	char	*t = "0x12345678";
 	char	*u = "-0";
 
-  printf(" --- Return : %d\n", printf("-->|%-16.*s|<--\n", 2, NULL)); //T1
-  ft_printf(" --- Return : %d\n", ft_printf("-->|%-16.*s|<--\n", 2, NULL)); //T1
+  printf(" --- Return : %d\n", printf("-->|%-16.p|<--\n", t)); //T1
+  ft_printf(" --- Return : %d\n", ft_printf("-->|%-16.p|<--\n", t)); //T1
 
 
  //  printf(" --- Return : %d\n", printf("%0i, %0d, %0d, %0d, %0d, %0d, %0d, %0d", i, j, k, l, m, c, e, d)); //T3
