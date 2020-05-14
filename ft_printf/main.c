@@ -17,7 +17,7 @@ int main()
 	int		m = -12345678;
 	char	*n = "abcdefghijklmnop";
 	char	*o = "-a";
-	char	*p = "-12";
+	char	*p = NULL;
 	char	*q = "0";
 	char	*r = "%%";
 	char	*s = "-2147483648";

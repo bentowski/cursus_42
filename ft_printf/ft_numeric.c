@@ -22,7 +22,7 @@ void	ft_di(va_list *list_args, t_flags *flags)
 	ft_flags(list_args, flags);
 	flags->opt = 1;
 	len = ft_nblend(nb = va_arg(*list_args, int));
-	if ((rest = ft_flagsaffin(flags, rest, len, nb)) < 0)
+	if ((rest = ft_flagsaffin(flags, len, nb, 0)) < 0)
 		return ;
 	if (nb < 0)
 	{
@@ -52,7 +52,7 @@ void	ft_u(va_list *list_args, t_flags *flags)
 	flags->opt = 2;
 	nb = va_arg(*list_args, unsigned long int);
 	len = ft_nblenx(nb, 10);
-	if ((rest = ft_flagsaffin(flags, rest, len, nb)) < 0)
+	if ((rest = ft_flagsaffin(flags, len, nb, 0)) < 0)
 		return ;
 	ft_ugestion(flags, rest, len, nb);
 }
@@ -68,7 +68,7 @@ void	ft_x(va_list *list_args, t_flags *flags)
 	flags->opt = 32;
 	nb = va_arg(*list_args, unsigned long int);
 	len = ft_nblenx(nb, 16);
-	if ((rest = ft_flagsaffin(flags, rest, len, nb)) < 0)
+	if ((rest = ft_flagsaffin(flags, len, nb, 0)) < 0)
 		return ;
 	ft_ugestion(flags, rest, len, nb);
 }
@@ -84,7 +84,7 @@ void	ft_xg(va_list *list_args, t_flags *flags)
 	flags->opt = 0;
 	nb = va_arg(*list_args, unsigned long int);
 	len = ft_nblenx(nb, 16);
-	if ((rest = ft_flagsaffin(flags, rest, len, nb)) < 0)
+	if ((rest = ft_flagsaffin(flags, len, nb, 0)) < 0)
 		return ;
 	ft_ugestion(flags, rest, len, nb);
 }
@@ -99,9 +99,8 @@ void	ft_p(va_list *list_args, t_flags *flags)
 	ft_flags(list_args, flags);
 	flags->opt = 3;
 	nb = va_arg(*list_args, unsigned long int);
-	len = ft_nblenx(nb, 10) + 2;
-	if ((rest = ft_flagsaffin(flags, rest, len, nb)) < 0)
-		return ;
+	len = ft_nblenx(nb, 16);
+	rest = ft_flagsaffin(flags, len, nb, 1);
 	if (nb == 0)
 	{
 		rest += 4;
