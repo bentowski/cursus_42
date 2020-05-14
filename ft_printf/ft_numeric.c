@@ -99,7 +99,7 @@ void	ft_p(va_list *list_args, t_flags *flags)
 	ft_flags(list_args, flags);
 	flags->opt = 3;
 	nb = va_arg(*list_args, unsigned long int);
-	len = 12;
+	len = ft_nblenx(nb, 10) + 2;
 	if ((rest = ft_flagsaffin(flags, rest, len, nb)) < 0)
 		return ;
 	if (nb == 0)

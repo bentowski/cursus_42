@@ -99,3 +99,9 @@ void 			ft_pourcent(va_list *list_args, t_flags *flags)
 	if (flags->neg == 1)
 		ft_sgestion(flags, 1, opt);
 }
+
+void	ft_write(char c, t_flags *flags)
+{
+	write(1, &c, 1);
+	flags->printed++;
+}

@@ -12,12 +12,6 @@
 
 #include "ft_printf.h"
 
-void	ft_write(char c, t_flags *flags)
-{
-	write(1, &c, 1);
-	flags->printed++;
-}
-
 int		ft_constante(t_flags *flags, const char *target, int x, int opt)
 {
 	int	tmp;
