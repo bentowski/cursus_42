@@ -103,6 +103,9 @@ void	ft_p(va_list *list_args, t_flags *flags)
 	rest = ft_flagsaffin(flags, len, nb, 1);
 	if (nb == 0)
 	{
+		if (flags->cutter == 1)
+			flags->width++;
+		flags->width += 2;
 		rest += 4;
 		flags->printed += 5;
 	}
