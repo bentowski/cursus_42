@@ -18,10 +18,10 @@ void	ft_di(va_list *list_args, t_flags *flags)
 	int	len;
 	int	rest;
 
-	rest = 0;
 	ft_flags(list_args, flags);
 	flags->opt = 1;
-	len = ft_nblend(nb = va_arg(*list_args, int));
+	nb = va_arg(*list_args, int);
+	len = ft_nblend(nb);
 	if ((rest = ft_flagsaffin(flags, len, nb, 0)) < 0)
 		return ;
 	if (nb < 0)
@@ -89,18 +89,6 @@ void	ft_xg(va_list *list_args, t_flags *flags)
 	ft_ugestion(flags, rest, len, nb);
 }
 
-int		ft_nblenp(unsigned long int nb, int opt)
-{
-	int				x;
-	unsigned long int	n;
-
-	n = nb;
-	x = 1;
-	while ((n = n / opt) > 0)
-		x++;
-	return (x);
-}
-
 void	ft_p(va_list *list_args, t_flags *flags)
 {
 	unsigned long int	nb;
@@ -117,6 +105,6 @@ void	ft_p(va_list *list_args, t_flags *flags)
 	if (nb == 0)
 		if (flags->cutter == 1 && flags->precision == 0)
 			flags->width++;
-		flags->printed += 2;
+	flags->printed += 2;
 	ft_ugestion(flags, rest, len, nb);
 }

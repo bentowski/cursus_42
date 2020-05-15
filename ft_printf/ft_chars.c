@@ -12,6 +12,12 @@
 
 #include "ft_printf.h"
 
+void			ft_write(char c, t_flags *flags)
+{
+	write(1, &c, 1);
+	flags->printed++;
+}
+
 static	void	ft_sgestion(t_flags *flags, int lenght, int opt)
 {
 	char x;
@@ -75,7 +81,7 @@ void			ft_c(va_list *list_args, t_flags *flags)
 		ft_sgestion(flags, 1, 0);
 }
 
-void 			ft_pourcent(va_list *list_args, t_flags *flags)
+void			ft_pourcent(va_list *list_args, t_flags *flags)
 {
 	int opt;
 

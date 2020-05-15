@@ -12,6 +12,18 @@
 
 #include "ft_printf.h"
 
+int		ft_nblenp(unsigned long int nb, int opt)
+{
+	int					x;
+	unsigned long int	n;
+
+	n = nb;
+	x = 1;
+	while ((n = n / opt) > 0)
+		x++;
+	return (x);
+}
+
 int		ft_nblenx(unsigned int nb, int opt)
 {
 	int				x;
@@ -54,19 +66,6 @@ int		ft_nbzero(t_flags *flags)
 		return (1);
 	else
 		return (0);
-}
-
-void	ft_flags(va_list *list_args, t_flags *flags)
-{
-	if (flags->constantew == 1)
-		flags->width = va_arg(*list_args, int);
-	if (flags->constantep == 1)
-		flags->precision = va_arg(*list_args, int);
-	if (flags->width < 0)
-	{
-		flags->neg = 1;
-		flags->width *= -1;
-	}
 }
 
 void	ft_putunbr_fd(long int n, int fd)

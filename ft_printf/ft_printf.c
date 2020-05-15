@@ -12,10 +12,17 @@
 
 #include "ft_printf.h"
 
-void	ft_write(char c, t_flags *flags)
+void	ft_flags(va_list *list_args, t_flags *flags)
 {
-	write(1, &c, 1);
-	flags->printed++;
+	if (flags->constantew == 1)
+		flags->width = va_arg(*list_args, int);
+	if (flags->constantep == 1)
+		flags->precision = va_arg(*list_args, int);
+	if (flags->width < 0)
+	{
+		flags->neg = 1;
+		flags->width *= -1;
+	}
 }
 
 int		ft_constante(t_flags *flags, const char *target, int x, int opt)
