@@ -28,8 +28,8 @@ void	ft_di(va_list *list_args, t_flags *flags)
 	{
 		if ((flags->precision > len || flags->precision + 1 == flags->width))
 			rest++;
-		if (flags->precision >= len)
-			flags->width--;
+		// if (flags->precision >= len)
+		// 	flags->width--;
 		if (flags->neg == 0 && (flags->zero == 0 || flags->precision > 0))
 			ft_width(flags, rest);
 		ft_write('-', flags);
