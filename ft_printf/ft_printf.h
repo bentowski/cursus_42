@@ -38,7 +38,7 @@ int				ft_nblenx(unsigned int nb, int opt);
 int				ft_nblend(int nb);
 int				ft_nbzero(t_flags *flags);
 int				ft_flagsaffin(t_flags *flags, int len, int nb, int opt);
-int				ft_nblenp(unsigned long long int nb, int opt);
+int				ft_nblenp(unsigned long int nb, int opt);
 void			ft_s(va_list *list_args, t_flags *flags);
 void			ft_c(va_list *list_args, t_flags *flags);
 void			ft_di(va_list *list_args, t_flags *flags);

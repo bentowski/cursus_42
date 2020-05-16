@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-int		ft_nblenp(unsigned long long int nb, int opt)
+int		ft_nblenp(unsigned int nb, int opt)
 {
 	int					x;
 	unsigned long int	n;
