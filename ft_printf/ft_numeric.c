@@ -91,14 +91,14 @@ void	ft_xg(va_list *list_args, t_flags *flags)
 
 void	ft_p(va_list *list_args, t_flags *flags)
 {
-	unsigned int	nb;
+	unsigned long int	nb;
 	int					len;
 	int					rest;
 
 	rest = 0;
 	ft_flags(list_args, flags);
 	flags->opt = 3;
-	nb = va_arg(*list_args, unsigned int);
+	nb = va_arg(*list_args, unsigned long int);
 	len = ft_nblenp(nb, 16) + 2;
 	if ((rest = ft_flagsaffin(flags, len, nb, 1)) < 0)
 		return ;

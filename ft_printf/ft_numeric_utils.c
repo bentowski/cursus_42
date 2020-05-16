@@ -105,8 +105,13 @@ void	ft_candwrite(t_flags *flags, unsigned long int nb, int opt)
 	}
 	else
 		temp2 = nb;
-	if (temp2 > 9)
+	if (temp2 > 9 && temp2!= 16)
 		ft_write(temp2 + 55 + opt, flags);
-	else
+	else if (temp2 != 16)
 		ft_write(temp2 + 48, flags);
+	else
+	{
+		ft_write('1', flags);
+		ft_write('0', flags);
+	}
 }
