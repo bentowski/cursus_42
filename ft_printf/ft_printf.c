@@ -75,13 +75,12 @@ int		ft_choose(int i, const char *target, char *allindexs, t_flags *flags)
 	return (-1);
 }
 
-int	ft_dispatch(va_list *list_args, t_flags *flags, const char *line)
+int		ft_dispatch(va_list *list_args, t_flags *flags, const char *line)
 {
 	void	(*functions[9])(va_list *, t_flags *);
 	char	*allindexs;
-	int x;
+	int		x;
 
-	x = 0;
 	allindexs = "csdxXuip%";
 	functions[0] = ft_c;
 	functions[1] = ft_s;

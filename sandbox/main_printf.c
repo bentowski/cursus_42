@@ -17,15 +17,15 @@ int main()
 	int		m = -12345678;
 	char	*n = "abcdefghijklmnop";
 	char	*o = "-a";
-	char	*p = "-12";
-	char	*q = "0";
+	char	*p = NULL;
+	static char	*q = "0";
 	char	*r = "%%";
 	char	*s = "-2147483648";
-	char	*t = "0x12345678";
+	char	*t = "0x0012345678";
 	char	*u = "-0";
 
-  printf(" --- Return : %d\n", printf("-->|%-16.p|<--\n", t)); //T1
-  ft_printf(" --- Return : %d\n", ft_printf("-->|%-16.p|<--\n", t)); //T1
+  printf(" --- Return : %d\n", printf("-->|%5.p|<--\n", 0)); //T1
+  ft_printf(" --- Return : %d\n", ft_printf("-->|%5.p|<--\n", 0)); //T1
 
 
  //  printf(" --- Return : %d\n", printf("%0i, %0d, %0d, %0d, %0d, %0d, %0d, %0d", i, j, k, l, m, c, e, d)); //T3
@@ -125,10 +125,11 @@ int main()
 	// 	a++;
 	// }
  //
- //  a = 19;
- //  b = 14;
- //  printf(" --- Return : %d\n", printf("%*.*i, %*.*d, %*.*d, %*.*d, %*.*d, %*.*d, %*.*d, %*.*d", a, b, -42, a, b, 42, -a, -b, -42, -a, -b, 42, -a, b, -42, -a, b, 42, a, -b, -42, a, -b, 42)); //T217
- //  ft_printf(" --- Return : %d\n", ft_printf("%*.*i, %*.*d, %*.*d, %*.*d, %*.*d, %*.*d, %*.*d, %*.*d", a, b, -42, a, b, 42, -a, -b, -42, -a, -b, 42, -a, b, -42, -a, b, 42, a, -b, -42, a, -b, 42)); //T217
+  // a = 19;
+  // b = 14;
+  //
+  // printf(" --- Return : %d\n", printf("%*.*i, %*.*d, %*.*d, %*.*d, %*.*d, %*.*d, %*.*d, %*.*d", a, b, -42, a, b, 42, -a, -b, -42, -a, -b, 42, -a, b, -42, -a, b, 42, a, -b, -42, a, -b, 42)); //T217
+  // ft_printf(" --- Return : %d\n", ft_printf("%*.*i, %*.*d, %*.*d, %*.*d, %*.*d, %*.*d, %*.*d, %*.*d", a, b, -42, a, b, 42, -a, -b, -42, -a, -b, 42, -a, b, -42, -a, b, 42, a, -b, -42, a, -b, 42)); //T217
  //  printf("\n\n");
  //  printf(" --- Return : %d\n", printf("%12.12i, %12.12d", -42, 42)); //T218
  //  ft_printf(" --- Return : %d\n", ft_printf("%12.12i, %12.12d", -42, 42)); //T218

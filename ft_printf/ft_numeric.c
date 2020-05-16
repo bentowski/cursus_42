@@ -44,8 +44,8 @@ void	ft_di(va_list *list_args, t_flags *flags)
 void	ft_u(va_list *list_args, t_flags *flags)
 {
 	unsigned int	nb;
-	int					len;
-	int					rest;
+	int				len;
+	int				rest;
 
 	rest = 0;
 	ft_flags(list_args, flags);
@@ -60,8 +60,8 @@ void	ft_u(va_list *list_args, t_flags *flags)
 void	ft_x(va_list *list_args, t_flags *flags)
 {
 	unsigned int	nb;
-	int					len;
-	int					rest;
+	int				len;
+	int				rest;
 
 	rest = 0;
 	ft_flags(list_args, flags);
@@ -76,8 +76,8 @@ void	ft_x(va_list *list_args, t_flags *flags)
 void	ft_xg(va_list *list_args, t_flags *flags)
 {
 	unsigned int	nb;
-	int					len;
-	int					rest;
+	int				len;
+	int				rest;
 
 	rest = 0;
 	ft_flags(list_args, flags);
