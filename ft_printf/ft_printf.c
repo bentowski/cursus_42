@@ -75,11 +75,13 @@ int		ft_choose(int i, const char *target, char *allindexs, t_flags *flags)
 	return (-1);
 }
 
-void	ft_dispatch(va_list *list_args, t_flags *flags, const char *line)
+int	ft_dispatch(va_list *list_args, t_flags *flags, const char *line)
 {
 	void	(*functions[9])(va_list *, t_flags *);
 	char	*allindexs;
+	int x;
 
+	x = 0;
 	allindexs = "csdxXuip%";
 	functions[0] = ft_c;
 	functions[1] = ft_s;
@@ -91,12 +93,16 @@ void	ft_dispatch(va_list *list_args, t_flags *flags, const char *line)
 	functions[7] = ft_p;
 	functions[8] = ft_pourcent;
 	if (line[++flags->suivi] != '%')
-		(*functions[ft_choose(flags->suivi, line, allindexs,
-					flags)])(list_args, flags);
+	{
+		if ((x = ft_choose(flags->suivi, line, allindexs, flags)) < 0)
+			return (0);
+		(*functions[x])(list_args, flags);
+	}
 	else
 		ft_write(line[flags->suivi], flags);
 	while (flags->decalage-- > 0)
 		flags->suivi++;
+	return (1);
 }
 
 int		ft_printf(const char *line, ...)
@@ -118,7 +124,10 @@ int		ft_printf(const char *line, ...)
 		flags.constantep = 0;
 		flags.constantew = 0;
 		if (line[flags.suivi] == '%')
-			ft_dispatch(&list_args, &flags, line);
+		{
+			if (!(ft_dispatch(&list_args, &flags, line)))
+				return (-1);
+		}
 		else
 			ft_write(line[flags.suivi], &flags);
 	}

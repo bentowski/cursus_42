@@ -28,7 +28,7 @@ void	ft_di(va_list *list_args, t_flags *flags)
 	{
 		if ((flags->precision > len || flags->precision + 1 == flags->width))
 			rest++;
-		if (flags->precision >= len)
+		if (flags->precision == len)
 			flags->width--;
 		if (flags->neg == 0 && (flags->zero == 0 || flags->precision > 0))
 			ft_width(flags, rest);
@@ -59,14 +59,14 @@ void	ft_u(va_list *list_args, t_flags *flags)
 
 void	ft_x(va_list *list_args, t_flags *flags)
 {
-	unsigned long int	nb;
+	unsigned int	nb;
 	int					len;
 	int					rest;
 
 	rest = 0;
 	ft_flags(list_args, flags);
 	flags->opt = 32;
-	nb = va_arg(*list_args, unsigned long int);
+	nb = va_arg(*list_args, unsigned int);
 	len = ft_nblenx(nb, 16);
 	if ((rest = ft_flagsaffin(flags, len, nb, 0)) < 0)
 		return ;
@@ -75,14 +75,14 @@ void	ft_x(va_list *list_args, t_flags *flags)
 
 void	ft_xg(va_list *list_args, t_flags *flags)
 {
-	unsigned long int	nb;
+	unsigned int	nb;
 	int					len;
 	int					rest;
 
 	rest = 0;
 	ft_flags(list_args, flags);
 	flags->opt = 0;
-	nb = va_arg(*list_args, unsigned long int);
+	nb = va_arg(*list_args, unsigned int);
 	len = ft_nblenx(nb, 16);
 	if ((rest = ft_flagsaffin(flags, len, nb, 0)) < 0)
 		return ;
@@ -91,14 +91,14 @@ void	ft_xg(va_list *list_args, t_flags *flags)
 
 void	ft_p(va_list *list_args, t_flags *flags)
 {
-	unsigned long int	nb;
+	unsigned int	nb;
 	int					len;
 	int					rest;
 
 	rest = 0;
 	ft_flags(list_args, flags);
 	flags->opt = 3;
-	nb = va_arg(*list_args, unsigned long int);
+	nb = va_arg(*list_args, unsigned int);
 	len = ft_nblenp(nb, 16) + 2;
 	if ((rest = ft_flagsaffin(flags, len, nb, 1)) < 0)
 		return ;

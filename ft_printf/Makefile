@@ -10,56 +10,38 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME    	= libftprintf.a
+NAME    = libftprintf.a
+SRCS    =	ft_printf.c \
+					ft_numeric.c \
+					ft_numeric_utils.c \
+					ft_chars.c \
+					ft_general_utils.c \
+					libft/ft_strlen.c \
+					libft/ft_putchar_fd.c \
+					libft/ft_putnbr_fd.c
 
 SRCDIR    = ./
-
-LIBSRC	= libft/
-
-SRCS    	=	ft_printf.c \
-						ft_chars.c \
-						ft_general_utils.c \
-						ft_numeric_utils.c \
-						ft_numeric.c	\
-						# libft/ft_putnbr_fd.c \
-						# libft/ft_putchar_fd.c \
-						# libft/ft_strlen.c
-
-INCLUDES	= libft/ft_putnbr_fd.c \
-						libft/ft_putchar_fd.c \
-						libft/ft_strlen.c
-
-OBJ       = $(SRCS:.c=.o)
-
-OBJLIB		= $(INCLUDES:.c=.o)
-
 CC        = gcc
+FLAGS    = -Wall -Wextra -Werror
+OBJ        = $(addprefix $(SRCDIR), $(SRCS:.c=.o))
 
-CFLAGS    = -Wall -Werror -Wextra
+$(SRCDIR)%.o:    $(SRCDIR)%.c
+	$(CC) $(FLAGS) -o $@ -c $<
 
-LIB				= -L${LIBSRC} -lft
-
-LIB_MAKE	= ${MAKE} -C ${LIBSRC}
-
-# $(SRCDIR)%.o:    $(SRCDIR)%.c
-# 	$(CC) $(FLAGS) -o $@ -c $<
+$(NAME):         $(OBJ)
+	ar rc $(NAME) $(OBJ)
 
 all:	$(NAME)
 
-$(NAME): $(OBJ) libmake $(OBJLIB)
-	${CC} ${CFLAGS} ${LIB} -c ${SRCS}
-	ar rc ${NAME} ${OBJ} ${OBJLIB}
-
-
-libmake:
-	${LIB_MAKE}
-
 clean:
 	rm -f $(OBJ)
-	${LIB_MAKE} clean
 
-fclean:	clean
+fclean:         clean
 	rm -f $(NAME)
-	${LIB_MAKE} fclean
 
-re:	fclean all
+re:             fclean all
+
+# test:	${NAME}
+# 	gcc ${NAME} main.c
+# 	./a.out
+.PHONY:            all clean fclean re
