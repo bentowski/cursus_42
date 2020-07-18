@@ -56,6 +56,5 @@ RUN	mkdir -p /var/www/localhost/phpmyadmin\
 #COPY FICHIERS CONFIG
 COPY	/srcs/config.inc.php /var/www/localhost/phpmyadmin/
 COPY	/srcs/index.php /var/www/localhost/index.php
-COPY	/srcs/info.php /var/www/localhost/
 
 CMD		bash start.sh
