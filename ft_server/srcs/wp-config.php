@@ -1,8 +1,8 @@
 <?php
 
-define( 'DB_NAME', 'wordpress' );
+define( 'DB_NAME", 'wordpress' );
 define( 'DB_USER', 'admin' );
-define( 'DB_PASSWORD', 'admin' );
+define( 'DB_PASSWORD', '1234' );
 define( 'DB_HOST', 'localhost' );
 
 $table_prefix = 'wp_';
