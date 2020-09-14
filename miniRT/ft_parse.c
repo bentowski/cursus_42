@@ -84,30 +84,28 @@ int init_basics(char *line, int *i, int **win_width, int **win_height)
   return (1);
 }
 
-int init_forms(t_coo *coo, char *line, int *i)
+int init_forms(t_coo *coo, char *line, int i)
 {
-  int test;
-
-  test = 0;
-  if (line[*i] == 's' && line[*i + 1] == 'p')
+  if (line[i] == 's' && line[i + 1] == 'p')
   {
-    if ( (test = init_sphere(coo, line, &i)) == -1)
+    printf("%d\n", i);
+    if ( (i = init_sphere(coo, line, i)) == -1)
       return (-1);
-    printf("ici %d %d\n", test, *i);
+    printf("%d\n", i);
   }
-  if (line[*i] == 'p' && line[*i + 1] == 'l')
+  if (line[i] == 'p' && line[i + 1] == 'l')
     if (init_plane() == -1)
       return (-1);
-  if (line[*i] == 's' && line[*i + 1] == 'q')
+  if (line[i] == 's' && line[i + 1] == 'q')
     if (init_square() == -1)
       return (-1);
-  if (line[*i] == 'c' && line[*i + 1] == 'y')
+  if (line[i] == 'c' && line[i + 1] == 'y')
     if (init_cylinder() == -1)
       return (-1);
-  if (line[*i] == 't' && line[*i + 1] == 'r')
+  if (line[i] == 't' && line[i + 1] == 'r')
     if (init_triangle() == -1)
       return (-1);
-  return (1);
+  return (i);
 }
 int ft_parse(t_coo *coo, char *map, int *win_width, int *win_height)
 {
@@ -121,7 +119,7 @@ int ft_parse(t_coo *coo, char *map, int *win_width, int *win_height)
     i = 0;
     if (init_basics(line, &i, &win_width, &win_height) == -1)
       return (-1);
-    if (init_forms(coo, line, &i) == -1)
+    if ((i = init_forms(coo, line, i)) == -1)
       return (-1);
   }
   return (1);
