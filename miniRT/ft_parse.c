@@ -47,10 +47,7 @@ int light()
   return (1);
 }
 
-int init_plane()
-{
-  return (1);
-}
+
 
 int init_square()
 {
@@ -94,7 +91,7 @@ int init_forms(t_coo *coo, char *line, int i)
     printf("%d\n", i);
   }
   if (line[i] == 'p' && line[i + 1] == 'l')
-    if (init_plane() == -1)
+    if ((i = init_plane(coo, line, i)) == -1)
       return (-1);
   if (line[i] == 's' && line[i + 1] == 'q')
     if (init_square() == -1)

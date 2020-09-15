@@ -28,6 +28,9 @@ void coo_init(t_coo *coo)
   coo->x = 0.0;
   coo->y = 0.0;
   coo->z = 0.0;
+  coo->vx = 0.0;
+  coo->vy = 0.0;
+  coo->vz = 0.0;
   coo->diam = 0.0;
   coo->color1 = 0;
   coo->color2 = 0;

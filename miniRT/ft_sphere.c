@@ -16,13 +16,17 @@ double routine(double x, char *line, int *i)
     *i = *i + 1;
   }
   if (line[*i] != '.')
-    return (-1);
-  *i = *i + 1;
-  while (line[*i] >= '0' && line[*i] <= '9')
+    if (line[*i] != ',')
+      return (-1);
+  if (line[*i] == '.')
   {
-    tmp = line[*i] - 48;
-    x = x + tmp / 10;
     *i = *i + 1;
+    while (line[*i] >= '0' && line[*i] <= '9')
+    {
+      tmp = line[*i] - 48;
+      x = x + tmp / 10;
+      *i = *i + 1;
+    }
   }
   return (x);
 }
