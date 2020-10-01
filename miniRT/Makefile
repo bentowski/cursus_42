@@ -1,9 +1,13 @@
 NAME    = a.out
-SRCS    =	main.c \
-					ft_parse.c \
-					ft_sphere.c \
-					get_next_line.c \
-					get_next_line_utils.c
+SRCS    =	testeur.c \
+					includes/get_next_line/get_next_line.c \
+					includes/get_next_line/get_next_line_utils.c
+# main.c \
+# 					ft_parse.c \
+# 					ft_form_parse.c \
+# 					ft_form_parse_utils.c \
+# 					includes/get_next_line/get_next_line.c \
+# 					includes/get_next_line/get_next_line_utils.c
 
 SRCDIR    = ./
 CC        = gcc -D BUFFER_SIZE=4

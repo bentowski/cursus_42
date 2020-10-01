@@ -1,4 +1,4 @@
-#include "includes/get_next_line/get_next_line.h"
+#include "../miniRT/includes/get_next_line/get_next_line.h"
 
 #ifndef MINIRT_H
 # define MINIRT_H
@@ -29,7 +29,7 @@ int init_square(char *line, int i, t_coo *coo);
 int init_cylinder(char *line, int i, t_coo *coo);
 int ft_coordonnees(t_coo *coo, char *line, int i);
 int ft_dimensions(t_coo *coo, char *line, int i, int opt);
-t_coo *coo_init();
+// t_coo *coo_init();
 int ft_space(char *line, int i);
 int ft_color(t_coo *coo, char *line, int i);
 

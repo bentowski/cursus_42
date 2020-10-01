@@ -1,9 +1,9 @@
 #include "mlx.h"
 #include <fcntl.h>
-#include "get_next_line.h"
 #include "minirt.h"
 #include <stdio.h>
 #include <math.h>
+#include <unistd.h>
 
 
 
@@ -23,20 +23,49 @@ void            my_mlx_pixel_put(t_data *data, int x, int y, int color)
     *(unsigned int*)dst = color;
 }
 
-void coo_init(t_coo *coo)
+t_coo *coo_init(t_coo *coo)
 {
-  coo->x = 0.0;
-  coo->y = 0.0;
-  coo->z = 0.0;
-  coo->vx = 0.0;
-  coo->vy = 0.0;
-  coo->vz = 0.0;
-  coo->diam = 0.0;
-  coo->color1 = 0;
-  coo->color2 = 0;
-  coo->color3 = 0;
+  t_coo new;
+
+  // if (!(new = (t_coo *)malloc(1)))
+  //   return (NULL);
+
+  new.name = NULL;
+  new.x = .0;
+  new.y = .0;
+  new.z = .0;
+  new.vx = .0;
+  new.vy = .0;
+  new.vz = .0;
+  new.diameter = .0;
+  new.height = .0;
+  new.color1 = 0;
+  new.color2 = 0;
+  new.color3 = 0;
+  new.next = NULL;
+  while (coo->next)
+    coo = coo->next;
+  coo->next = &new;
+
+  return (coo);
 }
 
+void ft_clear(t_coo **coo)
+{
+  t_coo *ptr;
+  t_coo *tmp;
+
+  ptr = *coo;
+  if (!coo)
+    return ;
+  while (ptr)
+  {
+    tmp = ptr->next;
+    free(*coo);
+    ptr = tmp;
+  }
+  *coo = NULL;
+}
 
 
 int main(int argc, char **argv)
@@ -44,26 +73,20 @@ int main(int argc, char **argv)
   void *mlx;
   void *mlx_win;
   t_data img;
-  t_coo coo;
   double x;
   int y;
   int win_width;
   int win_height;
+  t_coo *coo;
 
   if (argc != 2)
     return (-1);
-  double test;
-  test = 0.0;
-  test += 2;
-  test = test / 10;
-  test = test * 3;
-  printf("%lf\n", test);
-  coo_init(&coo);
   x = 0.0;
   win_width = 0;
   win_height = 0;
-  ft_parse(&coo, argv[1], &win_width, &win_height);
-  printf("%lf,%lf,%lf %lf, %d, %d, %d\n", coo.x, coo.y, coo.z, coo.diam, coo.color1, coo.color2, coo.color3);
+  if (!(coo = (t_coo *)malloc(1)))
+    return (-1);
+  ft_parse(argv[1], &win_width, &win_height, coo);
   if (win_width == 0 || win_height == 0)
     return (-1);
   mlx = mlx_init();
@@ -83,4 +106,5 @@ int main(int argc, char **argv)
   }
   mlx_put_image_to_window(mlx, mlx_win, img.img, 0, 0);
   mlx_loop(mlx);
+  ft_clear(&coo);
 }
