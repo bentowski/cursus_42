@@ -18,7 +18,7 @@ typedef struct s_coo
   int color2;
   int color3;
 
-  struct s_coo *next;
+  struct s_coo next;
 
 }             t_coo;
 
