@@ -23,7 +23,7 @@ typedef struct s_list
 }             t_list;
 
 int ft_parse(char *map, int *win_width, int *win_height);
-int init_sphere(char *line, int i, t_list **obj);
+int init_sphere(char *line, int i, t_list ***obj);
 int init_plane(char *line, int i, t_list **obj);
 int init_square(char *line, int i, t_list **obj);
 int init_cylinder(char *line, int i, t_list **obj);

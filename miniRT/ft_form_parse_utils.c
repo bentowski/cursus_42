@@ -37,7 +37,7 @@ int ft_coordonnees(t_list *new, char *line, int i)
     return (-1);
   new->y = ft_routine(new->y, line, &i, 1);
   if (line[i++] != ',')
-        return (-1);
+    return (-1);
   new->z = ft_routine(new->z, line, &i, 2);
   return (i);
 }
@@ -79,7 +79,10 @@ int ft_color(t_list *new, char *line, int i)
 int ft_space(char *line, int i)
 {
   while (line[i] < '0' || line[i] > '9')
+  {
+    printf("%c\n", line[i]);
     if (line[i++] != ' ')
       return (-1);
+  }
   return (i);
 }

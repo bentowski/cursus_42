@@ -3,7 +3,7 @@
 #include "minirt.h"
 #include <stdio.h>
 
-int init_sphere(char *line, int i, t_list **obj)
+int init_sphere(char *line, int i, t_list ***obj)
 {
   t_list *new;
   double tmp;
@@ -11,114 +11,139 @@ int init_sphere(char *line, int i, t_list **obj)
   if (!(new = (t_list *)malloc(1)))
     return (-1);
   tmp = .0;
-  i = i + 2;
+  i= i + 2;
   if ((i = ft_space(line, i)) == -1)
+  {
+    printf("%s : %d\n", "sortie1", i);
     return (-1);
+  }
   if ((i = ft_coordonnees(new, line, i)) == -1)
+  {
+    printf("%s : %d\n", "sortie2", i);
     return (-1);
+  }
   if ((i = ft_space(line, i)) == -1)
+  {
+    printf("%s : %d\n", "sortie3", i);
     return (-1);
+  }
   if ((i = ft_dimensions(new, line, i, 1)) == -1)
+  {
+    printf("%s : %d\n", "sortie4", i);
     return (-1);
+  }
   if ((i = ft_space(line, i)) == -1)
+  {
+    printf("%s : %d\n", "sortie5", i);
     return (-1);
+  }
   if ((i = ft_color(new, line, i)) == -1)
+  {
+    printf("%s : %d\n", "sortie6", i);
     return (-1);
-  new->next = *obj;
-  *obj = new;
-  // printf("sp : %lf,%lf,%lf %lf, %d, %d, %d\n", obj->x, obj->y, obj->z, obj->diameter, obj->color1, obj->color2, obj->color3);
+  }
+  printf("%s\n", "sortie ok");
+  // if (!(*obj = (t_list *)malloc(1)))
+  //   return (-1);
+  new->next = **obj;
+  **obj = new;
+  printf("sp : %lf,%lf,%lf %lf, %d, %d, %d\n", new->x, new->y, new->z, new->diameter, new->color1, new->color2, new->color3);
+  free(new);
   return (i);
 }
 
-int init_square(char *line, int i, t_list **obj)
-{
-  t_list *new;
-  double tmp;
-
-  if (!(new = (t_list *)malloc(1)))
-    return (-1);
-  tmp = .0;
-  i = i + 2;
-  if ((i = ft_space(line, i)) == -1)
-    return (-1);
-  if ((i = ft_coordonnees(new, line, i)) == -1)
-    return (-1);
-  if ((i = ft_space(line, i)) == -1)
-    return (-1);
-  if ((i = ft_dimensions(new, line, i, 3)) == -1)
-    return (-1);
-  if ((i = ft_space(line, i)) == -1)
-    return (-1);
-  if ((i = ft_dimensions(new, line, i, 1)) == -1)
-    return (-1);
-  if ((i = ft_space(line, i)) == -1)
-    return (-1);
-  if ((i = ft_color(new, line, i)) == -1)
-    return (-1);
-  new->next = *obj;
-  *obj = new;
-  // printf("sq : %lf,%lf,%lf %lf,%lf,%lf %lf %d, %d, %d\n", obj->x, obj->y, obj->z, obj->vx, obj->vy, obj->vz, obj->height, obj->color1, obj->color2, obj->color3);
-  return (i);
-}
-
-int init_plane(char *line, int i, t_list **obj)
-{
-  t_list *new;
-  double tmp;
-
-  if (!(new = (t_list *)malloc(1)))
-    return (-1);
-  tmp = .0;
-  i = i + 2;
-  if ((i = ft_space(line, i)) == -1)
-    return (-1);
-  if ((i = ft_coordonnees(new, line, i)) == -1)
-    return (-1);
-  if ((i = ft_space(line, i)) == -1)
-    return (-1);
-  if ((i = ft_dimensions(new, line, i, 2)) == -1)
-    return (-1);
-  if ((i = ft_space(line, i)) == -1)
-    return (-1);
-  if ((i = ft_color(new, line, i)) == -1)
-    return (-1);
-  // printf("pl : %lf,%lf,%lf %lf,%lf,%lf %d, %d, %d\n", obj->x, obj->y, obj->z, obj->vx, obj->vy, obj->vz, obj->color1, obj->color2, obj->color3);
-  new->next = *obj;
-  *obj = new;
-  return (i);
-}
-
-int init_cylinder(char *line, int i, t_list **obj)
-{
-  t_list *new;
-  double tmp;
-
-  if (!(new = (t_list *)malloc(1)))
-    return (-1);
-  tmp = .0;
-  i = i + 2;
-  if ((i = ft_space(line, i)) == -1)
-    return (-1);
-  if ((i = ft_coordonnees(new, line, i)) == -1)
-    return (-1);
-  if ((i = ft_space(line, i)) == -1)
-    return (-1);
-  if ((i = ft_dimensions(new, line, i, 3)) == -1)
-    return (-1);
-  if ((i = ft_space(line, i)) == -1)
-    return (-1);
-  if ((i = ft_dimensions(new, line, i, 2)) == -1)
-    return (-1);
-  if ((i = ft_space(line, i)) == -1)
-    return (-1);
-  if ((i = ft_dimensions(new, line, i, 1)) == -1)
-    return (-1);
-  if ((i = ft_space(line, i)) == -1)
-    return (-1);
-  if ((i = ft_color(new, line, i)) == -1)
-    return (-1);
-  // printf("cy : %lf,%lf,%lf %lf,%lf,%lf %lf %lf %d, %d, %d\n", obj->x, obj->y, obj->z, obj->vx, obj->vy, obj->vz, obj->diameter, obj->height, obj->color1, obj->color2, obj->color3);
-  new->next = *obj;
-  *obj = new;
-  return (i);
-}
+// int init_square(char *line, int i, t_list **obj)
+// {
+//   t_list *new;
+//   double tmp;
+//
+//   if (!(new = (t_list *)malloc(1)))
+//     return (-1);
+//   tmp = .0;
+//   i = i + 2;
+//   if ((i = ft_space(line, i)) == -1)
+//     return (-1);
+//   if ((i = ft_coordonnees(new, line, i)) == -1)
+//     return (-1);
+//   if ((i = ft_space(line, i)) == -1)
+//     return (-1);
+//   if ((i = ft_dimensions(new, line, i, 3)) == -1)
+//     return (-1);
+//   if ((i = ft_space(line, i)) == -1)
+//     return (-1);
+//   if ((i = ft_dimensions(new, line, i, 1)) == -1)
+//     return (-1);
+//   if ((i = ft_space(line, i)) == -1)
+//     return (-1);
+//   if ((i = ft_color(new, line, i)) == -1)
+//     return (-1);
+//   new->next = *obj;
+//   *obj = new;
+//   free(new);
+//   // printf("sq : %lf,%lf,%lf %lf,%lf,%lf %lf %d, %d, %d\n", obj->x, obj->y, obj->z, obj->vx, obj->vy, obj->vz, obj->height, obj->color1, obj->color2, obj->color3);
+//   return (i);
+// }
+//
+// int init_plane(char *line, int i, t_list **obj)
+// {
+//   t_list *new;
+//   double tmp;
+//
+//   if (!(new = (t_list *)malloc(1)))
+//     return (-1);
+//   tmp = .0;
+//   i = i + 2;
+//   if ((i = ft_space(line, i)) == -1)
+//     return (-1);
+//   if ((i = ft_coordonnees(new, line, i)) == -1)
+//     return (-1);
+//   if ((i = ft_space(line, i)) == -1)
+//     return (-1);
+//   if ((i = ft_dimensions(new, line, i, 2)) == -1)
+//     return (-1);
+//   if ((i = ft_space(line, i)) == -1)
+//     return (-1);
+//   if ((i = ft_color(new, line, i)) == -1)
+//     return (-1);
+//   // printf("pl : %lf,%lf,%lf %lf,%lf,%lf %d, %d, %d\n", obj->x, obj->y, obj->z, obj->vx, obj->vy, obj->vz, obj->color1, obj->color2, obj->color3);
+//   new->next = *obj;
+//   *obj = new;
+//   free(new);
+//   return (i);
+// }
+//
+// int init_cylinder(char *line, int i, t_list **obj)
+// {
+//   t_list *new;
+//   double tmp;
+//
+//   if (!(new = (t_list *)malloc(1)))
+//     return (-1);
+//   tmp = .0;
+//   i = i + 2;
+//   if ((i = ft_space(line, i)) == -1)
+//     return (-1);
+//   if ((i = ft_coordonnees(new, line, i)) == -1)
+//     return (-1);
+//   if ((i = ft_space(line, i)) == -1)
+//     return (-1);
+//   if ((i = ft_dimensions(new, line, i, 3)) == -1)
+//     return (-1);
+//   if ((i = ft_space(line, i)) == -1)
+//     return (-1);
+//   if ((i = ft_dimensions(new, line, i, 2)) == -1)
+//     return (-1);
+//   if ((i = ft_space(line, i)) == -1)
+//     return (-1);
+//   if ((i = ft_dimensions(new, line, i, 1)) == -1)
+//     return (-1);
+//   if ((i = ft_space(line, i)) == -1)
+//     return (-1);
+//   if ((i = ft_color(new, line, i)) == -1)
+//     return (-1);
+//   // printf("cy : %lf,%lf,%lf %lf,%lf,%lf %lf %lf %d, %d, %d\n", obj->x, obj->y, obj->z, obj->vx, obj->vy, obj->vz, obj->diameter, obj->height, obj->color1, obj->color2, obj->color3);
+//   new->next = *obj;
+//   *obj = new;
+//   free(new);
+//   return (i);
+// }

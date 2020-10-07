@@ -12,7 +12,7 @@ FLAGS    	= -Wall -Wextra -Werror
 LIB				=	-L. -lmlx
 
 $(NAME):
-	@$(CC) $(FLAGS) $(SRCS) $(LIB)
+	@$(CC) $(SRCS) $(LIB)
 
 all:	$(NAME)
 
