@@ -3,8 +3,9 @@ SRCS    =	main.c \
 					ft_parse.c \
 					ft_form_parse.c \
 					ft_form_parse_utils.c \
-					includes/get_next_line/get_next_line.c \
-					includes/get_next_line/get_next_line_utils.c
+					essai.c
+					# includes/get_next_line/get_next_line.c \
+					# includes/get_next_line/get_next_line_utils.c
 
 SRCDIR    = ./
 CC        = gcc -D BUFFER_SIZE=4

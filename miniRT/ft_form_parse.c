@@ -45,8 +45,8 @@ int init_sphere(char *line, int i, t_list ***obj)
   // printf("%s\n", "sortie ok");
   // if (!(*obj = (t_list *)malloc(1)))
   //   return (-1);
-  new->next = **obj;
-  **obj = new;
+  // new->next = **obj; //en activant cette ligne, erreurs malloc
+  // **obj = new; // oui oui celle-ci aussi
   // printf("sp : %lf,%lf,%lf %lf, %d, %d, %d\n", new->x, new->y, new->z, new->diameter, new->color1, new->color2, new->color3);
   free(new);
   return (i);
