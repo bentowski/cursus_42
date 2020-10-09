@@ -9,14 +9,19 @@ double ft_routine(double x, char *line, int *i, int opt)
   double tmp;
 
   tmp = .0;
+  printf("premer char routine : %c\n", line[*i]);
   while (line[*i] >= '0' && line[*i] <= '9')
   {
     x = x * 10 + line[*i] - 48;
     *i = *i + 1;
   }
   if (line[*i] != '.')
+  {
     if (line[*i] != ',' && opt == 1)
+    {
       return (-1);
+    }
+  }
   if (line[*i] == '.')
   {
     *i = *i + 1;
@@ -27,6 +32,7 @@ double ft_routine(double x, char *line, int *i, int opt)
       *i = *i + 1;
     }
   }
+  printf("%lf\n", x);
   return (x);
 }
 

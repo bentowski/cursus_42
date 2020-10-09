@@ -116,13 +116,13 @@ int ft_parse(char *map, int *win_width, int *win_height)
     if ((i = init_forms(line, i, &obj)) == -1)
       return (-1);
     // printf("%s : %d\n", "fin", x);
-    free(line);
+    free(line); // C"est ici que le malloc bug
     x++;
   }
-  free(line);
+  // free(line);
   printf("%s\n", "probleme clear");
-  ft_clear(&obj);
-  free(obj);
+  // ft_clear(&obj);
+  // free(obj);
   printf("%s\n", "FIN");
 
   return (1);
