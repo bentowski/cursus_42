@@ -10,18 +10,13 @@ double ft_routine(double x, char *line, int *i, int opt)
 
   tmp = .0;
   printf("premer char routine : %c\n", line[*i]);
+  // printf("x : %lf\n", x);
   while (line[*i] >= '0' && line[*i] <= '9')
   {
     x = x * 10 + line[*i] - 48;
     *i = *i + 1;
   }
-  if (line[*i] != '.')
-  {
-    if (line[*i] != ',' && opt == 1)
-    {
-      return (-1);
-    }
-  }
+  printf("x : %lf\n", x);
   if (line[*i] == '.')
   {
     *i = *i + 1;
@@ -32,19 +27,28 @@ double ft_routine(double x, char *line, int *i, int opt)
       *i = *i + 1;
     }
   }
+  else if (line[*i] != ',' && opt == 1)
+      return (-1);
   printf("%lf\n", x);
   return (x);
 }
 
 int ft_coordonnees(t_list *new, char *line, int i)
 {
+  printf("i : %d\n", i);
+  new->x = 0;
   new->x = ft_routine(new->x, line, &i, 1);
+  printf("i : %d\n", i);
   if (line[i++] != ',')
     return (-1);
+  printf("i : %d\n", i);
   new->y = ft_routine(new->y, line, &i, 1);
+  printf("i : %d\n", i);
   if (line[i++] != ',')
     return (-1);
+  printf("i : %d\n", i);
   new->z = ft_routine(new->z, line, &i, 2);
+  printf("i : %d\n", i);
   return (i);
 }
 

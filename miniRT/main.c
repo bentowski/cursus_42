@@ -6,7 +6,7 @@
 #include <unistd.h>
 
 
-// 
+//
 // typedef struct  s_data {
 //     void        *img;
 //     char        *addr;
@@ -23,30 +23,29 @@
 //     *(unsigned int*)dst = color;
 // }
 
-// t_list *obj_init(t_list *obj)
-// {
-//   t_list *new;
-//
-//   if (!(new = (t_list *)malloc(1)))
-//     return (NULL);
-//
-//   new->name = NULL;
-//   new->x = .0;
-//   new->y = .0;
-//   new->z = .0;
-//   new->vx = .0;
-//   new->vy = .0;
-//   new->vz = .0;
-//   new->diameter = .0;
-//   new->height = .0;
-//   new->color1 = 0;
-//   new->color2 = 0;
-//   new->color3 = 0;
-//   new->next = NULL;
-//   new->next = obj;
-//
-//   return (new);
-// }
+void new_init(t_list *new)
+{
+  // t_list *new;
+  //
+  // if (!(new = (t_list *)malloc(1)))
+  //   return (NULL);
+
+  new->name = NULL;
+  new->x = .0;
+  new->y = .0;
+  new->z = .0;
+  new->vx = .0;
+  new->vy = .0;
+  new->vz = .0;
+  new->diameter = .0;
+  new->height = .0;
+  new->color1 = 0;
+  new->color2 = 0;
+  new->color3 = 0;
+  new->next = NULL;
+
+  // return (new);
+}
 
 int main(int argc, char **argv)
 {

@@ -60,12 +60,10 @@ int init_forms(char *line, int i, t_list **obj)
 {
   if (line[i] == 's' && line[i + 1] == 'p')
   {
+    printf("%s\n", "entree unique");
     if ((i = init_sphere(line, i, &obj)) == -1)
       return (-1);
-    // free(line);
   }
-  // free(line);
-  // free(obj);
   //
   // if (line[i] == 'p' && line[i + 1] == 'l')
   //   if ((i = init_plane(line, i, &obj)) == -1)
@@ -108,6 +106,7 @@ int ft_parse(char *map, int *win_width, int *win_height)
 
   fd = open(map, O_RDONLY);
   x = 0;
+  obj = NULL;
   while (get_next_line(fd, &line) > 0)
   {
     i = 0;

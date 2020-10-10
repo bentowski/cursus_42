@@ -29,7 +29,7 @@ int init_square(char *line, int i, t_list **obj);
 int init_cylinder(char *line, int i, t_list **obj);
 int ft_coordonnees(t_list *obj, char *line, int i);
 int ft_dimensions(t_list *obj, char *line, int i, int opt);
-t_list *obj_init(t_list *obj);
+void new_init(t_list *new);
 int ft_space(char *line, int i);
 int ft_color(t_list *obj, char *line, int i);
 
