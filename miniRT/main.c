@@ -25,11 +25,6 @@
 
 void new_init(t_list *new)
 {
-  // t_list *new;
-  //
-  // if (!(new = (t_list *)malloc(1)))
-  //   return (NULL);
-
   new->name = NULL;
   new->x = .0;
   new->y = .0;
@@ -43,8 +38,6 @@ void new_init(t_list *new)
   new->color2 = 0;
   new->color3 = 0;
   new->next = NULL;
-
-  // return (new);
 }
 
 int main(int argc, char **argv)
@@ -63,6 +56,7 @@ int main(int argc, char **argv)
   win_width = 0;
   win_height = 0;
   ft_parse(argv[1], &win_width, &win_height);
+  printf("%s\n", "FIN");
   // if (win_width == 0 || win_height == 0)
   //   return (-1);
   // mlx = mlx_init();

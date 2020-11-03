@@ -41,9 +41,13 @@ int resolution(int ***win_width, int ***win_height, char *line, int i)
 
 int init_basics(char *line, int i, int **win_width, int **win_height)
 {
+  printf("%s\n", "entree init_basics");
   if (line[i] == 'R')
     if ((i = resolution(&win_width, &win_height, line, i)) == -1)
+    {
+      printf("%s\n", "sortie ERREUR init_basics(resolution)");
       return (-1);
+    }
   // if (line[i] == 'A')
   //   if (ambiance() == -1)
   //     return (-1);
@@ -53,16 +57,20 @@ int init_basics(char *line, int i, int **win_width, int **win_height)
   // if (line[i] == 'l')
   //   if (light() == -1)
   //     return (-1);
+  printf("%s\n", "sorte correcte init_basics");
   return (i);
 }
 
 int init_forms(char *line, int i, t_list **obj)
 {
+  printf("%s\n", "entree init_forms");
   if (line[i] == 's' && line[i + 1] == 'p')
   {
-    printf("%s\n", "entree unique");
     if ((i = init_sphere(line, i, &obj)) == -1)
+    {
+      printf("%s\n", "sortie ERREUR init_forms (sphere)");
       return (-1);
+    }
   }
   //
   // if (line[i] == 'p' && line[i + 1] == 'l')
@@ -77,6 +85,7 @@ int init_forms(char *line, int i, t_list **obj)
   // if (line[i] == 't' && line[i + 1] == 'r')
   //   if ((i = init_triangle()) == -1)
   //     return (-1);
+  printf("%s\n", "sortie correcte init_forms");
   return (i);
 }
 
@@ -104,27 +113,35 @@ int ft_parse(char *map, int *win_width, int *win_height)
   int i;
   int x;
 
+  printf("%s\n", "ft_parse");
   fd = open(map, O_RDONLY);
-  x = 0;
+  x = 1;
   obj = NULL;
   while (get_next_line(fd, &line) > 0)
   {
+    printf("%s%d\n", "ligne N", x);
     i = 0;
     if ((i = init_basics(line, i, &win_width, &win_height)) == -1)
     {
-      free(line);
+      printf("%s\n", "sortie ERREUR ft_parse (basics)");
+      // free(line);
       return (-1);
     }
     if ((i = init_forms(line, i, &obj)) == -1)
     {
-      free(line);
+      printf("%s\n", "sortie ERREUR ft_parse (forms)");
+      // free(line);
       return (-1);
     }
-    free(line);
+    printf("%s\n", "avant free");
+    // if (line)
+      // free(line);
+    printf("%s\n", "apres free");
     x++;
+    printf("%s\n", "next line");
   }
-  free(line);
-  // // ft_clear(&obj);
-  // // free(obj);
+  printf("%s\n", "fin boucle GNL");
+  // free(line);
+  printf("%s\n", "sortie correcte ft_parse");
   return (1);
 }

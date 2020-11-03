@@ -24,29 +24,43 @@ int		ft_strlen(const char *s)
 	return (x);
 }
 
-char	*ft_strjoin(char *s1, char *s2, int opt)
+static char *ft_copyjoin(char *s1, char const *s2, int len, int **i)
+{
+	int y;
+	int x;
+	char *d;
+
+	x = 0;
+	y = 0;
+	if (!(d = (char *)malloc(len)))
+		return (NULL);
+	while (s1[x])
+		d[y++] = s1[x++];
+	x = 0;
+	while (s2[x] && s2[x] != '\n')
+		d[y++] = s2[x++];
+	d[y] = '\0';
+	**i = x;
+	return (d);
+}
+
+char	*ft_strjoin(char *s1, char const *s2, int *i)
 {
 	char	*d;
 	int		len;
-	int		i;
-	int		y;
+	int   len2;
 
-	i = 0;
-	y = 0;
-	if (!s1 || !s2)
+	len = 0;
+	len2 = 0;
+	if (!s2)
 		return (NULL);
-	len = ft_strlen(s1) + ft_strlen(s2) + 1;
-	if (!(d = (char *)malloc(len)))
+	while (s1[len])
+		len++;
+	while (s2[len2] && s2[len2] != '\n')
+		len2++;
+	len += len2 + 1;
+	if (!(d = ft_copyjoin(s1, s2, len, &i)))
 		return (NULL);
-	while (s1[i] && s1[i] != '\n')
-	{
-		d[i] = s1[i];
-		i++;
-	}
-	while (s2[y] && s2[y] != '\n')
-		d[i++] = s2[y++];
-	d[i] = '\0';
-	if (opt == 2)
-		free(s1);
+	free(s1);
 	return (d);
 }

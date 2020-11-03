@@ -6,49 +6,58 @@
 
 double ft_routine(double x, char *line, int *i, int opt)
 {
-  double tmp;
-
-  tmp = .0;
-  printf("premer char routine : %c\n", line[*i]);
-  // printf("x : %lf\n", x);
-  while (line[*i] >= '0' && line[*i] <= '9')
-  {
-    x = x * 10 + line[*i] - 48;
-    *i = *i + 1;
-  }
-  printf("x : %lf\n", x);
-  if (line[*i] == '.')
-  {
-    *i = *i + 1;
-    while (line[*i] >= '0' && line[*i] <= '9')
-    {
-      tmp = line[*i] - 48;
-      x = x + tmp / 10;
-      *i = *i + 1;
-    }
-  }
-  else if (line[*i] != ',' && opt == 1)
-      return (-1);
-  printf("%lf\n", x);
+  // printf("%s\n", "entree routine");
+  // double tmp;
+  //
+  // tmp = .0;
+  // printf("premer char routine : %c\n", line[*i]);
+  // while (line[*i] >= '0' && line[*i] <= '9')
+  // {
+  //   x = x * 10 + line[*i] - 48;
+  //   *i = *i + 1;
+  // }
+  // printf("%s%lf\n", "fin premier nombre x = ", x);
+  // printf("char en cours : %c\n", line[*i]);
+  // if (line[*i] == '.')
+  // {
+  //   printf("%s\n", "debut second nombre");
+  //   *i = *i + 1;
+  //   while (line[*i] >= '0' && line[*i] <= '9')
+  //   {
+  //     tmp = line[*i] - 48;
+  //     x = x + tmp / 10;
+  //     *i = *i + 1;
+  //   }
+  //   printf("%s%lf\n", "fin boucle second nombre x = ", x);
+  // }
+  // else if (line[*i] != ',' && opt == 1)
+  // {
+  //   printf("%s\n", "sortie ERREUR routine");
+  //   return (-1);
+  // }
+  // printf("%s%lf\n", "sortie correct routine", x);
   return (x);
 }
 
 int ft_coordonnees(t_list *new, char *line, int i)
 {
-  printf("i : %d\n", i);
-  new->x = 0;
-  new->x = ft_routine(new->x, line, &i, 1);
-  printf("i : %d\n", i);
-  if (line[i++] != ',')
-    return (-1);
-  printf("i : %d\n", i);
-  new->y = ft_routine(new->y, line, &i, 1);
-  printf("i : %d\n", i);
-  if (line[i++] != ',')
-    return (-1);
-  printf("i : %d\n", i);
-  new->z = ft_routine(new->z, line, &i, 2);
-  printf("i : %d\n", i);
+  // printf("i : %d\n", i);
+  // new->x = 0;
+  // if ((new->x = ft_routine(new->x, line, &i, 1)) == -1)
+  //   return (-1);
+  // // printf("i : %d\n", i);
+  // if (line[i++] != ',')
+  //   return (-1);
+  // // printf("i : %d\n", i);
+  // if ((new->y = ft_routine(new->y, line, &i, 1)) == -1)
+  //   return (-1);
+  // // printf("i : %d\n", i);
+  // if (line[i++] != ',')
+  //   return (-1);
+  // // printf("i : %d\n", i);
+  // if ((new->z = ft_routine(new->z, line, &i, 1)) == -1)
+  //   return (-1);
+  // // printf("i : %d\n", i);
   return (i);
 }
 
@@ -88,9 +97,8 @@ int ft_color(t_list *new, char *line, int i)
 
 int ft_space(char *line, int i)
 {
-  while (line[i] < '0' || line[i] > '9')
+  while (line[i] && (line[i] < '0' || line[i] > '9'))
   {
-    printf("%c\n", line[i]);
     if (line[i++] != ' ')
       return (-1);
   }
