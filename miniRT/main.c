@@ -53,16 +53,18 @@ int main(int argc, char **argv)
   // void *mlx_win;
   // t_data img;
   // double x;
-  // int y;
+  char *line;
+  int fd;
   int win_width;
   int win_height;
 
   if (argc != 2)
     return (-1);
   // x = 0.0;
+  fd = open(argv[1], O_RDONLY);
   win_width = 0;
   win_height = 0;
-  ft_parse(argv[1], &win_width, &win_height);
+  ft_parse(&line, fd, &win_width, &win_height);
   printf("%s\n", "FIN");
   // if (win_width == 0 || win_height == 0)
   //   return (-1);

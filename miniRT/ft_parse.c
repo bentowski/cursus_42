@@ -3,7 +3,7 @@
 #include "minirt.h"
 #include <stdio.h>
 
-int resolution(int ***win_width, int ***win_height, char *line, int i, t_list ***obj)
+int resolution(int ***win_width, int ***win_height, char *line, int i)
 {
   i++;
   if ((i = ft_space(line, i)) == -1)
@@ -31,23 +31,15 @@ int ambiance(char *line, int i, t_list ***obj)
     return (-1);
   i = i + 2;
   new->name = "A";
-  if ((i = ft_space(line, i)) == -1)
-  {
-    printf("%s\n", "ERREUR MAP CONFIG AMBIANT");
-    return (-1);
-  }
-  if ((new->puissance = ft_routine(new->puissance, line, &i, 1)) == -1)
-  {
-    printf("%s\n", "ERROR MAP CONFIG AMBIANT");
-    return (-1);
-  }
-  if ((i = ft_color(new, line, i)) == -1)
-  {
-    printf("%s\n", "ERREUR MAP CONFIG AMBIANT");
-    return (-1);
-  }
-  new->next = **obj;
-  **obj = new;
+  if ((i = ft_space(line, i)) != -1)
+    if ((new->puissance = ft_routine(new->puissance, line, &i, 1)) != -1)
+      if ((i = ft_color(new, line, i)) != -1)
+      {
+        new->next = **obj;
+        **obj = new;
+        return (i);
+      }
+  free(new);
   return (i);
 }
 
@@ -59,28 +51,16 @@ int camera(char *line, int i, t_list ***obj)
     return (-1);
   i = i + 1;
   new->name = "c";
-  if ((i = ft_coordonnees(new, line, i, 1)) == -1)
-  {
-    printf("%s\n", "ERREUR MAP CONFIG CAMERA");
-    return (-1);
-  }
-  if ((i = ft_structuration(new, line, i, 3)) == -1)
-  {
-    printf("%s\n", "ERREUR MAP CONFIG CAMERA");
-    return (-1);
-  }
-  if ((i = ft_space(line, i)) == -1)
-  {
-    printf("%s\n", "ERREUR MAP CONFIG CAMERA");
-    return (-1);
-  }
-  if ((new->fov = ft_routine(new->fov, line, &i, 2)) == -1)
-  {
-    printf("%s\n", "ERREUR MAP CONFIG CAMERA");
-    return (-1);
-  }
-  new->next = **obj;
-  **obj = new;
+  if ((i = ft_coordonnees(new, line, i, 1)) != -1)
+    if ((i = ft_structuration(new, line, i, 3)) != -1)
+      if ((i = ft_space(line, i)) != -1)
+        if ((new->fov = ft_routine(new->fov, line, &i, 2)) != -1)
+        {
+          new->next = **obj;
+          **obj = new;
+          return (i);
+        }
+  free(new);
   return (i);
 }
 
@@ -107,10 +87,9 @@ int light(char *line, int i, t_list ***obj)
 
 int init_basics(char *line, int i, int **win_width, int **win_height, t_list **obj)
 {
-  // printf("%s\n", "entree init_basics");
   if (line[i] == 'R')
   {
-    if ((i = resolution(&win_width, &win_height, line, i, &obj)) == -1)
+    if ((i = resolution(&win_width, &win_height, line, i)) == -1)
     {
       printf("%s\n", "sortie ERREUR init_basics(resolution)");
       return (-1);
@@ -162,21 +141,20 @@ int init_forms(char *line, int i, t_list **obj)
   return (i);
 }
 
-// void ft_clear(t_list **obj)
-// {
-//   t_list *tmp;
-//   t_list *ptr;
-//
-//   ptr = *obj;
-//   while (ptr)
-//   {
-//     printf("%s\n", "test clear");
-//     tmp = ptr->next;
-//     ptr = NULL;
-//     ptr = tmp;
-//   }
-//   *obj = NULL;
-// }
+void ft_clear(t_list **obj, char ***line)
+{
+  t_list *tmp;
+  t_list *ptr;
+
+  ptr = *obj;
+  while (ptr)
+  {
+    tmp = ptr->next;
+    free(ptr);
+    ptr = tmp;
+  }
+  free(**line);
+}
 
 void ft_print(t_list *new)
 {
@@ -201,64 +179,31 @@ void ft_print(t_list *new)
   }
 }
 
-int ft_parse(char *map, int *win_width, int *win_height)
+int ft_parse(char **line, int fd, int *win_width, int *win_height)
 {
-  int fd;
-  char *line;
   t_list *obj;
-  t_list *tmp;
   int i;
-  int x;
 
-  // printf("%s\n", "ft_parse");
-  fd = open(map, O_RDONLY);
-  x = 1;
   if (!(obj = ft_calloc(1, sizeof(t_list))))
     return (-1);
   obj->next = NULL;
   while (get_next_line(fd, &line) > 0)
   {
-    // printf("%s%d\n", "ligne N", x);
     i = 0;
-    if ((i = init_basics(line, i, &win_width, &win_height, &obj)) == -1)
+    if ((i = init_basics(*line, i, &win_width, &win_height, &obj)) == -1)
     {
       printf("%s\n", "sortie ERREUR ft_parse (basics)");
-      while (obj)
-      {
-        tmp = obj->next;
-        free(obj);
-        obj = tmp;
-      }
-      free(line);
+      ft_clear(&obj, &line);
       return (-1);
     }
-    if ((i = init_forms(line, i, &obj)) == -1)
+    if ((i = init_forms(*line, i, &obj)) == -1)
     {
       printf("%s\n", "sortie ERREUR ft_parse (forms)");
-      while (obj)
-      {
-        tmp = obj->next;
-        free(obj);
-        obj = tmp;
-      }
-      free(line);
+      ft_clear(&obj, &line);
       return (-1);
     }
-      free(line);
-    x++;
-    // printf("%s\n", "next line");
+      free(*line);
   }
-  // printf("%s\n", "fin boucle GNL");
-  free(line);
-  while (obj)
-  {
-    ft_print(obj);
-    tmp = obj->next;
-    free(obj);
-    obj = tmp;
-  }
-  // printf("%s : %d  %d\n", "R", win_width, win_height);
-
-  // printf("%s\n", "sortie correcte ft_parse");
+  ft_clear(&obj, &line);
   return (1);
 }

@@ -23,7 +23,7 @@ int	ft_checkbn(char *buffer)
 	return (0);
 }
 
-int	ft_read(int fd, char ***line, char *buffer)
+int	ft_read(int fd, char ****line, char *buffer)
 {
 	int ret;
 	int x;
@@ -34,7 +34,7 @@ int	ft_read(int fd, char ***line, char *buffer)
 		x = 0;
 		y = 0;
 		buffer[ret] = '\0';
-		if (!(**line = ft_strjoin(**line, buffer, 2)))
+		if (!(***line = ft_strjoin(***line, buffer, 2)))
 			return (-1);
 		if (ft_checkbn(buffer))
 		{
@@ -48,11 +48,11 @@ int	ft_read(int fd, char ***line, char *buffer)
 		if (ret == 0)
 			return (0);
 	}
-	free(**line);
+	free(***line);
 	return (-1);
 }
 
-int	get_next_line(int fd, char **line)
+int	get_next_line(int fd, char ***line)
 {
 	static	char	buffer[255][BUFFER_SIZE + 1];
 	int				x;
@@ -62,7 +62,7 @@ int	get_next_line(int fd, char **line)
 	y = 0;
 	if (fd >= 0 && BUFFER_SIZE > 0)
 	{
-		if (!(*line = ft_strjoin(buffer[fd], "", 1)))
+		if (!(**line = ft_strjoin(buffer[fd], "", 1)))
 			return (-1);
 		if (ft_checkbn(buffer[fd]))
 		{
