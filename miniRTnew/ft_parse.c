@@ -68,15 +68,38 @@ void	*ft_calloc(size_t count, size_t size)
 	return (ptr);
 }
 
+int ft_space(char *line, int i)
+{
+  while (line[i] && (line[i] < '0' || line[i] > '9'))
+  {
+    if (line[i++] != ' ')
+      return (-1);
+  }
+  return (i);
+}
+
 int init_sphere(char *line, int i, t_list ***obj)
 {
   t_list *new;
-
+  // t_list *tmp;
+  //
   if (!(new = ft_calloc(1, sizeof(t_list))))
     return (-1);
-  free(new);
+  new->x = 47;
+  new->next = **obj;
+  **obj = new;
+  // tmp = *ptr;
+  // while(tmp->next)
+  //   tmp = tmp->next;
+  // tmp->next = new;
+  // printf("new : %lf\n", new->x);
+  // free(new);
   return (i);
 }
+
+
+
+
 
 int init_forms(char *line, int i, t_list **obj)
 {
@@ -97,11 +120,16 @@ int ft_parse(char *map, int *win_width, int *win_height)
   char *line;
   int i;
   t_list *obj;
+  t_list *tmp;
 
+  if (!(obj = ft_calloc(1, sizeof(t_list))))
+    return (-1);
+  obj->next = NULL;
   fd = open(map, O_RDONLY);
   while (get_next_line(fd, &line) > 0)
   {
     i = 0;
+
     if ((i = init_basics(line, i, &win_width, &win_height)) == -1)
     {
       printf("%s\n", "ERREUR basics");
@@ -114,8 +142,16 @@ int ft_parse(char *map, int *win_width, int *win_height)
       free(line);
       return (-1);
     }
+
     printf("%s\n", line);
     free(line);
+  }
+  printf("obj : %lf\n", obj->x);
+  while (obj)
+  {
+    tmp = obj->next;
+    free(obj);
+    obj = tmp;
   }
   printf("%s\n", line);
   free(line);

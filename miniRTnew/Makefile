@@ -2,9 +2,9 @@ NAME    = a.out
 SRCS    =	main.c \
 					ft_parse.c \
 					get_next_line/get_next_line.c \
-					get_next_line/get_next_line_utils.c
+					get_next_line/get_next_line_utils.c 
+					# ft_form_parse_utils.c
 					# ft_form_parse.c \
-					# ft_form_parse_utils.c \
 
 SRCDIR    = ./
 CC        = gcc -D BUFFER_SIZE=4

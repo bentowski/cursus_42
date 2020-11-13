@@ -23,21 +23,28 @@
 //     *(unsigned int*)dst = color;
 // }
 
-void new_init(t_list *new)
+void	ft_bzero(void *s, size_t n)
 {
-  new->name = NULL;
-  new->x = .0;
-  new->y = .0;
-  new->z = .0;
-  new->vx = .0;
-  new->vy = .0;
-  new->vz = .0;
-  new->diameter = .0;
-  new->height = .0;
-  new->color1 = 0;
-  new->color2 = 0;
-  new->color3 = 0;
-  new->next = NULL;
+	char	*p;
+
+	p = (char *)s;
+	while (n > 0)
+	{
+		p[n - 1] = 0;
+		n--;
+	}
+}
+
+void	*ft_calloc(size_t count, size_t size)
+{
+	char	*ptr;
+	int		lenght;
+
+	lenght = count * size;
+	if (!(ptr = malloc(lenght)))
+		return (NULL);
+	ft_bzero(ptr, lenght);
+	return (ptr);
 }
 
 int main(int argc, char **argv)
