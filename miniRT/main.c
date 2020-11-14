@@ -64,7 +64,8 @@ int main(int argc, char **argv)
   fd = open(argv[1], O_RDONLY);
   win_width = 0;
   win_height = 0;
-  ft_parse(&line, fd, &win_width, &win_height);
+  if (ft_parse(&line, fd, &win_width, &win_height) == -1)
+		return (-1);
   printf("%s\n", "FIN");
   // if (win_width == 0 || win_height == 0)
   //   return (-1);
