@@ -1,9 +1,6 @@
-#include "mlx.h"
-#include <fcntl.h>
-#include "minirt.h"
-#include <stdio.h>
+#include "../minirt.h"
 
-int init_sphere(char *line, int i, t_list ***obj)
+int init_sphere(char *line, int i, t_list ****obj)
 {
   t_list *new;
   double tmp;
@@ -17,15 +14,15 @@ int init_sphere(char *line, int i, t_list ***obj)
   	if ((i = ft_structuration(new, line, i, 1)) != -1)
   		if ((i = ft_color(new, line, i)) != -1)
 			{
-				new->next = **obj;
-				**obj = new;
+				new->next = ***obj;
+				***obj = new;
 				return (i);
 			}
 	free(new);
   return (i);
 }
 
-int init_square(char *line, int i, t_list ***obj)
+int init_square(char *line, int i, t_list ****obj)
 {
   t_list *new;
   double tmp;
@@ -40,15 +37,15 @@ int init_square(char *line, int i, t_list ***obj)
   		if ((i = ft_structuration(new, line, i, 1)) != -1)
   			if ((i = ft_color(new, line, i)) != -1)
 			  {
-					new->next = **obj;
-					**obj = new;
+					new->next = ***obj;
+					***obj = new;
 					return (i);
 			  }
 	free(new);
 	return (i);
 }
 
-int init_plane(char *line, int i, t_list ***obj)
+int init_plane(char *line, int i, t_list ****obj)
 {
   t_list *new;
   double tmp;
@@ -62,15 +59,15 @@ int init_plane(char *line, int i, t_list ***obj)
   	if ((i = ft_structuration(new, line, i, 3)) != -1)
   		if ((i = ft_color(new, line, i)) != -1)
 		  {
-				new->next = **obj;
-				**obj = new;
+				new->next = ***obj;
+				***obj = new;
 				return (i);
 		  }
 	free(new);
 	return (i);
 }
 
-int init_cylinder(char *line, int i, t_list ***obj)
+int init_cylinder(char *line, int i, t_list ****obj)
 {
   t_list *new;
   double tmp;
@@ -86,15 +83,15 @@ int init_cylinder(char *line, int i, t_list ***obj)
   			if ((i = ft_structuration(new, line, i, 1)) != -1)
 				  if ((i = ft_color(new, line, i)) != -1)
 				  {
-						new->next = **obj;
-						**obj = new;
+						new->next = ***obj;
+						***obj = new;
 						return (i);
 				  }
 	free(new);
 	return (i);
 }
 
-int init_triangle(char *line, int i, t_list ***obj)
+int init_triangle(char *line, int i, t_list ****obj)
 {
 	t_list *new;
 	double tmp;
@@ -109,8 +106,8 @@ int init_triangle(char *line, int i, t_list ***obj)
 			if ((i = ft_coordonnees(new, line, i, 3)) != -1)
 				if ((i = ft_color(new, line, i)) != -1)
 				{
-					new->next = **obj;
-					**obj = new;
+					new->next = ***obj;
+					***obj = new;
 					return (i);
 				}
 	free(new);

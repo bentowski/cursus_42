@@ -1,7 +1,4 @@
-#include "mlx.h"
-#include <fcntl.h>
-#include "minirt.h"
-#include <stdio.h>
+#include "../minirt.h"
 
 int resolution(int ***win_width, int ***win_height, char *line, int i)
 {
@@ -23,7 +20,7 @@ int resolution(int ***win_width, int ***win_height, char *line, int i)
   return (i);
 }
 
-int ambiance(char *line, int i, t_list ***obj)
+int ambiance(char *line, int i, t_list ****obj)
 {
   t_list *new;
 
@@ -35,15 +32,15 @@ int ambiance(char *line, int i, t_list ***obj)
     if ((new->puissance = ft_routine(new->puissance, line, &i, 1)) != -1)
       if ((i = ft_color(new, line, i)) != -1)
       {
-        new->next = **obj;
-        **obj = new;
+        new->next = ***obj;
+        ***obj = new;
         return (i);
       }
   free(new);
   return (i);
 }
 
-int camera(char *line, int i, t_list ***obj)
+int camera(char *line, int i, t_list ****obj)
 {
   t_list *new;
 
@@ -56,15 +53,15 @@ int camera(char *line, int i, t_list ***obj)
       if ((i = ft_space(line, i)) != -1)
         if ((new->fov = ft_routine(new->fov, line, &i, 2)) != -1)
         {
-          new->next = **obj;
-          **obj = new;
+          new->next = ***obj;
+          ***obj = new;
           return (i);
         }
   free(new);
   return (i);
 }
 
-int light(char *line, int i, t_list ***obj)
+int light(char *line, int i, t_list ****obj)
 {
   t_list *new;
 
@@ -77,8 +74,8 @@ int light(char *line, int i, t_list ***obj)
       if ((new->puissance = ft_routine(new->puissance, line, &i, 1)) != -1)
         if ((i = ft_color(new, line, i)) != -1)
         {
-          new->next = **obj;
-          **obj = new;
+          new->next = ***obj;
+          ***obj = new;
           return (i);
         }
   free(new);

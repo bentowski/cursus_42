@@ -1,10 +1,10 @@
 NAME    = a.out
 SRCS    =	main.c \
-					parse.c \
-					parse_forms.c \
-					parse_forms_utils.c \
-					parse_basic.c \
-					parse_coordonnees.c \
+					parsing/parse.c \
+					parsing/parse_forms.c \
+					parsing/parse_forms_utils.c \
+					parsing/parse_basic.c \
+					parsing/parse_utils.c \
 					includes/get_next_line/get_next_line.c \
 					includes/get_next_line/get_next_line_utils.c
 

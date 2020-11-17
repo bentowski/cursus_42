@@ -1,9 +1,4 @@
-#include "mlx.h"
-#include <fcntl.h>
 #include "minirt.h"
-#include <stdio.h>
-#include <math.h>
-#include <unistd.h>
 
 
 //
@@ -47,12 +42,52 @@ void	*ft_calloc(size_t count, size_t size)
 	return (ptr);
 }
 
+void ft_print(t_list *new)
+{
+  if (new->next)
+  {
+    if (new->name[0] == 'A')
+      printf("%s : %lf, %d,%d,%d\n\n", "A", new->puissance, new->color1, new->color2, new->color3);
+    if (new->name[0] == 'c' && new->name[1] == 'y')
+      printf("%s : %lf, %lf, %lf     %lf,%lf,%lf     %lf     %lf      %d, %d, %d\n", new->name, new->x, new->y, new->z, new->vx, new->vy, new->vz, new->height, new->diameter, new->color1, new->color2, new->color3);
+    else if (new->name[0] == 'c')
+      printf("%s : %lf, %lf, %lf       %lf, %lf, %lf      %d\n", new->name, new->x, new->y, new->z, new->vx, new->vy, new->vz, new->fov);
+    else if (new->name[0] == 's' && new->name[1] == 'p')
+      printf("%s : %lf, %lf, %lf     %lf,       %d, %d, %d\n", new->name, new->x, new->y, new->z, new->diameter, new->color1, new->color2, new->color3);
+    else if (new->name[0] == 'p' && new->name[1] == 'l')
+      printf("%s : %lf, %lf, %lf     %lf, %lf, %lf     %d, %d, %d\n", new->name, new->x, new->y, new->z, new->vx, new->vy, new->vz, new->color1, new->color2, new->color3);
+    else if (new->name[0] == 't' && new->name[1] == 'r')
+      printf("%s : %lf, %lf, %lf     %lf, %lf, %lf       %lf, %lf, %lf,    %d, %d, %d\n", new->name, new->x, new->y, new->z, new->x2, new->y2, new->z2, new->x3, new->y3, new->z3, new->color1, new->color2, new->color3);
+    else if (new->name[0] == 's' && new->name[1] == 'q')
+      printf("%s : %lf, %lf, %lf    %lf, %lf, %lf       %lf,       %d, %d, %d\n", new->name, new->x, new->y, new->z, new->vx, new->vy, new->vz, new->diameter, new->color1, new->color2, new->color3);
+    else if (new->name[0] == 'l')
+      printf("%s : %lf, %lf, %lf     %lf      %d, %d, %d\n", new->name, new->x, new->y, new->z, new->puissance, new->color1, new->color2, new->color3);
+  }
+}
+
+void ft_clear(t_list *obj, char **line)
+{
+  t_list *tmp;
+  t_list *ptr;
+
+  ptr = obj;
+  while (ptr)
+  {
+    ft_print(ptr);
+    tmp = ptr->next;
+    free(ptr);
+    ptr = tmp;
+  }
+  free(*line);
+}
+
 int main(int argc, char **argv)
 {
   // void *mlx;
   // void *mlx_win;
   // t_data img;
   // double x;
+	t_list *obj;
   char *line;
   int fd;
   int win_width;
@@ -60,12 +95,19 @@ int main(int argc, char **argv)
 
   if (argc != 2)
     return (-1);
+	if (!(obj = ft_calloc(1, sizeof(t_list))))
+    return (-1);
+	obj->next = NULL;
   // x = 0.0;
   fd = open(argv[1], O_RDONLY);
   win_width = 0;
   win_height = 0;
-  if (ft_parse(&line, fd, &win_width, &win_height) == -1)
+  if (ft_parse(&obj, &line, fd, &win_width, &win_height) == -1)
+	{
+		ft_clear(obj, &line);
 		return (-1);
+	}
+	ft_clear(obj, &line);
   printf("%s\n", "FIN");
   // if (win_width == 0 || win_height == 0)
   //   return (-1);

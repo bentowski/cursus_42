@@ -1,48 +1,4 @@
-#include "mlx.h"
-#include <fcntl.h>
-#include "minirt.h"
-#include <stdio.h>
-
-
-double ft_routine(double x, char *line, int *i, int opt)
-{
-  double tmp;
-  int div;
-  int neg;
-
-  tmp = .0;
-  div = 0;
-  neg = 1;
-  if (line[*i] == '-')
-  {
-    neg = -1;
-    *i = *i + 1;
-  }
-  while (line[*i] >= '0' && line[*i] <= '9')
-  {
-    x = x * 10 + line[*i] - 48;
-    *i = *i + 1;
-  }
-  if (line[*i] == '.')
-  {
-    *i = *i + 1;
-    while (line[*i] >= '0' && line[*i] <= '9')
-    {
-      tmp = tmp * 10 + line[*i] - 48;
-      div++;
-      *i = *i + 1;
-    }
-    while (div-- > 0)
-      tmp = tmp / 10;
-    x = x + tmp;
-  }
-  else if (line[*i] != ',' && opt == 1)
-  {
-    printf("%s\n", "sortie ERREUR routine");
-    return (-1);
-  }
-  return (x * neg);
-}
+#include "../minirt.h"
 
 int ft_vecteur(t_list *new, char *line, int i)
 {
@@ -119,15 +75,31 @@ int ft_color(t_list *new, char *line, int i)
   return (i);
 }
 
-int ft_space(char *line, int i)
+int ft_coordonnees(t_list *new, char *line, int i, int opt)
 {
-  while (line[i] && (line[i] < '0' || line[i] > '9') && line[i] != '-')
+  if ((i = ft_space(line, i)) != -1)
   {
-    if (line[i++] != ' ')
-    {
-      printf("%s\n", "ERROR MAP CONFIG, CHARACTER UNEXPECTED");
-      return (-1);
-    }
+    if (opt == 1)
+      if ((new->x = ft_routine(new->x, line, &i, 1)) != -1)
+        if (line[i++] == ',')
+          if ((new->y = ft_routine(new->y, line, &i, 1)) != -1)
+            if (line[i++] == ',')
+              if ((new->z = ft_routine(new->z, line, &i, 2)) != -1)
+                return (i);
+    if (opt == 2)
+      if ((new->x2 = ft_routine(new->x2, line, &i, 1)) != -1)
+        if (line[i++] == ',')
+          if ((new->y2 = ft_routine(new->y2, line, &i, 1)) != -1)
+            if (line[i++] == ',')
+              if ((new->z2 = ft_routine(new->z2, line, &i, 2)) != -1)
+                return (i);
+    if (opt == 3)
+      if ((new->x3 = ft_routine(new->x3, line, &i, 1)) != -1)
+        if (line[i++] == ',')
+          if ((new->y3 = ft_routine(new->y3, line, &i, 1)) != -1)
+            if (line[i++] == ',')
+              if ((new->z3 = ft_routine(new->z3, line, &i, 2)) != -1)
+                return (i);
   }
-  return (i);
+  return (-1);
 }

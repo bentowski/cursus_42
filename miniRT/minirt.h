@@ -1,4 +1,7 @@
 #include "includes/get_next_line/get_next_line.h"
+#include "mlx.h"
+#include <fcntl.h>
+#include <stdio.h>
 
 #ifndef MINIRT_H
 # define MINIRT_H
@@ -30,24 +33,25 @@ typedef struct s_list
 
 }             t_list;
 
-int ft_parse(char **line, int fd, int *win_width, int *win_height);
-int init_sphere(char *line, int i, t_list ***obj);
-int init_plane(char *line, int i, t_list ***obj);
-int init_square(char *line, int i, t_list ***obj);
-int init_cylinder(char *line, int i, t_list ***obj);
-int init_triangle(char *line, int i, t_list ***obj);
-int ft_coordonnees(t_list *obj, char *line, int i, int opt);
-int ft_structuration(t_list *obj, char *line, int i, int opt);
+// int ft_parse(char **line, int fd, int *win_width, int *win_height);
+int init_sphere(char *line, int i, t_list ****obj);
+int init_plane(char *line, int i, t_list ****obj);
+int init_square(char *line, int i, t_list ****obj);
+int init_cylinder(char *line, int i, t_list ****obj);
+int init_triangle(char *line, int i, t_list ****obj);
+int ft_coordonnees(t_list *new, char *line, int i, int opt);
+int ft_structuration(t_list *new, char *line, int i, int opt);
 void new_init(t_list *new);
 int ft_space(char *line, int i);
-int ft_color(t_list *obj, char *line, int i);
+int ft_color(t_list *new, char *line, int i);
 void	*ft_calloc(size_t count, size_t size);
 double ft_routine(double x, char *line, int *i, int opt);
 int resolution(int ***win_width, int ***win_height, char *line, int i);
-int ambiance(char *line, int i, t_list ***obj);
-int camera(char *line, int i, t_list ***obj);
-int light(char *line, int i, t_list ***obj);
-
+int ambiance(char *line, int i, t_list ****obj);
+int camera(char *line, int i, t_list ****obj);
+int light(char *line, int i, t_list ****obj);
+int ft_parse(t_list **obj, char **line, int fd, int *win_width, int *win_height);
+int foisdeux(char **line, int *ayet, int *ryet);
 
 
 
