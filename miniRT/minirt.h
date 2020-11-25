@@ -2,6 +2,7 @@
 #include "mlx.h"
 #include <fcntl.h>
 #include <stdio.h>
+#include <math.h>
 
 #ifndef MINIRT_H
 # define MINIRT_H

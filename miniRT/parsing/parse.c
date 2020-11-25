@@ -23,7 +23,7 @@ int verif(char *line, int i, int **win_width, int **win_height)
         return (-1);
       }
     }
-  if (line[i] == 'R' && win_width == 0 && win_height == 0)
+  if (line[i] == 'R')
     if ((i = resolution(&win_width, &win_height, line, i)) == -1)
       printf("%s\n%s\n", "Error", "Invalid resolution data");
   return (i);
@@ -75,7 +75,7 @@ int ft_parse(t_list **obj, char **line, int fd, int *win_width, int *win_height)
       return (-1);
     if ((i = init_map(*line, i, &obj)) == -1)
       return (-1);
-      free(*line);
+    free(*line);
   }
   return (1);
 }

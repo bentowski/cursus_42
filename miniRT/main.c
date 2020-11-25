@@ -1,22 +1,22 @@
 #include "minirt.h"
 
 
-//
-// typedef struct  s_data {
-//     void        *img;
-//     char        *addr;
-//     int         bits_per_pixel;
-//     int         line_length;
-//     int         endian;
-// }               t_data;
-//
-// void            my_mlx_pixel_put(t_data *data, int x, int y, int color)
-// {
-//     char    *dst;
-//
-//     dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
-//     *(unsigned int*)dst = color;
-// }
+
+typedef struct  s_data {
+    void        *img;
+    char        *addr;
+    int         bits_per_pixel;
+    int         line_length;
+    int         endian;
+}               t_data;
+
+void            my_mlx_pixel_put(t_data *data, int x, int y, int color)
+{
+    char    *dst;
+
+    dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
+    *(unsigned int*)dst = color;
+}
 
 void	ft_bzero(void *s, size_t n)
 {
@@ -81,53 +81,136 @@ void ft_clear(t_list *obj, char **line)
   free(*line);
 }
 
+// void test()
+// {
+// 	whi
+// }
+
+// int intersect(t_list *obj)
+// {
+// 	t_list *tmp;
+// 	double rayonx;
+// 	double rayony;
+// 	double rayonz;
+//
+// 	tmp = obj;
+// 	rayonx = .0;
+// 	rayony = .0;
+// 	rayonz = .0;
+// 	while (tmp->next)
+// 	{
+// 		s = tmp->name;
+// 		if (s[0] == 's')
+// 		{
+// 			if (s[1] == 'p')
+// 			{
+// 				printf("%s\n%lf", "OK", tmp->x);
+// 				if ()
+// 			}
+// 		}
+// 		tmp = tmp->next;
+// 	}
+// }
+double ft_bite(double x, double y, double vx, double vy)
+{
+	double vz;
+	double xr;
+	double yr;
+	double zr;
+	double xo;
+	double yo;
+	double zo;
+	double r;
+	double a;
+	double b;
+	double c;
+	double delta;
+	double ret;
+
+	// vx = 400;
+	// vy = 300;
+	vz = 70.0;
+	xr = -50.0;
+	yr = 0.0;
+	zr = 20.0;
+	xo = 0.0;
+	yo = 0.0;
+	zo = 20.6;
+	r = 12.6;
+	a = pow(vx, 2) + pow(vy, 2) + pow(vz, 2);
+	b = 2 * (vx * (xr - xo) + vy * (yr - yo) + vz * (zr - zo));
+	c = pow(xr - xo, 2) + pow(yr - yo, 2) + pow(zr - zo, 2) - pow(r, 2);
+	delta = pow(b, 2) - 4 * (a * c);
+	printf("%s  :  %lf\n", "delta", delta);
+	if (delta >= 0)
+	{
+		if (delta == 0)
+			delta = -b + (sqrt(delta) / (2 * a));
+		else if ((-b + (sqrt(delta) / (2 * a))) > (-b - (sqrt(delta) / (2 * a))))
+			delta = -b - (sqrt(delta) / (2 * a));
+		else
+			delta = -b + (sqrt(delta) / (2 * a));
+		printf("%s  :  %lf\n", "calcul", (delta * vx) + xr);
+		printf("%s  :  %lf\n", "x", x);
+	}
+	if ((x == (delta * vx) + xr) &&	(y == (delta * vy) + yr))
+		return (1);
+	else
+		return (-1);
+}
+
+
 int main(int argc, char **argv)
 {
-  // void *mlx;
-  // void *mlx_win;
-  // t_data img;
-  // double x;
+  void *mlx;
+  void *mlx_win;
+  t_data img;
 	t_list *obj;
   char *line;
   int fd;
   int win_width;
   int win_height;
+	double x;
+	double y;
+	double vx;
+	double vy;
 
-  if (argc != 2)
-    return (-1);
-	if (!(obj = ft_calloc(1, sizeof(t_list))))
-    return (-1);
-	obj->next = NULL;
-  // x = 0.0;
-  fd = open(argv[1], O_RDONLY);
-  win_width = 0;
-  win_height = 0;
-  if (ft_parse(&obj, &line, fd, &win_width, &win_height) == -1)
+  if (argc == 2)
 	{
+		if (!(obj = ft_calloc(1, sizeof(t_list))))
+			return (-1);
+		obj->next = NULL;
+		fd = open(argv[1], O_RDONLY);
+		win_width = 0;
+		win_height = 0;
+		if (ft_parse(&obj, &line, fd, &win_width, &win_height) == -1)
+		{
+			ft_clear(obj, &line);
+			return (-1);
+		}
+		mlx = mlx_init();
+		mlx_win = mlx_new_window(mlx, win_width, win_height, "Hello world");
+		img.img = mlx_new_image(mlx, win_width, win_height);
+		img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
+		x = 0;
+		y = 0;
+		while (x++ < win_width)
+		{
+			while (y++ < win_height)
+			{
+				if (ft_bite(x, y, x, y) < 0)
+					my_mlx_pixel_put(&img, x, y, 0x00FF5733);
+				else
+					my_mlx_pixel_put(&img, x, y, 0x00FF5733);
+			}
+		}
+		mlx_put_image_to_window(mlx, mlx_win, img.img, 0, 0);
+		mlx_loop(mlx);
+		printf("%s\n", "FIN");
 		ft_clear(obj, &line);
-		return (-1);
+		system("leaks a.out");
+		return (1);
 	}
-	ft_clear(obj, &line);
-  printf("%s\n", "FIN");
-  // if (win_width == 0 || win_height == 0)
-  //   return (-1);
-  // mlx = mlx_init();
-  // mlx_win = mlx_new_window(mlx, win_width, win_height, "Hello world");
-  // img.img = mlx_new_image(mlx, win_width, win_height);
-  // img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
-  // x = win_width / 4;
-  // while (x < (win_width / 4) * 3)
-  // {
-  //   y = win_height / 4;
-  //   while (y < (win_height / 4) * 3)
-  //   {
-  //     my_mlx_pixel_put(&img, x, y, 0x00FF0000);
-  //     y++;
-  //   }
-  //   x++;
-  // }
-  system("leaks a.out");
-  // mlx_put_image_to_window(mlx, mlx_win, img.img, 0, 0);
-  // mlx_loop(mlx);
-  // ft_clear(&obj);
+	printf("%s\n%s", "Error", "missing or too much arguments");
+	return (-1);
 }
