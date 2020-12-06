@@ -25,7 +25,7 @@ int verif(char *line, int i, int **win_width, int **win_height)
     }
   if (line[i] == 'R')
     if ((i = resolution(&win_width, &win_height, line, i)) == -1)
-      printf("%s\n%s\n", "Error", "Invalid resolution data");
+      printf("%s\n%s\n", "Error", "Invalid win_width, &win_heightolution data");
   return (i);
 }
 

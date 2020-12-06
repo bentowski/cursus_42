@@ -9,7 +9,7 @@ int init_sphere(char *line, int i, t_list ****obj)
     return (-1);
   tmp = .0;
   i= i + 2;
-  new->name = "sp";
+  new->type = 1;
   if ((i = ft_coordonnees(new, line, i, 1)) != -1)
   	if ((i = ft_structuration(new, line, i, 1)) != -1)
   		if ((i = ft_color(new, line, i)) != -1)
@@ -31,7 +31,7 @@ int init_square(char *line, int i, t_list ****obj)
     return (-1);
   tmp = .0;
   i = i + 2;
-  new->name = "sq";
+  new->type = 2;
   if ((i = ft_coordonnees(new, line, i, 1)) != -1)
   	if ((i = ft_structuration(new, line, i, 3)) != -1)
   		if ((i = ft_structuration(new, line, i, 1)) != -1)
@@ -54,7 +54,7 @@ int init_plane(char *line, int i, t_list ****obj)
     return (-1);
   tmp = .0;
   i = i + 2;
-  new->name = "pl";
+  new->type = 3;
   if ((i = ft_coordonnees(new, line, i, 1)) != -1)
   	if ((i = ft_structuration(new, line, i, 3)) != -1)
   		if ((i = ft_color(new, line, i)) != -1)
@@ -76,7 +76,7 @@ int init_cylinder(char *line, int i, t_list ****obj)
     return (-1);
   tmp = .0;
   i = i + 2;
-  new->name = "cy";
+  new->type = 4;
   if ((i = ft_coordonnees(new, line, i, 1)) != -1)
   	if ((i = ft_structuration(new, line, i, 3)) != -1)
   		if ((i = ft_structuration(new, line, i, 2)) != -1)
@@ -100,7 +100,7 @@ int init_triangle(char *line, int i, t_list ****obj)
 		return (-1);
 	tmp = .0;
 	i = i + 2;
-	new->name = "tr";
+	new->type = 5;
 	if ((i = ft_coordonnees(new, line, i, 1)) != -1)
 		if ((i = ft_coordonnees(new, line, i, 2)) != -1)
 			if ((i = ft_coordonnees(new, line, i, 3)) != -1)

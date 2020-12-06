@@ -5,14 +5,14 @@ int resolution(int ***win_width, int ***win_height, char *line, int i)
   i++;
   if ((i = ft_space(line, i)) == -1)
   {
-    printf("%s : %d\n", "ERREUR MAP CONFIG RESOLUTION", i);
+    printf("%s : %d\n", "ERREUR MAP CONFIG win_width, &win_heightOLUTION", i);
     return (-1);
   }
   while (line[i] >= '0' && line[i] <= '9')
     ***win_width = ***win_width * 10 + (line[i++] - 48);
   if ((i = ft_space(line, i)) == -1)
   {
-    printf("%s : %d\n", "ERREUR MAP CONFIG RESOLUTION", i);
+    printf("%s : %d\n", "ERREUR MAP CONFIG win_width, &win_heightOLUTION", i);
     return (-1);
   }
   while (line[i] >= '0' && line[i] <= '9')
@@ -27,7 +27,7 @@ int ambiance(char *line, int i, t_list ****obj)
   if (!(new = ft_calloc(1, sizeof(t_list))))
     return (-1);
   i = i + 2;
-  new->name = "A";
+  new->type = 0;
   if ((i = ft_space(line, i)) != -1)
     if ((new->puissance = ft_routine(new->puissance, line, &i, 1)) != -1)
       if ((i = ft_color(new, line, i)) != -1)
@@ -47,7 +47,7 @@ int camera(char *line, int i, t_list ****obj)
   if (!(new = ft_calloc(1, sizeof(t_list))))
     return (-1);
   i = i + 1;
-  new->name = "c";
+  new->type = 8;
   if ((i = ft_coordonnees(new, line, i, 1)) != -1)
     if ((i = ft_structuration(new, line, i, 3)) != -1)
       if ((i = ft_space(line, i)) != -1)
@@ -68,7 +68,7 @@ int light(char *line, int i, t_list ****obj)
   if (!(new = ft_calloc(1, sizeof(t_list))))
     return (-1);
   i = i + 1;
-  new->name = "l";
+  new->type = 9;
   if ((i = ft_coordonnees(new, line, i, 1)) != -1)
     if ((i = ft_space(line, i)) != -1)
       if ((new->puissance = ft_routine(new->puissance, line, &i, 1)) != -1)

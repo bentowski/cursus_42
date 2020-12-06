@@ -7,9 +7,24 @@
 #ifndef MINIRT_H
 # define MINIRT_H
 
+typedef struct s_vecteur
+{
+  double x;
+  double y;
+  double z;
+}              t_vecteur;
+
+typedef struct s_sphere
+{
+  double x;
+  double y;
+  double z;
+  double r;
+}              t_sphere;
+
 typedef struct s_list
 {
-  char *name;
+  int type;
   double x;
   double y;
   double z;
