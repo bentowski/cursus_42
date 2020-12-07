@@ -62,11 +62,11 @@ int ft_space(char *line, int i);
 int ft_color(t_list *new, char *line, int i);
 void	*ft_calloc(size_t count, size_t size);
 double ft_routine(double x, char *line, int *i, int opt);
-int resolution(int ***win_width, int ***win_height, char *line, int i);
+int resolution(int *res, char *line, int i);
 int ambiance(char *line, int i, t_list ****obj);
 int camera(char *line, int i, t_list ****obj);
 int light(char *line, int i, t_list ****obj);
-int ft_parse(t_list **obj, char **line, int fd, int *win_width, int *win_height);
+int ft_parse(t_list **obj, char **line, int fd, int *res);
 int foisdeux(char **line, int *ayet, int *ryet);
 
 

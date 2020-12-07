@@ -1,6 +1,6 @@
 #include "../minirt.h"
 
-int verif(char *line, int i, int **win_width, int **win_height)
+int verif(char *line, int i, int *res)
 {
   char c;
   char p;
@@ -24,7 +24,7 @@ int verif(char *line, int i, int **win_width, int **win_height)
       }
     }
   if (line[i] == 'R')
-    if ((i = resolution(&win_width, &win_height, line, i)) == -1)
+    if ((i = resolution(&*res, line, i)) == -1)
       printf("%s\n%s\n", "Error", "Invalid win_width, &win_heightolution data");
   return (i);
 }
@@ -58,7 +58,7 @@ int init_map(char *line, int i, t_list ***obj)
   return (i);
 }
 
-int ft_parse(t_list **obj, char **line, int fd, int *win_width, int *win_height)
+int ft_parse(t_list **obj, char **line, int fd, int *res)
 {
   int i;
   int ayet;
@@ -71,7 +71,7 @@ int ft_parse(t_list **obj, char **line, int fd, int *win_width, int *win_height)
     i = 0;
     if (foisdeux(line, &ayet, &ryet) == -1)
       return (-1);
-    if ((i = verif(*line, i, &win_width, &win_height)) == -1)
+    if ((i = verif(*line, i, &*res)) == -1)
       return (-1);
     if ((i = init_map(*line, i, &obj)) == -1)
       return (-1);

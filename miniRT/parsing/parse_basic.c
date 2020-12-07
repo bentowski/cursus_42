@@ -1,6 +1,6 @@
 #include "../minirt.h"
 
-int resolution(int ***win_width, int ***win_height, char *line, int i)
+int resolution(int *res, char *line, int i)
 {
   i++;
   if ((i = ft_space(line, i)) == -1)
@@ -9,14 +9,14 @@ int resolution(int ***win_width, int ***win_height, char *line, int i)
     return (-1);
   }
   while (line[i] >= '0' && line[i] <= '9')
-    ***win_width = ***win_width * 10 + (line[i++] - 48);
+    res[0] = res[0] * 10 + (line[i++] - 48);
   if ((i = ft_space(line, i)) == -1)
   {
     printf("%s : %d\n", "ERREUR MAP CONFIG win_width, &win_heightOLUTION", i);
     return (-1);
   }
   while (line[i] >= '0' && line[i] <= '9')
-    ***win_height = (***win_height * 10) + (line[i++] - 48);
+    res[1] = (res[1] * 10) + (line[i++] - 48);
   return (i);
 }
 

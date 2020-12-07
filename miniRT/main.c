@@ -143,42 +143,41 @@ int main(int argc, char **argv)
 	double x;
 	double y;
   t_vecteur ray;
-  int win_width;
-  int win_height;
-  // int *res;
+  int *res;
 
   if (argc == 2)
 	{
-    // if (!(res = ft_calloc(1, sizeof(int))))
-    //   return (-1);
+    if (!(res = ft_calloc(2, sizeof(int))))
+      return (-1);
 		if (!(obj = ft_calloc(1, sizeof(t_list))))
 			return (-1);
 		obj->next = NULL;
 		fd = open(argv[1], O_RDONLY);
-		win_width = 0;
-		win_height = 0;
-		if (ft_parse(&obj, &line, fd, &win_width, &win_height) == -1)
+    res[0] = 0;
+    res[1] = 0;
+		if (ft_parse(&obj, &line, fd, &*res) == -1)
 		{
 			ft_clear(obj, &line);
 			return (-1);
 		}
-    printf("%s\n", "ok");
+    printf("%s : %d\n", "ok", res[0]);
+    printf("%s : %d\n", "height", res[1]);
     tmp = obj;
     while (tmp && tmp->type != 8)
       tmp = tmp->next;
 		mlx = mlx_init();
-		mlx_win = mlx_new_window(mlx, win_width, win_height, "Hello world");
-		img.img = mlx_new_image(mlx, win_width, win_height);
+		mlx_win = mlx_new_window(mlx, res[0], res[1], "Hello world");
+		img.img = mlx_new_image(mlx, res[0], res[1]);
 		img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
-    ray.z = win_width / (2 * (tan(tmp->fov / 2)));
+    ray.z = res[0] / (2 * (tan(tmp->fov / 2)));
     y = -1;
-		while (y++ < win_height - 1)
+		while (y++ < res[1] - 1)
 		{
-      ray.y = y - win_height / 2;
+      ray.y = y - res[1] / 2;
 			x = -1;
-			while (x++ < win_width - 1)
+			while (x++ < res[0] - 1)
 			{
-        ray.x = x - win_width / 2;
+        ray.x = x - res[0] / 2;
 				if (sphere(obj, ray))
           my_mlx_pixel_put(&img, x, y, 0x0033FF39);
 				else
