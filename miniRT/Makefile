@@ -5,6 +5,7 @@ SRCS    =	main.c \
 					parsing/parse_forms_utils.c \
 					parsing/parse_utils.c \
 					parsing/parse_basic.c \
+					ft_clear.c \
 					includes/get_next_line/get_next_line.c \
 					includes/get_next_line/get_next_line_utils.c
 
