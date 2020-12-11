@@ -133,6 +133,8 @@ void	*ft_calloc(size_t count, size_t size)
 int map_init(t_map **map)
 {
   t_map *ptrmap;
+
+  // ptrmap = *map;
   printf("%s\n", "truc");
   if ((ptrmap = ft_calloc(1, sizeof(t_map))))
   {
@@ -145,22 +147,22 @@ int map_init(t_map **map)
         printf("%s\n", "sblif");
         if ((ptrmap->objs = ft_calloc(1, sizeof(t_objs))))
         {
+          ptrmap->objs->next = NULL;
           printf("%s\n", "olala");
           if ((ptrmap->cams = ft_calloc(1, sizeof(t_cams))))
           {
+            ptrmap->cams->next = NULL;
             printf("%s\n", "zuc");
             if ((ptrmap->lights = ft_calloc(1, sizeof(t_lights))))
             {
+              ptrmap->lights->next = NULL;
               printf("%s\n", "arg");
               *map = ptrmap;
               return (1);
             }
           }
-
         }
-
       }
-
     }
   }
   ft_clear(ptrmap);
@@ -176,52 +178,61 @@ int main(int argc, char **argv)
 	double x;
 	double y;
   t_triade ray;
+  t_cams *ptr;
+  t_lights *ptrlights;
 
   if (argc == 2)
 	{
-    map_init(&map);
-		// if (!(map = ft_calloc(1, sizeof(t_map))))
-    //   return (-1);
-    // if (!(map->objs = ft_calloc(1, sizeof(t_objs))))
-    // {
-    //   free(map);
-    //   return (-1);
-    // }
-		if (ft_parse(map, argv[1]) == -1)
+    if ((map_init(&map)) == -1)
+      return (-1);
+		if (ft_parse(&map, argv[1]) != -1)
 		{
-			free(map);
-			return (-1);
-		}
-    printf("%s : %d\n", "height", map->resolution->win_height);
-    // tmp = obj;
-    // while (tmp && tmp->type != 8)
-    //   tmp = tmp->next;
-		mlx = mlx_init();
-		mlx_win = mlx_new_window(mlx, map->resolution->win_width, map->resolution->win_height, "Hello world");
-		img.img = mlx_new_image(mlx, map->resolution->win_width, map->resolution->win_height);
-		img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
-    // ray.z = res[0] / (2 * (tan(tmp->fov / 2)));
-    y = -1;
-		// while (y++ < res[1] - 1)
-		// {
-    //   ray.y = y - res[1] / 2;
-		// 	x = -1;
-		// 	while (x++ < res[0] - 1)
-		// 	{
-    //     ray.x = x - res[0] / 2;
-		// 		if (sphere(obj, ray))
-    //       my_mlx_pixel_put(&img, x, y, 0x0033FF39);
-		// 		else
-    //       my_mlx_pixel_put(&img, x, y, 0x00FFFFFF);
-		// 	}
-		// }
-		mlx_put_image_to_window(mlx, mlx_win, img.img, 0, 0);
+      ptr = map->cams;
+      // ptr = ptr->next;
+      // printf("%s : %lf, %lf, %lf\n", "c", ptr->base->origins->x, ptr->base->origins->y, ptr->base->origins->z);
+      while (ptr->next)
+      {
+        printf("%s : %lf, %lf, %lf    %lf, %lf, %lf     %lf\n", "c", ptr->base->origins->x, ptr->base->origins->y, ptr->base->origins->z, ptr->base->vdir->x, ptr->base->vdir->y, ptr->base->vdir->z, ptr->fov);
+        ptr = ptr->next;
+      }
+      ptrlights = map->lights;
+      while (ptrlights->next)
+      {
+        printf("%s : %lf, %lf, %lf    %lf    %lf, %lf, %lf\n", "l", ptrlights->base->origins->x, ptrlights->base->origins->y, ptrlights->base->origins->z, ptrlights->lumens, ptrlights->base->color->x, ptrlights->base->color->y, ptrlights->base->color->z);
+        ptrlights = ptrlights->next;
+      }
+      printf("%s\n", "OK");
+  		mlx = mlx_init();
+  		mlx_win = mlx_new_window(mlx, map->resolution->win_width, map->resolution->win_height, "Hello world");
+  		img.img = mlx_new_image(mlx, map->resolution->win_width, map->resolution->win_height);
+  		img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
+      // ray.z = res[0] / (2 * (tan(tmp->fov / 2)));
+      y = -1;
+  		// while (y++ < res[1] - 1)
+  		// {
+      //   ray.y = y - res[1] / 2;
+  		// 	x = -1;
+  		// 	while (x++ < res[0] - 1)
+  		// 	{
+      //     ray.x = x - res[0] / 2;
+  		// 		if (sphere(obj, ray))
+      //       my_mlx_pixel_put(&img, x, y, 0x0033FF39);
+  		// 		else
+      //       my_mlx_pixel_put(&img, x, y, 0x00FFFFFF);
+  		// 	}
+  		// }
+  		mlx_put_image_to_window(mlx, mlx_win, img.img, 0, 0);
+      ft_clear(map);
+      system("leaks a.out");
+      printf("%s\n", "FIN");
+      mlx_loop(mlx);
+  		return (1);
+    }
     ft_clear(map);
     system("leaks a.out");
-    printf("%s\n", "FIN");
-    mlx_loop(mlx);
-		return (1);
+    return (-1);
 	}
 	printf("%s\n%s", "Error", "missing or too much arguments");
+  system("leaks a.out");
 	return (-1);
 }

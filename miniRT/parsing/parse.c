@@ -1,6 +1,6 @@
 #include "../minirt.h"
 
-int verif(char *line, int i, t_map *map)
+int verif(char *line, int i, t_map ***map)
 {
   char c;
   char p;
@@ -24,41 +24,47 @@ int verif(char *line, int i, t_map *map)
       }
     }
   if (line[i] == 'R')
-    if ((i = resolution(map, line, i)) == -1)
+    if ((i = resolution(&map, line, i)) == -1)
       printf("%s\n%s\n", "Error", "Invalid win_width, &win_heightolution data");
   return (i);
 }
 
-// int init_map(char *line, int i, t_list ***obj)
-// {
-//   if (line[i] == 'A')
-//     if ((i = ambiance(line, i, &obj)) == -1)
-//       printf("%s\n%s\n", "Error", "Invalid ambiant data");
-//   if (line[i] == 'c' && line[i + 1] != 'y')
-//     if ((i = camera(line, i, &obj)) == -1)
-//       printf("%s\n%s\n", "Error", "Invalid camera data");
-//   if (line[i] == 'l')
-//     if ((i = light(line, i, &obj)) == -1)
-//       printf("%s\n%s\n", "Error", "Invalid light data");
-//   if (line[i] == 's' && line[i + 1] == 'p')
-//     if ((i = init_sphere(line, i, &obj)) == -1)
-//       printf("%s\n%s\n", "Error", "Invalid object data");
-//   if (line[i] == 'p' && line[i + 1] == 'l')
-//     if ((i = init_plane(line, i, &obj)) == -1)
-//       printf("%s\n%s\n", "Error", "Invalid object data");
-//   if (line[i] == 's' && line[i + 1] == 'q')
-//     if ((i = init_square(line, i, &obj)) == -1)
-//       printf("%s\n%s\n", "Error", "Invalid object data");
-//   if (line[i] == 'c' && line[i + 1] == 'y')
-//     if ((i = init_cylinder(line, i, &obj)) == -1)
-//       printf("%s\n%s\n", "Error", "Invalid object data");
-//   if (line[i] == 't' && line[i + 1] == 'r')
-//     if ((i = init_triangle(line, i, &obj)) == -1)
-//       printf("%s\n%s\n", "Error", "Invalid object data");
-//   return (i);
-// }
+int init_map(char *line, int i, t_map ***map)
+{
+  t_map *new;
 
-int ft_parse(t_map *map, char *givedmap)
+  new = **map;
+  if (line[i] == 'A')
+    if ((i = ambiance(line, i + 1, &new->ambiant)) == -1)
+      printf("%s\n%s\n", "Error", "Invalid ambiant data");
+  if (line[i] == 'c' && line[i + 1] != 'y')
+    if ((i = camera(line, i + 1, &new->cams)) == -1)
+      printf("%s\n%s\n", "Error", "Invalid camera data");
+  if (line[i] == 'l')
+  {
+    if ((i = light(line, i + 1, &new->lights)) == -1)
+      printf("%s\n%s\n", "Error", "Invalid light data");
+
+  }
+  // if (line[i] == 's' && line[i + 1] == 'p')
+  //   if ((i = init_sphere(line, i, &obj)) == -1)
+  //     printf("%s\n%s\n", "Error", "Invalid object data");
+  // if (line[i] == 'p' && line[i + 1] == 'l')
+  //   if ((i = init_plane(line, i, &obj)) == -1)
+  //     printf("%s\n%s\n", "Error", "Invalid object data");
+  // if (line[i] == 's' && line[i + 1] == 'q')
+  //   if ((i = init_square(line, i, &obj)) == -1)
+  //     printf("%s\n%s\n", "Error", "Invalid object data");
+  // if (line[i] == 'c' && line[i + 1] == 'y')
+  //   if ((i = init_cylinder(line, i, &obj)) == -1)
+  //     printf("%s\n%s\n", "Error", "Invalid object data");
+  // if (line[i] == 't' && line[i + 1] == 'r')
+  //   if ((i = init_triangle(line, i, &obj)) == -1)
+  //     printf("%s\n%s\n", "Error", "Invalid object data");
+  return (i);
+}
+
+int ft_parse(t_map **map, char *givedmap)
 {
   int i;
   int ayet;
@@ -77,17 +83,16 @@ int ft_parse(t_map *map, char *givedmap)
       free(line);
       return (-1);
     }
-
-    if ((i = verif(line, i, map)) == -1)
+    if ((i = verif(line, i, &map)) == -1)
     {
       free(line);
       return (-1);
     }
-    // if ((i = init_map(line, i, &map)) == -1)
-    // {
-    //   free(line);
-    //   return (-1);
-    // }
+    if ((i = init_map(line, i, &map)) == -1)
+    {
+      free(line);
+      return (-1);
+    }
     free(line);
   }
   free(line);

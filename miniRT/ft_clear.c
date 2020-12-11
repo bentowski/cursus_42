@@ -2,9 +2,12 @@
 
 void ft_clear_base(t_base *base)
 {
-  free(base->origins);
-  free(base->vdir);
-  free(base->color);
+  if (base->origins)
+    free(base->origins);
+  if (base->vdir)
+    free(base->vdir);
+  if (base->color)
+    free(base->color);
   free(base);
 }
 
@@ -62,8 +65,12 @@ void ft_clear_lights(t_lights *lights)
 
 void ft_clear(t_map *map)
 {
-  printf("%s\n", "ok");
-  free(map->ambiant);
+  if (map->ambiant)
+  {
+    if (map->ambiant->color)
+      free(map->ambiant->color);
+    free(map->ambiant);
+  }
   free(map->resolution);
   ft_clear_objs(map->objs);
   ft_clear_cams(map->cams);

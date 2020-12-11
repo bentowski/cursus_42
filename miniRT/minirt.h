@@ -24,7 +24,7 @@ typedef struct s_base
 
 typedef struct s_ambiant
 {
-  double  ambiant;
+  double  lumens;
   t_triade *color;
 }               t_ambiant;
 
@@ -67,28 +67,26 @@ typedef struct s_map
   t_lights      *lights;
 }             t_map;
 
-// int ft_parse(char **line, int fd, int *win_width, int *win_height);
 // int init_sphere(char *line, int i, t_list ****obj);
 // int init_plane(char *line, int i, t_list ****obj);
 // int init_square(char *line, int i, t_list ****obj);
 // int init_cylinder(char *line, int i, t_list ****obj);
 // int init_triangle(char *line, int i, t_list ****obj);
-// int ft_triade(t_list *new, char *line, int i, int opt);
-// int ft_structuration(t_list *new, char *line, int i, int opt);
+int ft_coordonnees(t_triade *new, char *line, int i);
+int ft_structuration(t_triade *new, char *line, int i);
 // void new_init(t_list *new);
 int ft_space(char *line, int i);
-// int ft_color(t_list *new, char *line, int i);
+int ft_color(t_triade *color, char *line, int i);
 void	*ft_calloc(size_t count, size_t size);
-// double ft_routine(double x, char *line, int *i, int opt);
-int resolution(t_map *map, char *line, int i);
-// int ambiance(char *line, int i, t_list ****obj);
-// int camera(char *line, int i, t_list ****obj);
-// int light(char *line, int i, t_list ****obj);
-int ft_parse(t_map *map, char *givedmap);
+double ft_routine(double x, char *line, int *i, int opt);
+int resolution(t_map ****map, char *line, int i);
+int ambiance(char *line, int i, t_ambiant **ambiant);
+int camera(char *line, int i, t_cams **cams);
+int light(char *line, int i, t_lights **lights);
+int ft_parse(t_map **map, char *givedmap);
 int foisdeux(char *line, int *ayet, int *ryet);
 void ft_clear(t_map *map);
-
-
-
+void ft_clear_cams(t_cams *cams);
+void ft_clear_lights(t_lights *lights);
 
 #endif
