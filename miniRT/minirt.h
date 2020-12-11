@@ -36,11 +36,12 @@ typedef struct s_resolution
 
 typedef struct s_objs
 {
-  t_base *base;
-  t_triade *p2;
-  t_triade *p3;
-  double diameter;
-  double height;
+  int       type;
+  t_base    *base;
+  t_triade  *p2;
+  t_triade  *p3;
+  double    diam;
+  double    height;
   struct s_objs *next;
 }               t_objs;
 
@@ -67,7 +68,7 @@ typedef struct s_map
   t_lights      *lights;
 }             t_map;
 
-// int init_sphere(char *line, int i, t_list ****obj);
+int init_sphere(char *line, int i, t_objs **objs);
 // int init_plane(char *line, int i, t_list ****obj);
 // int init_square(char *line, int i, t_list ****obj);
 // int init_cylinder(char *line, int i, t_list ****obj);
@@ -88,5 +89,7 @@ int foisdeux(char *line, int *ayet, int *ryet);
 void ft_clear(t_map *map);
 void ft_clear_cams(t_cams *cams);
 void ft_clear_lights(t_lights *lights);
+void ft_clear_objs(t_objs *objs);
+
 
 #endif

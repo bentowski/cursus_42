@@ -41,14 +41,11 @@ int init_map(char *line, int i, t_map ***map)
     if ((i = camera(line, i + 1, &new->cams)) == -1)
       printf("%s\n%s\n", "Error", "Invalid camera data");
   if (line[i] == 'l')
-  {
     if ((i = light(line, i + 1, &new->lights)) == -1)
       printf("%s\n%s\n", "Error", "Invalid light data");
-
-  }
-  // if (line[i] == 's' && line[i + 1] == 'p')
-  //   if ((i = init_sphere(line, i, &obj)) == -1)
-  //     printf("%s\n%s\n", "Error", "Invalid object data");
+  if (line[i] == 's' && line[i + 1] == 'p')
+    if ((i = init_sphere(line, i, &new->objs)) == -1)
+      printf("%s\n%s\n", "Error", "Invalid object data");
   // if (line[i] == 'p' && line[i + 1] == 'l')
   //   if ((i = init_plane(line, i, &obj)) == -1)
   //     printf("%s\n%s\n", "Error", "Invalid object data");
