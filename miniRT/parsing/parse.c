@@ -44,17 +44,20 @@ int init_map(char *line, int i, t_map ***map)
     if ((i = light(line, i + 1, &new->lights)) == -1)
       printf("%s\n%s\n", "Error", "Invalid light data");
   if (line[i] == 's' && line[i + 1] == 'p')
-    if ((i = init_sphere(line, i, &new->objs)) == -1)
+    if ((i = init_sphere(line, i + 2, &new->objs)) == -1)
       printf("%s\n%s\n", "Error", "Invalid object data");
-  // if (line[i] == 'p' && line[i + 1] == 'l')
-  //   if ((i = init_plane(line, i, &obj)) == -1)
-  //     printf("%s\n%s\n", "Error", "Invalid object data");
-  // if (line[i] == 's' && line[i + 1] == 'q')
-  //   if ((i = init_square(line, i, &obj)) == -1)
-  //     printf("%s\n%s\n", "Error", "Invalid object data");
-  // if (line[i] == 'c' && line[i + 1] == 'y')
-  //   if ((i = init_cylinder(line, i, &obj)) == -1)
-  //     printf("%s\n%s\n", "Error", "Invalid object data");
+  if (line[i] == 'p' && line[i + 1] == 'l')
+    if ((i = init_plane(line, i + 2, &new->objs)) == -1)
+      printf("%s\n%s\n", "Error", "Invalid object data");
+  if (line[i] == 's' && line[i + 1] == 'q')
+    if ((i = init_square(line, i + 2, &new->objs)) == -1)
+      printf("%s\n%s\n", "Error", "Invalid object data");
+  if (line[i] == 'c' && line[i + 1] == 'y')
+  {
+    if ((i = init_cylinder(line, i + 2, &new->objs)) == -1)
+      printf("%s\n%s\n", "Error", "Invalid object data");
+    printf("%s\n", "cylinder");
+  }
   // if (line[i] == 't' && line[i + 1] == 'r')
   //   if ((i = init_triangle(line, i, &obj)) == -1)
   //     printf("%s\n%s\n", "Error", "Invalid object data");

@@ -69,9 +69,9 @@ typedef struct s_map
 }             t_map;
 
 int init_sphere(char *line, int i, t_objs **objs);
-// int init_plane(char *line, int i, t_list ****obj);
-// int init_square(char *line, int i, t_list ****obj);
-// int init_cylinder(char *line, int i, t_list ****obj);
+int init_plane(char *line, int i, t_objs **objs);
+int init_square(char *line, int i, t_objs **objs);
+int init_cylinder(char *line, int i, t_objs **objs);
 // int init_triangle(char *line, int i, t_list ****obj);
 int ft_coordonnees(t_triade *new, char *line, int i);
 int ft_structuration(t_triade *new, char *line, int i);

@@ -2,6 +2,7 @@
 //
 int ft_vecteur(t_triade *new, char *line, int i)
 {
+
   if ((new->x = ft_routine(new->x, line, &i, 1)) == -1)
   {
     printf("%s\n", "ERROR MAP CONFIG OBJECT structuration");
@@ -26,6 +27,7 @@ int ft_vecteur(t_triade *new, char *line, int i)
 //
 int ft_structuration(t_triade *new, char *line, int i)
 {
+
   if ((i = ft_space(line, i)) == -1)
   {
     printf("%s\n", "ERROR MAP CONFIG OBJECT COORDONNEES");
@@ -44,9 +46,12 @@ int ft_structuration(t_triade *new, char *line, int i)
   //     return (-1);
   //   }
   // if (opt != 1 && opt != 2)
-  
+
     if ((i = ft_vecteur(new, line, i)) == -1)
+    {
+
       return (-1);
+    }
   return (i);
 }
 
@@ -81,7 +86,6 @@ int ft_coordonnees(t_triade *new, char *line, int i)
 
   if ((i = ft_space(line, i)) != -1)
   {
-
     if ((new->x = ft_routine(new->x, line, &i, 1)) != -1)
       if (line[i++] == ',')
         if ((new->y = ft_routine(new->y, line, &i, 1)) != -1)
