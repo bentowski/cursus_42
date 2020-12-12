@@ -72,7 +72,7 @@ int init_sphere(char *line, int i, t_objs **objs);
 int init_plane(char *line, int i, t_objs **objs);
 int init_square(char *line, int i, t_objs **objs);
 int init_cylinder(char *line, int i, t_objs **objs);
-// int init_triangle(char *line, int i, t_list ****obj);
+int init_triangle(char *line, int i, t_objs **objs);
 int ft_coordonnees(t_triade *new, char *line, int i);
 int ft_structuration(t_triade *new, char *line, int i);
 // void new_init(t_list *new);
