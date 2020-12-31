@@ -75,11 +75,10 @@ int init_cylinder(char *line, int i, t_objs **objs);
 int init_triangle(char *line, int i, t_objs **objs);
 int ft_coordonnees(t_triade *new, char *line, int i);
 int ft_structuration(t_triade *new, char *line, int i);
-// void new_init(t_list *new);
 int ft_space(char *line, int i);
 int ft_color(t_triade *color, char *line, int i);
 void	*ft_calloc(size_t count, size_t size);
-double ft_routine(double x, char *line, int *i, int opt);
+int ft_routine(double *x, char *line, int *i, int opt);
 int resolution(t_map ****map, char *line, int i);
 int ambiance(char *line, int i, t_ambiant **ambiant);
 int camera(char *line, int i, t_cams **cams);
@@ -90,6 +89,7 @@ void ft_clear(t_map *map);
 void ft_clear_cams(t_cams *cams);
 void ft_clear_lights(t_lights *lights);
 void ft_clear_objs(t_objs *objs);
+int ft_check_color_vdir(t_triade *check, int opt);
 
 
 #endif

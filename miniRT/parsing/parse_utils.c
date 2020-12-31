@@ -20,7 +20,7 @@ double ft_routinedeux(double x, char *line, int **i)
   return (x);
 }
 
-double ft_routine(double x, char *line, int *i, int opt)
+int ft_routine(double *x, char *line, int *i, int opt)
 {
   int neg;
 
@@ -30,24 +30,20 @@ double ft_routine(double x, char *line, int *i, int opt)
     neg = -1;
     *i = *i + 1;
   }
-
   while (line[*i] >= '0' && line[*i] <= '9')
   {
-    printf("%s : %c\n", "PAF", line[*i]);
-    x = x * 10 + line[*i] - 48;
+    *x = *x * 10 + line[*i] - 48;
     *i = *i + 1;
   }
   if (line[*i] == '.')
-  {
-    x = ft_routinedeux(x, line, &i);
-    printf("%s : %c\n", "X", line[*i]);
-  }
+    *x = ft_routinedeux(*x, line, &i);
   else if (line[*i] != ',' && opt == 1)
   {
     printf("%s\n", "sortie ERREUR routine");
     return (-1);
   }
-  return (x * neg);
+  *x = *x * neg;
+  return (1);
 }
 
 int foisdeux(char *line, int *ayet, int *ryet)
@@ -78,12 +74,10 @@ int foisdeux(char *line, int *ayet, int *ryet)
 int ft_space(char *line, int i)
 {
   while (line[i] && (line[i] < '0' || line[i] > '9') && line[i] != '-')
-  {
     if (line[i++] != ' ')
     {
       printf("%s\n", "ERROR MAP CONFIG, CHARACTER UNEXPECTED");
       return (-1);
     }
-  }
   return (i);
 }

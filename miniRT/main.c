@@ -65,68 +65,146 @@ void	*ft_calloc(size_t count, size_t size)
 //   }
 // }
 
-// void ft_clear_objs(t_objs objs)
-// {
-//   t_objs *tmp;
-//   t_objs *ptr;
-//
-//   ptr = obj;
-//   while (ptr)
-//   {
-//     tmp = ptr->next;
-//     ft_clear_triade(ptr->p2)
-//     free(ptr);
-//     ptr = tmp;
-//   }
-// }
 
+int tracing(t_map *map, t_triade *ray)
+{
+  double delta;
+  double test;
+  t_triade alpha;
+  t_triade polynome;
+  t_objs *ptr;
+  t_triade essai;
+  double t;
 
-// int sphere(t_list *obj, t_vecteur ray)
-// {
-//   // double delta;
-//   // double t1;
-//   // double t2;
-//   // double a;
-//   // double b;
-//   // double c;
-//   // t_list *tmp;
-//   // t_vecteur camera;
-//   // t_sphere sphere;
-//   //
-//   // tmp = obj;
-//   // while (tmp && tmp->type != 8)
-//   //   tmp = tmp->next;
-//   // camera.x = tmp->x;
-//   // camera.y = tmp->y;
-//   // camera.z = tmp->z;
-//   // tmp = obj;
-//   // while (tmp && tmp->type != 1)
-//   //   tmp = tmp->next;
-//   // sphere.x = tmp->x;
-//   // sphere.y = tmp->y;
-//   // sphere.z = tmp->z;
-//   // sphere.r = tmp->diameter / 2;
-//   // delta = 0;
-//   // t1 = 0;
-//   // t2 = 0;
-//   // a = (ray.x * ray.x) + (ray.y * ray.y) + (ray.z *ray.z);
-//   // b = 2 * (ray.x * (camera.x - sphere.x));
-//   // b += 2 * (ray.y * (camera.y - sphere.y));
-//   // b += 2 * (ray.z * (camera.z - sphere.z));
-//   // c = (camera.x - sphere.x) * (camera.x - sphere.x);
-//   // c += (camera.y - sphere.y) * (camera.y - sphere.y);
-//   // c += (camera.z - sphere.z) * (camera.z - sphere.z);
-//   // c -= sphere.r * sphere.r;
-//   // delta = b * b - 4 * a * c;
-//   // if (delta >= 0)
-//   // {
-//   //   t1 = (-b - sqrt(delta)) / (2 * a);
-//   //   t2 = (-b + sqrt(delta)) / (2 * a);
-//   //   if (t2 > 0)
-//   //     return (1);
-//   // }
-//   // return (0);
-// }
+  ptr = map->objs;
+  alpha.z = 0;
+  while (ptr->next)
+  {
+    if (ptr->type == 1)
+    {
+      alpha.x = 0;
+      alpha.y = 0;
+      polynome.x = (ray->x * ray->x) + (ray->y * ray->y) + (ray->z * ray->z);
+      polynome.y = 2 * (ray->x * (map->cams->base->origins->x - ptr->base->origins->x));
+      polynome.y += 2 * (ray->y * (map->cams->base->origins->y - ptr->base->origins->y));
+      polynome.y += 2 * (ray->z * (map->cams->base->origins->z - ptr->base->origins->z));
+      polynome.z = (map->cams->base->origins->x - ptr->base->origins->x) * (map->cams->base->origins->x - ptr->base->origins->x);
+      polynome.z += (map->cams->base->origins->y - ptr->base->origins->y) * (map->cams->base->origins->y - ptr->base->origins->y);
+      polynome.z += (map->cams->base->origins->z - ptr->base->origins->z) * (map->cams->base->origins->z - ptr->base->origins->z);
+      polynome.z -= (ptr->diam / 2) * (ptr->diam/ 2);
+      delta = polynome.y * polynome.y - 4 * polynome.x * polynome.z;
+      if (delta >= 0)
+      {
+        alpha.x = (-polynome.y - sqrt(delta)) / (2 * polynome.x);
+        alpha.y = (-polynome.y + sqrt(delta)) / (2 * polynome.x);
+        if (alpha.y > 0)
+          return (1);
+      }
+    }
+    if (ptr->type == 3)
+    {
+      alpha.x = (ptr->base->origins->x - map->cams->base->origins->x) * ptr->base->vdir->x;
+      alpha.x += (ptr->base->origins->y - map->cams->base->origins->y) * ptr->base->vdir->y;
+      alpha.x += (ptr->base->origins->z - map->cams->base->origins->z) * ptr->base->vdir->z;
+      alpha.y = ray->x * ptr->base->vdir->x;
+      alpha.y += ray->y * ptr->base->vdir->y;
+      alpha.y += ray->z * ptr->base->vdir->z;
+      alpha.x = alpha.x / alpha.y;
+      if (alpha.x > 0)
+        return (2);
+    }
+    if (ptr->type == 2)
+    {
+      if (ray->x >= (ptr->base->origins->x - ptr->height) && ray->x <= (ptr->base->origins->x + ptr->height))
+        if (ray->y >= (ptr->base->origins->y - ptr->height) && ray->y <= (ptr->base->origins->y + ptr->height))
+        {
+          alpha.x = (ptr->base->origins->x - map->cams->base->origins->x) * ptr->base->vdir->x;
+          alpha.x += (ptr->base->origins->y - map->cams->base->origins->y) * ptr->base->vdir->y;
+          alpha.x += (ptr->base->origins->z - map->cams->base->origins->z) * ptr->base->vdir->z;
+          alpha.y = ray->x * ptr->base->vdir->x;
+          alpha.y += ray->y * ptr->base->vdir->y;
+          alpha.y += ray->z * ptr->base->vdir->z;
+          alpha.x = alpha.x / alpha.y;
+          if (alpha.x > 0)
+                return (3);
+        }
+    }
+    if (ptr->type == 4)
+    {
+        alpha.x = (ptr->base->origins->x - map->cams->base->origins->x) * ptr->base->vdir->x;
+        alpha.x += (ptr->base->origins->y - map->cams->base->origins->y) * ptr->base->vdir->y;
+        alpha.x += (ptr->base->origins->z - map->cams->base->origins->z) * ptr->base->vdir->z;
+        alpha.y = ray->x * ptr->base->vdir->x;
+        alpha.y += ray->y * ptr->base->vdir->y;
+        alpha.y += ray->z * ptr->base->vdir->z;
+        alpha.z = alpha.x / alpha.y;
+        polynome.x = (ray->x * ray->x) + (ray->y * ray->y) + (ray->z * ray->z);
+        polynome.x = polynome.x * (alpha.z * alpha.z);
+        polynome.y = (2 * alpha.z) * ((ray->x * (map->cams->base->origins->x - ptr->base->origins->x)));
+        polynome.y += (2 * alpha.z) * ((ray->y * (map->cams->base->origins->y - ptr->base->origins->y)));
+        polynome.y += (2 * alpha.z) * ((ray->z * (map->cams->base->origins->z - ptr->base->origins->z)));
+        polynome.z = (map->cams->base->origins->x - ptr->base->origins->x) * (map->cams->base->origins->x - ptr->base->origins->x);
+        polynome.z += (map->cams->base->origins->y - ptr->base->origins->y) * (map->cams->base->origins->y - ptr->base->origins->y);
+        polynome.z += (map->cams->base->origins->z - ptr->base->origins->z) * (map->cams->base->origins->z - ptr->base->origins->z);
+        polynome.z -= (ptr->diam / 2) * (ptr->diam/ 2);
+        if ((polynome.x + polynome.y + polynome.z) <= 0)
+          return (4);
+        else
+        {
+          essai = *ptr->base->origins;
+          essai.x += ptr->base->vdir->x * ptr->height;
+          essai.y += ptr->base->vdir->y * ptr->height;
+          essai.z += ptr->base->vdir->z * ptr->height;
+          alpha.x = (essai.x - map->cams->base->origins->x) * ptr->base->vdir->x;
+          alpha.x += (essai.y - map->cams->base->origins->y) * ptr->base->vdir->y;
+          alpha.x += (essai.z - map->cams->base->origins->z) * ptr->base->vdir->z;
+          alpha.y = ray->x * ptr->base->vdir->x;
+          alpha.y += ray->y * ptr->base->vdir->y;
+          alpha.y += ray->z * ptr->base->vdir->z;
+          alpha.z = alpha.x / alpha.y;
+          polynome.x = (ray->x * ray->x) + (ray->y * ray->y) + (ray->z * ray->z);
+          polynome.x = polynome.x * (alpha.z * alpha.z);
+          polynome.y = (2 * alpha.z) * ((ray->x * (map->cams->base->origins->x - essai.x)));
+          polynome.y += (2 * alpha.z) * ((ray->y * (map->cams->base->origins->y - essai.y)));
+          polynome.y += (2 * alpha.z) * ((ray->z * (map->cams->base->origins->z - essai.z)));
+          polynome.z = (map->cams->base->origins->x - essai.x) * (map->cams->base->origins->x - essai.x);
+          polynome.z += (map->cams->base->origins->y - essai.y) * (map->cams->base->origins->y - essai.y);
+          polynome.z += (map->cams->base->origins->z - essai.z) * (map->cams->base->origins->z - essai.z);
+          polynome.z -= (ptr->diam / 2) * (ptr->diam/ 2);
+          if ((polynome.x + polynome.y + polynome.z) <= 0)
+            return (4);
+          else
+          {
+            alpha.x = (ptr->base->origins->x - map->cams->base->origins->x) * ptr->base->vdir->x;
+            alpha.x += (ptr->base->origins->y - map->cams->base->origins->y) * ptr->base->vdir->y;
+            alpha.x += (ptr->base->origins->z - map->cams->base->origins->z) * ptr->base->vdir->z;
+            alpha.y = ray->x * ptr->base->vdir->x;
+            alpha.y += ray->y * ptr->base->vdir->y;
+            alpha.y += ray->z * ptr->base->vdir->z;
+            alpha.z = alpha.x / alpha.y;
+            polynome.x = (ray->x * ray->x) + (ray->y * ray->y) + (ray->z * ray->z);
+            polynome.x = polynome.x * (alpha.z * alpha.z);
+            polynome.y = (2 * alpha.z) * ((ray->x * (map->cams->base->origins->x - ptr->base->origins->x)));
+            polynome.y += (2 * alpha.z) * ((ray->y * (map->cams->base->origins->y - ptr->base->origins->y)));
+            polynome.y += (2 * alpha.z) * ((ray->z * (map->cams->base->origins->z - ptr->base->origins->z)));
+            polynome.z = (map->cams->base->origins->x - ptr->base->origins->x) * (map->cams->base->origins->x - ptr->base->origins->x);
+            polynome.z += (map->cams->base->origins->y - ptr->base->origins->y) * (map->cams->base->origins->y - ptr->base->origins->y);
+            polynome.z += (map->cams->base->origins->z - ptr->base->origins->z) * (map->cams->base->origins->z - ptr->base->origins->z);
+            polynome.z -= (ptr->diam / 2) * (ptr->diam/ 2);
+            polynome.z += polynome.y + polynome.x;
+            t = (ptr->base->vdir->x * ptr->base->vdir->x) + (ptr->base->vdir->y * ptr->base->vdir->y) + (ptr->base->vdir->z * ptr->base->vdir->z);
+            t = polynome.z / t;
+            t = -t;
+            printf("%lf\n", t);
+            if (t >= 0 && t <= ptr->height)
+              return (4);
+          }
+        }
+    }
+    ptr = ptr->next;
+  }
+  return (0);
+}
 
 
 
@@ -134,37 +212,19 @@ int map_init(t_map **map)
 {
   t_map *ptrmap;
 
-  // ptrmap = *map;
-  printf("%s\n", "truc");
   if ((ptrmap = ft_calloc(1, sizeof(t_map))))
-  {
-    printf("%s\n", "ouch");
     if ((ptrmap->ambiant = ft_calloc(1, sizeof(t_ambiant))))
-    {
-      printf("%s\n", "zoom");
       if ((ptrmap->resolution = ft_calloc(1, sizeof(t_resolution))))
-      {
-        printf("%s\n", "sblif");
         if ((ptrmap->objs = ft_calloc(1, sizeof(t_objs))))
-        {
-          ptrmap->objs->next = NULL;
-          printf("%s\n", "olala");
           if ((ptrmap->cams = ft_calloc(1, sizeof(t_cams))))
-          {
-            ptrmap->cams->next = NULL;
-            printf("%s\n", "zuc");
             if ((ptrmap->lights = ft_calloc(1, sizeof(t_lights))))
             {
+              ptrmap->cams->next = NULL;
+              ptrmap->objs->next = NULL;
               ptrmap->lights->next = NULL;
-              printf("%s\n", "arg");
               *map = ptrmap;
               return (1);
             }
-          }
-        }
-      }
-    }
-  }
   ft_clear(ptrmap);
   return (-1);
 }
@@ -177,50 +237,57 @@ int main(int argc, char **argv)
   t_map *map;
 	double x;
 	double y;
-  t_triade ray;
-  t_cams *ptr;
-  t_lights *ptrlights;
+  t_triade *ray;
+  int ret;
 
   if (argc == 2)
 	{
+    ret = 0;
+    if (!(ray = ft_calloc(1, sizeof(t_triade))))
+      return (-1);
     if ((map_init(&map)) == -1)
       return (-1);
 		if (ft_parse(&map, argv[1]) != -1)
 		{
-      ptr = map->cams;
+      // ptr = map->cams;
       // ptr = ptr->next;
       // printf("%s : %lf, %lf, %lf\n", "c", ptr->base->origins->x, ptr->base->origins->y, ptr->base->origins->z);
-      while (ptr->next)
-      {
-        printf("%s : %lf, %lf, %lf    %lf, %lf, %lf     %lf\n", "c", ptr->base->origins->x, ptr->base->origins->y, ptr->base->origins->z, ptr->base->vdir->x, ptr->base->vdir->y, ptr->base->vdir->z, ptr->fov);
-        ptr = ptr->next;
-      }
-      ptrlights = map->lights;
-      while (ptrlights->next)
-      {
-        printf("%s : %lf, %lf, %lf    %lf    %lf, %lf, %lf\n", "l", ptrlights->base->origins->x, ptrlights->base->origins->y, ptrlights->base->origins->z, ptrlights->lumens, ptrlights->base->color->x, ptrlights->base->color->y, ptrlights->base->color->z);
-        ptrlights = ptrlights->next;
-      }
-      printf("%s\n", "OK");
+      // while (ptr->next)
+      // {
+      //   printf("%s : %lf, %lf, %lf    %lf, %lf, %lf     %lf\n", "c", ptr->base->origins->x, ptr->base->origins->y, ptr->base->origins->z, ptr->base->vdir->x, ptr->base->vdir->y, ptr->base->vdir->z, ptr->fov);
+      //   ptr = ptr->next;
+      // }
+      // ptrlights = map->lights;
+      // while (ptrlights->next)
+      // {
+      //   printf("%s : %lf, %lf, %lf    %lf    %lf, %lf, %lf\n", "l", ptrlights->base->origins->x, ptrlights->base->origins->y, ptrlights->base->origins->z, ptrlights->lumens, ptrlights->base->color->x, ptrlights->base->color->y, ptrlights->base->color->z);
+      //   ptrlights = ptrlights->next;
+      // }
   		mlx = mlx_init();
   		mlx_win = mlx_new_window(mlx, map->resolution->win_width, map->resolution->win_height, "Hello world");
   		img.img = mlx_new_image(mlx, map->resolution->win_width, map->resolution->win_height);
   		img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
-      // ray.z = res[0] / (2 * (tan(tmp->fov / 2)));
+      ray->z = map->resolution->win_width / (2 * (tan(map->cams->fov / 2)));
       y = -1;
-  		// while (y++ < res[1] - 1)
-  		// {
-      //   ray.y = y - res[1] / 2;
-  		// 	x = -1;
-  		// 	while (x++ < res[0] - 1)
-  		// 	{
-      //     ray.x = x - res[0] / 2;
-  		// 		if (sphere(obj, ray))
-      //       my_mlx_pixel_put(&img, x, y, 0x0033FF39);
-  		// 		else
-      //       my_mlx_pixel_put(&img, x, y, 0x00FFFFFF);
-  		// 	}
-  		// }
+  		while (y++ < map->resolution->win_height - 1)
+  		{
+        ray->y = y - map->resolution->win_height / 2;
+  			x = -1;
+  			while (x++ < map->resolution->win_width - 1)
+  			{
+          ray->x = x - map->resolution->win_width / 2;
+  				if ((ret = tracing(map, ray)) == 1)
+            my_mlx_pixel_put(&img, x, y, 0x0033FF39);
+  				else if (ret == 2)
+            my_mlx_pixel_put(&img, x, y, 0x00000000);
+          else if (ret == 3)
+            my_mlx_pixel_put(&img, x, y, 0x00355FF9);
+          else if (ret == 4)
+            my_mlx_pixel_put(&img, x, y, 0x00FF5FF9);
+          else
+            my_mlx_pixel_put(&img, x, y, 0x00FFFFFF);
+  			}
+  		}
   		mlx_put_image_to_window(mlx, mlx_win, img.img, 0, 0);
       ft_clear(map);
       system("leaks a.out");
