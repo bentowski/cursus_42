@@ -42,31 +42,49 @@ void	*ft_calloc(size_t count, size_t size)
 	return (ptr);
 }
 
-// void ft_print(t_list *new)
-// {
-//   if (new->next)
-//   {
-//     if (new->type == 0)
-//       printf("%s : %lf, %d,%d,%d\n\n", "A", new->puissance, new->color1, new->color2, new->color3);
-//     if (new->type == 4)
-//       printf("%s : %lf, %lf, %lf     %lf,%lf,%lf     %lf     %lf      %d, %d, %d\n", "cylinder", new->x, new->y, new->z, new->vx, new->vy, new->vz, new->height, new->diameter, new->color1, new->color2, new->color3);
-//     else if (new->type == 8)
-//       printf("%s : %lf, %lf, %lf       %lf, %lf, %lf      %d\n", "camera", new->x, new->y, new->z, new->vx, new->vy, new->vz, new->fov);
-//     else if (new->type == 1)
-//       printf("%s : %lf, %lf, %lf     %lf,       %d, %d, %d\n", "sphere", new->x, new->y, new->z, new->diameter, new->color1, new->color2, new->color3);
-//     else if (new->type == 3)
-//       printf("%s : %lf, %lf, %lf     %lf, %lf, %lf     %d, %d, %d\n", "plane", new->x, new->y, new->z, new->vx, new->vy, new->vz, new->color1, new->color2, new->color3);
-//     else if (new->type == 5)
-//       printf("%s : %lf, %lf, %lf     %lf, %lf, %lf       %lf, %lf, %lf,    %d, %d, %d\n", "triangle", new->x, new->y, new->z, new->x2, new->y2, new->z2, new->x3, new->y3, new->z3, new->color1, new->color2, new->color3);
-//     else if (new->type == 2)
-//       printf("%s : %lf, %lf, %lf    %lf, %lf, %lf       %lf,       %d, %d, %d\n", "square", new->x, new->y, new->z, new->vx, new->vy, new->vz, new->diameter, new->color1, new->color2, new->color3);
-//     else if (new->type == 9)
-//       printf("%s : %lf, %lf, %lf     %lf      %d, %d, %d\n", "ligth", new->x, new->y, new->z, new->puissance, new->color1, new->color2, new->color3);
-//   }
-// }
+int intersect_plan(t_triade *ray, t_objs *ptr, t_map *map)
+{
+  t_triade alpha;
+
+  alpha.x = (ptr->base->origins->x - map->cams->base->origins->x) * ptr->base->vdir->x;
+  alpha.x += (ptr->base->origins->y - map->cams->base->origins->y) * ptr->base->vdir->y;
+  alpha.x += (ptr->base->origins->z - map->cams->base->origins->z) * ptr->base->vdir->z;
+  alpha.y = ray->x * ptr->base->vdir->x;
+  alpha.y += ray->y * ptr->base->vdir->y;
+  alpha.y += ray->z * ptr->base->vdir->z;
+  alpha.x = alpha.x / alpha.y;
+  if (alpha.x > 0)
+    return (alpha.x);
+  return (-1);
+}
+
+int intersect_sphere(t_triade *ray, t_objs *ptr, t_map *map)
+{
+  t_triade alpha;
+  t_triade polynome;
+
+  alpha.x = 0;
+  alpha.y = 0;
+  polynome.x = (ray->x * ray->x) + (ray->y * ray->y) + (ray->z * ray->z);
+  polynome.y = 2 * (ray->x * (map->cams->base->origins->x - ptr->base->origins->x));
+  polynome.y += 2 * (ray->y * (map->cams->base->origins->y - ptr->base->origins->y));
+  polynome.y += 2 * (ray->z * (map->cams->base->origins->z - ptr->base->origins->z));
+  polynome.z = (map->cams->base->origins->x - ptr->base->origins->x) * (map->cams->base->origins->x - ptr->base->origins->x);
+  polynome.z += (map->cams->base->origins->y - ptr->base->origins->y) * (map->cams->base->origins->y - ptr->base->origins->y);
+  polynome.z += (map->cams->base->origins->z - ptr->base->origins->z) * (map->cams->base->origins->z - ptr->base->origins->z);
+  polynome.z -= (ptr->diam / 2) * (ptr->diam/ 2);
+  alpha.z = polynome.y * polynome.y - 4 * polynome.x * polynome.z;
+  if (alpha.z >= 0)
+  {
+    alpha.x = (-polynome.y - sqrt(alpha.z)) / (2 * polynome.x);
+    alpha.y = (-polynome.y + sqrt(alpha.z)) / (2 * polynome.x);
+    return (alpha.y);
+  }
+  return (-1);
+}
 
 
-int tracing(t_map *map, t_triade *ray)
+int intersect(t_map *map, t_triade *ray)
 {
   double delta;
   double test;
@@ -81,54 +99,16 @@ int tracing(t_map *map, t_triade *ray)
   while (ptr->next)
   {
     if (ptr->type == 1)
-    {
-      alpha.x = 0;
-      alpha.y = 0;
-      polynome.x = (ray->x * ray->x) + (ray->y * ray->y) + (ray->z * ray->z);
-      polynome.y = 2 * (ray->x * (map->cams->base->origins->x - ptr->base->origins->x));
-      polynome.y += 2 * (ray->y * (map->cams->base->origins->y - ptr->base->origins->y));
-      polynome.y += 2 * (ray->z * (map->cams->base->origins->z - ptr->base->origins->z));
-      polynome.z = (map->cams->base->origins->x - ptr->base->origins->x) * (map->cams->base->origins->x - ptr->base->origins->x);
-      polynome.z += (map->cams->base->origins->y - ptr->base->origins->y) * (map->cams->base->origins->y - ptr->base->origins->y);
-      polynome.z += (map->cams->base->origins->z - ptr->base->origins->z) * (map->cams->base->origins->z - ptr->base->origins->z);
-      polynome.z -= (ptr->diam / 2) * (ptr->diam/ 2);
-      delta = polynome.y * polynome.y - 4 * polynome.x * polynome.z;
-      if (delta >= 0)
-      {
-        alpha.x = (-polynome.y - sqrt(delta)) / (2 * polynome.x);
-        alpha.y = (-polynome.y + sqrt(delta)) / (2 * polynome.x);
-        if (alpha.y > 0)
-          return (1);
-      }
-    }
+      if (intersect_sphere(ray, ptr, map) >= 0)
+        return (1);
     if (ptr->type == 3)
-    {
-      alpha.x = (ptr->base->origins->x - map->cams->base->origins->x) * ptr->base->vdir->x;
-      alpha.x += (ptr->base->origins->y - map->cams->base->origins->y) * ptr->base->vdir->y;
-      alpha.x += (ptr->base->origins->z - map->cams->base->origins->z) * ptr->base->vdir->z;
-      alpha.y = ray->x * ptr->base->vdir->x;
-      alpha.y += ray->y * ptr->base->vdir->y;
-      alpha.y += ray->z * ptr->base->vdir->z;
-      alpha.x = alpha.x / alpha.y;
-      if (alpha.x > 0)
-        return (2);
-    }
+      if (intersect_plan(ray, ptr, map) != -1)
+        return (3);
     if (ptr->type == 2)
-    {
       if (ray->x >= (ptr->base->origins->x - ptr->height) && ray->x <= (ptr->base->origins->x + ptr->height))
         if (ray->y >= (ptr->base->origins->y - ptr->height) && ray->y <= (ptr->base->origins->y + ptr->height))
-        {
-          alpha.x = (ptr->base->origins->x - map->cams->base->origins->x) * ptr->base->vdir->x;
-          alpha.x += (ptr->base->origins->y - map->cams->base->origins->y) * ptr->base->vdir->y;
-          alpha.x += (ptr->base->origins->z - map->cams->base->origins->z) * ptr->base->vdir->z;
-          alpha.y = ray->x * ptr->base->vdir->x;
-          alpha.y += ray->y * ptr->base->vdir->y;
-          alpha.y += ray->z * ptr->base->vdir->z;
-          alpha.x = alpha.x / alpha.y;
-          if (alpha.x > 0)
-                return (3);
-        }
-    }
+          if (intersect_plan(ray, ptr, map) != -1)
+            return (2);
     if (ptr->type == 4)
     {
         alpha.x = (ptr->base->origins->x - map->cams->base->origins->x) * ptr->base->vdir->x;
@@ -276,7 +256,7 @@ int main(int argc, char **argv)
   			while (x++ < map->resolution->win_width - 1)
   			{
           ray->x = x - map->resolution->win_width / 2;
-  				if ((ret = tracing(map, ray)) == 1)
+  				if ((ret = intersect(map, ray)) == 1)
             my_mlx_pixel_put(&img, x, y, 0x0033FF39);
   				else if (ret == 2)
             my_mlx_pixel_put(&img, x, y, 0x00000000);
