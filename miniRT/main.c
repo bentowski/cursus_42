@@ -155,29 +155,79 @@ int intersect(t_map *map, t_triade *ray)
             return (4);
           else
           {
-            alpha.x = (ptr->base->origins->x - map->cams->base->origins->x) * ptr->base->vdir->x;
-            alpha.x += (ptr->base->origins->y - map->cams->base->origins->y) * ptr->base->vdir->y;
-            alpha.x += (ptr->base->origins->z - map->cams->base->origins->z) * ptr->base->vdir->z;
+            alpha.x = ptr->base->vdir->x * (ptr->base->origins->x - map->cams->base->origins->x);
+            alpha.x += ptr->base->vdir->y * (ptr->base->origins->y - map->cams->base->origins->y);
+            alpha.x += ptr->base->vdir->z * (ptr->base->origins->z - map->cams->base->origins->z);
+            alpha.x = alpha.x * alpha.x;
+
+            alpha.y = (essai.x - ptr->base->origins->x) * ptr->base->vdir->x;
+            alpha.y += (essai.y - ptr->base->origins->y) * ptr->base->vdir->y;
+            alpha.y += (essai.z - ptr->base->origins->z) * ptr->base->vdir->z;
+            alpha.y = alpha.y * alpha.y;
+            alpha.x = alpha.x * alpha.y;
+
             alpha.y = ray->x * ptr->base->vdir->x;
             alpha.y += ray->y * ptr->base->vdir->y;
             alpha.y += ray->z * ptr->base->vdir->z;
-            alpha.z = alpha.x / alpha.y;
-            polynome.x = (ray->x * ray->x) + (ray->y * ray->y) + (ray->z * ray->z);
-            polynome.x = polynome.x * (alpha.z * alpha.z);
-            polynome.y = (2 * alpha.z) * ((ray->x * (map->cams->base->origins->x - ptr->base->origins->x)));
-            polynome.y += (2 * alpha.z) * ((ray->y * (map->cams->base->origins->y - ptr->base->origins->y)));
-            polynome.y += (2 * alpha.z) * ((ray->z * (map->cams->base->origins->z - ptr->base->origins->z)));
-            polynome.z = (map->cams->base->origins->x - ptr->base->origins->x) * (map->cams->base->origins->x - ptr->base->origins->x);
-            polynome.z += (map->cams->base->origins->y - ptr->base->origins->y) * (map->cams->base->origins->y - ptr->base->origins->y);
-            polynome.z += (map->cams->base->origins->z - ptr->base->origins->z) * (map->cams->base->origins->z - ptr->base->origins->z);
-            polynome.z -= (ptr->diam / 2) * (ptr->diam/ 2);
-            polynome.z += polynome.y + polynome.x;
-            t = (ptr->base->vdir->x * ptr->base->vdir->x) + (ptr->base->vdir->y * ptr->base->vdir->y) + (ptr->base->vdir->z * ptr->base->vdir->z);
-            t = polynome.z / t;
-            t = -t;
-            printf("%lf\n", t);
-            if (t >= 0 && t <= ptr->height)
+            alpha.y = alpha.y * alpha.y;
+            alpha.x = alpha.x / alpha.y;
+
+            alpha.y = (essai.x - ptr->base->origins->x) + (essai.y - ptr->base->origins->y) + (essai.z - ptr->base->origins->z);
+            alpha.x += alpha.y * alpha.y;
+
+
+
+
+            alpha.y = (essai.x - ptr->base->origins->x) * ptr->base->vdir->x;
+            alpha.y += (essai.y - ptr->base->origins->y) * ptr->base->vdir->y;
+            alpha.y += (essai.z - ptr->base->origins->z) * ptr->base->vdir->z;
+
+            alpha.z = ptr->base->vdir->x * (ptr->base->origins->x - map->cams->base->origins->x);
+            alpha.z += ptr->base->vdir->y * (ptr->base->origins->y - map->cams->base->origins->y);
+            alpha.z += ptr->base->vdir->z * (ptr->base->origins->z - map->cams->base->origins->z);
+            alpha.y = alpha.y * alpha.z;
+
+            alpha.z = (essai.x - ptr->base->origins->x) * ray->x;
+            alpha.z += (essai.y - ptr->base->origins->y) * ray->y;
+            alpha.z += (essai.z - ptr->base->origins->z) * ray->z;
+            alpha.y = alpha.y * alpha.z;
+            alpha.y = alpha.y * 2;
+
+            alpha.z = ray->x * ptr->base->vdir->x;
+            alpha.z += ray->y * ptr->base->vdir->y;
+            alpha.z += ray->z * ptr->base->vdir->z;
+            alpha.y = alpha.y / alpha.z;
+
+            polynome.x = alpha.x + alpha.y;
+            polynome.y = (essai.x - ptr->base->origins->x) * map->cams->base->origins->x;
+            polynome.y += (essai.y - ptr->base->origins->y) * map->cams->base->origins->y;
+            polynome.y += (essai.z - ptr->base->origins->z) * map->cams->base->origins->z;
+            polynome.y += (essai.x - ptr->base->origins->x) * ptr->base->origins->x;
+            polynome.y += (essai.y - ptr->base->origins->y) * ptr->base->origins->y;
+            polynome.y += (essai.z - ptr->base->origins->z) * ptr->base->origins->z;
+            polynome.y = polynome.y * 2;
+            polynome.z = map->cams->base->origins->x * map->cams->base->origins->x;
+            polynome.z += map->cams->base->origins->y * map->cams->base->origins->y;
+            polynome.z += map->cams->base->origins->z * map->cams->base->origins->z;
+            polynome.z += ptr->base->origins->x * ptr->base->origins->x;
+            polynome.z += ptr->base->origins->y * ptr->base->origins->y;
+            polynome.z += ptr->base->origins->z * ptr->base->origins->z;
+            alpha.x = map->cams->base->origins->x;
+            alpha.x += map->cams->base->origins->y;
+            alpha.x += map->cams->base->origins->z;
+            alpha.x -= ptr->base->origins->x;
+            alpha.x -= ptr->base->origins->y;
+            alpha.x -= ptr->base->origins->z;
+            alpha.x = alpha.x / 2;
+            polynome.z += alpha.x;
+            polynome.z += (ptr->diam / 2) * (ptr->diam / 2);
+            alpha.z = polynome.y * polynome.y - 4 * polynome.x * polynome.z;
+            if (alpha.z >= 0)
+            {
+              alpha.x = (-polynome.y - sqrt(alpha.z)) / (2 * polynome.x);
+              alpha.y = (-polynome.y + sqrt(alpha.z)) / (2 * polynome.x);
               return (4);
+            }
           }
         }
     }
