@@ -1,0 +1,17 @@
+affichage cylindre
+affichage triangle
+
+lumière ambiante tous
+lumière spot plan / carré / triangle
+
+multi spot
+changement caméras
+
+changement taille diamètre sphère / côté carré / hauteur & longueur cylindre
+
+translation camera / sphere / triangle / carres / cylindre / plan / lumiere
+
+fermer fenetre par la croix rouge / ESC
+adaptation fenetre taille display si trop grand
+
+sauvegarde image bmp (avec argument --save)
