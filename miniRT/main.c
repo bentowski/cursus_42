@@ -198,13 +198,15 @@ int intersect(t_map *map, t_triade *ray)
     //     return (ret);
     //   }
     if (ptr->type == 2)
-      if (ray->x >= (ptr->base->origins->x - ptr->height) && ray->x <= (ptr->base->origins->x + ptr->height))
-        if (ray->y >= (ptr->base->origins->y - ptr->height) && ray->y <= (ptr->base->origins->y + ptr->height))
-          if ((t = intersect_plan(ray, ptr, map)) != -1)
+    {
+      if ((t = intersect_plan(ray, ptr, map)) != -1)
+        if (ray->x >= (ptr->base->origins->x - ptr->height) && ray->x <= (ptr->base->origins->x + ptr->height))
+          if (ray->y >= (ptr->base->origins->y - ptr->height) && ray->y <= (ptr->base->origins->y + ptr->height))
           {
             p.x = map->cams->base->origins->x + (t * ray->x);
             p.y = map->cams->base->origins->y + (t * ray->y);
             p.z = map->cams->base->origins->z + (t * ray->z);
+            printf("%lf : %lf, %lf, %lf\n\n", t, p.x, p.y, p.z);
             normale.x = ptr->base->vdir->x;
             normale.y = ptr->base->vdir->y;
             normale.z = ptr->base->vdir->z;
@@ -218,15 +220,17 @@ int intersect(t_map *map, t_triade *ray)
             intensity = (ldir.x * normale.x) + (ldir.y * normale.y) + (ldir.z * normale.z);
             intensity = intensity * map->lights->lumens;
             intensity = intensity / (pow(ldir.x, 2) + pow(ldir.y, 2) + pow(ldir.z, 2));
-            printf("intensity : %lf\n", intensity);
             if (intensity < 0)
               intensity = 0;
+            // intensity = intensity * 10;
             color1 = ptr->base->color->x * intensity;
             color2 = ptr->base->color->y * intensity;
             color3 = ptr->base->color->z * intensity;
             ret = (color1 * 256 * 256) + (color2 * 256) + color3;
+            printf("intensity : %lf, ret : %p\n", intensity, ret);
             return (ret);
           }
+    }
     // if (ptr->type == 4)
     // {
     //
