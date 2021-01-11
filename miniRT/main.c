@@ -42,7 +42,7 @@ void	*ft_calloc(size_t count, size_t size)
 	return (ptr);
 }
 
-int intersect_plan(t_triade *ray, t_objs *ptr, t_map *map)
+double intersect_plan(t_triade *ray, t_objs *ptr, t_map *map)
 {
   t_triade alpha;
 
@@ -53,7 +53,7 @@ int intersect_plan(t_triade *ray, t_objs *ptr, t_map *map)
   alpha.y += ray->y * ptr->base->vdir->y;
   alpha.y += ray->z * ptr->base->vdir->z;
   alpha.x = alpha.x / alpha.y;
-  if (alpha.x > 0)
+  if (alpha.x >= 0)
     return (alpha.x);
   return (-1);
 }
@@ -127,110 +127,112 @@ int intersect(t_map *map, t_triade *ray)
   int color1;
   int color2;
   int color3;
+  double angle;
+  double normalisation2;
 
   ptr = map->objs;
   while (ptr->next)
   {
     intensity = 0;
-    // if (ptr->type == 1)
-    //   if ((t = intersect_sphere(ray, ptr, map)) >= 0)
-    //   {
-    //     p.x = map->cams->base->origins->x + (t * ray->x);
-    //     p.y = map->cams->base->origins->y + (t * ray->y);
-    //     p.z = map->cams->base->origins->z + (t * ray->z);
-    //     normale.x = p.x - ptr->base->origins->x;
-    //     normale.y = p.y - ptr->base->origins->y;
-    //     normale.z = p.z - ptr->base->origins->z;
-    //     normalisation = sqrt(pow(normale.x, 2) + pow(normale.y, 2) + pow(normale.z, 2));
-    //     normale.x = normale.x / normalisation;
-    //     normale.y = normale.y / normalisation;
-    //     normale.z = normale.z / normalisation;
-    //     ldir.x = map->lights->base->origins->x - p.x;
-    //     ldir.y = map->lights->base->origins->y - p.y;
-    //     ldir.z = map->lights->base->origins->z - p.z;
-    //     normalisation = sqrt(pow(ldir.x, 2) + pow(ldir.y, 2) + pow(ldir.z, 2));
-    //     ldir.x = ldir.x / normalisation;
-    //     ldir.y = ldir.y / normalisation;
-    //     ldir.z = ldir.z / normalisation;
-    //     intensity = (ldir.x * normale.x) + (ldir.y * normale.y) + (ldir.z * normale.z);
-    //     intensity = intensity * (map->lights->lumens);
-    //     intensity = intensity / (pow(ldir.x, 2) + pow(ldir.y, 2) + pow(ldir.z, 2));
-    //     if (intensity < 0)
-    //       intensity = 0;
-    //     color1 = ptr->base->color->x * intensity;
-    //     if (color1 > 255)
-    //       color1 = 255;
-    //     color2 = ptr->base->color->y * intensity;
-    //     if (color2 > 255)
-    //       color2 = 255;
-    //     color3 = ptr->base->color->z * intensity;
-    //     if (color3 > 255)
-    //       color3 = 255;
-    //     ret = (color1 * 256 * 256) + (color2 * 256) + color3;
-    //     printf("%lf, %p\n", intensity, ret);
-    //     return (ret);
-    //   }
-    // if (ptr->type == 3)
-    //   if ((t = intersect_plan(ray, ptr, map)) != -1)
-    //   {
-    //     p.x = map->cams->base->origins->x + (t * ray->x);
-    //     p.y = map->cams->base->origins->y + (t * ray->y);
-    //     p.z = map->cams->base->origins->z + (t * ray->z);
-    //     normale.x = ptr->base->vdir->x;
-    //     normale.y = ptr->base->vdir->y;
-    //     normale.z = ptr->base->vdir->z;
-    //     ldir.x = map->lights->base->origins->x - p.x;
-    //     ldir.y = map->lights->base->origins->y - p.y;
-    //     ldir.z = map->lights->base->origins->z - p.z;
-    //     normalisation = sqrt(pow(ldir.x, 2) + pow(ldir.y, 2) + pow(ldir.z, 2));
-    //     ldir.x = ldir.x / normalisation;
-    //     ldir.y = ldir.y / normalisation;
-    //     ldir.z = ldir.z / normalisation;
-    //     intensity = (ldir.x * normale.x) + (ldir.y * normale.y) + (ldir.z * normale.z);
-    //     intensity = intensity * map->lights->lumens;
-    //     intensity = intensity / (pow(ldir.x, 2) + pow(ldir.y, 2) + pow(ldir.z, 2));
-    //     if (intensity < 0)
-    //       intensity = 0;
-    //     color1 = ptr->base->color->x * intensity;
-    //     color2 = ptr->base->color->y * intensity;
-    //     color3 = ptr->base->color->z * intensity;
-    //     ret = (color1 * 256 * 256) + (color2 * 256) + color3;
-    //     return (ret);
-    //   }
-    if (ptr->type == 2)
-    {
+    if (ptr->type == 1)
+      if ((t = intersect_sphere(ray, ptr, map)) >= 0)
+      {
+        p.x = map->cams->base->origins->x + (t * ray->x);
+        p.y = map->cams->base->origins->y + (t * ray->y);
+        p.z = map->cams->base->origins->z + (t * ray->z);
+        normale.x = p.x - ptr->base->origins->x;
+        normale.y = p.y - ptr->base->origins->y;
+        normale.z = p.z - ptr->base->origins->z;
+        normalisation = sqrt(pow(normale.x, 2) + pow(normale.y, 2) + pow(normale.z, 2));
+        normale.x = normale.x / normalisation;
+        normale.y = normale.y / normalisation;
+        normale.z = normale.z / normalisation;
+        ldir.x = map->lights->base->origins->x - p.x;
+        ldir.y = map->lights->base->origins->y - p.y;
+        ldir.z = map->lights->base->origins->z - p.z;
+        normalisation = sqrt(pow(ldir.x, 2) + pow(ldir.y, 2) + pow(ldir.z, 2));
+        ldir.x = ldir.x / normalisation;
+        ldir.y = ldir.y / normalisation;
+        ldir.z = ldir.z / normalisation;
+        intensity = (ldir.x * normale.x) + (ldir.y * normale.y) + (ldir.z * normale.z);
+        intensity = intensity * (map->lights->lumens);
+        intensity = intensity / (pow(ldir.x, 2) + pow(ldir.y, 2) + pow(ldir.z, 2));
+        if (intensity < 0)
+          intensity = 0;
+        color1 = ptr->base->color->x * intensity;
+        if (color1 > 255)
+          color1 = 255;
+        color2 = ptr->base->color->y * intensity;
+        if (color2 > 255)
+          color2 = 255;
+        color3 = ptr->base->color->z * intensity;
+        if (color3 > 255)
+          color3 = 255;
+        ret = (color1 * 256 * 256) + (color2 * 256) + color3;
+        printf("%lf, %p\n", intensity, ret);
+        return (ret);
+      }
+    if (ptr->type == 3)
       if ((t = intersect_plan(ray, ptr, map)) != -1)
-        if (ray->x >= (ptr->base->origins->x - ptr->height) && ray->x <= (ptr->base->origins->x + ptr->height))
-          if (ray->y >= (ptr->base->origins->y - ptr->height) && ray->y <= (ptr->base->origins->y + ptr->height))
-          {
-            p.x = map->cams->base->origins->x + (t * ray->x);
-            p.y = map->cams->base->origins->y + (t * ray->y);
-            p.z = map->cams->base->origins->z + (t * ray->z);
-            printf("%lf : %lf, %lf, %lf\n\n", t, p.x, p.y, p.z);
-            normale.x = ptr->base->vdir->x;
-            normale.y = ptr->base->vdir->y;
-            normale.z = ptr->base->vdir->z;
-            ldir.x = map->lights->base->origins->x - p.x;
-            ldir.y = map->lights->base->origins->y - p.y;
-            ldir.z = map->lights->base->origins->z - p.z;
-            normalisation = sqrt(pow(ldir.x, 2) + pow(ldir.y, 2) + pow(ldir.z, 2));
-            ldir.x = ldir.x / normalisation;
-            ldir.y = ldir.y / normalisation;
-            ldir.z = ldir.z / normalisation;
-            intensity = (ldir.x * normale.x) + (ldir.y * normale.y) + (ldir.z * normale.z);
-            intensity = intensity * map->lights->lumens;
-            intensity = intensity / (pow(ldir.x, 2) + pow(ldir.y, 2) + pow(ldir.z, 2));
-            if (intensity < 0)
-              intensity = 0;
-            // intensity = intensity * 10;
-            color1 = ptr->base->color->x * intensity;
-            color2 = ptr->base->color->y * intensity;
-            color3 = ptr->base->color->z * intensity;
-            ret = (color1 * 256 * 256) + (color2 * 256) + color3;
-            printf("intensity : %lf, ret : %p\n", intensity, ret);
-            return (ret);
-          }
-    }
+      {
+        p.x = map->cams->base->origins->x + (t * ray->x);
+        p.y = map->cams->base->origins->y + (t * ray->y);
+        p.z = map->cams->base->origins->z + (t * ray->z);
+        normalisation2 = sqrt(pow(ray->x, 2) + pow(ray->y, 2) + pow(ray->z, 2));
+        ldir.x = map->lights->base->origins->x - p.x;
+        ldir.y = map->lights->base->origins->y - p.y;
+        ldir.z = map->lights->base->origins->z - p.z;
+        normalisation = sqrt(pow(ldir.x, 2) + pow(ldir.y, 2) + pow(ldir.z, 2));
+        ldir.x = ldir.x / normalisation;
+        ldir.y = ldir.y / normalisation;
+        ldir.z = ldir.z / normalisation;
+        angle = -(((ray->x / normalisation2) * ldir.x) + ((ray->y / normalisation2) * ldir.y) + ((ray->z / normalisation2) * ldir.z));
+        // printf("%lf\n", angle);
+        ret = 0;
+        if (angle > 0)
+        {
+          intensity = map->lights->lumens * angle;
+          color1 = ptr->base->color->x * intensity;
+          color2 = ptr->base->color->y * intensity;
+          color3 = ptr->base->color->z * intensity;
+          ret = (color1 * 256 * 256) + (color2 * 256) + color3;
+        }
+        return (ret);
+      }
+    // if (ptr->type == 2)
+    // {
+    //   if ((t = intersect_plan(ray, ptr, map)) != -1)
+    //     if (ray->x >= (ptr->base->origins->x - ptr->height) && ray->x <= (ptr->base->origins->x + ptr->height))
+    //       if (ray->y >= (ptr->base->origins->y - ptr->height) && ray->y <= (ptr->base->origins->y + ptr->height))
+    //       {
+    //         p.x = map->cams->base->origins->x + (t * ray->x);
+    //         p.y = map->cams->base->origins->y + (t * ray->y);
+    //         p.z = map->cams->base->origins->z + (t * ray->z);
+    //         normalisation = sqrt(pow(ray->x, 2) + pow(ray->y, 2) + pow(ray->z, 2));
+    //         ray->x = ray->x / normalisation;
+    //         ray->y = ray->y / normalisation;
+    //         ray->z = ray->z / normalisation;
+    //         ldir.x = map->lights->base->origins->x - p.x;
+    //         ldir.y = map->lights->base->origins->y - p.y;
+    //         ldir.z = map->lights->base->origins->z - p.z;
+    //         normalisation = sqrt(pow(ldir.x, 2) + pow(ldir.y, 2) + pow(ldir.z, 2));
+    //         ldir.x = ldir.x / normalisation;
+    //         ldir.y = ldir.y / normalisation;
+    //         ldir.z = ldir.z / normalisation;
+    //         angle = -((ray->x * ldir.x) + (ray->y * ldir.y) + (ray->z * ldir.z));
+    //         printf("%lf\n", angle);
+    //         ret = 0;
+    //         if (angle > 0)
+    //         {
+    //           intensity = map->lights->lumens * angle;
+    //           color1 = ptr->base->color->x * intensity;
+    //           color2 = ptr->base->color->y * intensity;
+    //           color3 = ptr->base->color->z * intensity;
+    //           ret = (color1 * 256 * 256) + (color2 * 256) + color3;
+    //         }
+    //         return (ret);
+    //       }
+    // }
     // if (ptr->type == 4)
     // {
     //
@@ -340,7 +342,7 @@ int main(int argc, char **argv)
   		mlx_win = mlx_new_window(mlx, map->resolution->win_width, map->resolution->win_height, "Hello world");
   		img.img = mlx_new_image(mlx, map->resolution->win_width, map->resolution->win_height);
   		img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
-      ray->z = -(map->resolution->win_width / (2 * (tan(map->cams->fov / 2))));
+      ray->z = -(map->resolution->win_width / (2 * (tan((180 - map->cams->fov) / 2))));
       y = -1;
   		while (y++ < map->resolution->win_height - 1)
   		{
