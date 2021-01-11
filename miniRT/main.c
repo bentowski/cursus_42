@@ -186,7 +186,9 @@ int intersect(t_map *map, t_triade *ray)
         ldir.x = ldir.x / normalisation;
         ldir.y = ldir.y / normalisation;
         ldir.z = ldir.z / normalisation;
-        angle = -(((ray->x / normalisation2) * ldir.x) + ((ray->y / normalisation2) * ldir.y) + ((ray->z / normalisation2) * ldir.z));
+        angle = (((ray->x / normalisation2) * ldir.x) + ((ray->y / normalisation2) * ldir.y) + ((ray->z / normalisation2) * ldir.z));
+        if (angle < 0)
+          angle = -angle;
         // printf("%lf\n", angle);
         ret = 0;
         if (angle > 0)
@@ -199,40 +201,38 @@ int intersect(t_map *map, t_triade *ray)
         }
         return (ret);
       }
-    // if (ptr->type == 2)
-    // {
-    //   if ((t = intersect_plan(ray, ptr, map)) != -1)
-    //     if (ray->x >= (ptr->base->origins->x - ptr->height) && ray->x <= (ptr->base->origins->x + ptr->height))
-    //       if (ray->y >= (ptr->base->origins->y - ptr->height) && ray->y <= (ptr->base->origins->y + ptr->height))
-    //       {
-    //         p.x = map->cams->base->origins->x + (t * ray->x);
-    //         p.y = map->cams->base->origins->y + (t * ray->y);
-    //         p.z = map->cams->base->origins->z + (t * ray->z);
-    //         normalisation = sqrt(pow(ray->x, 2) + pow(ray->y, 2) + pow(ray->z, 2));
-    //         ray->x = ray->x / normalisation;
-    //         ray->y = ray->y / normalisation;
-    //         ray->z = ray->z / normalisation;
-    //         ldir.x = map->lights->base->origins->x - p.x;
-    //         ldir.y = map->lights->base->origins->y - p.y;
-    //         ldir.z = map->lights->base->origins->z - p.z;
-    //         normalisation = sqrt(pow(ldir.x, 2) + pow(ldir.y, 2) + pow(ldir.z, 2));
-    //         ldir.x = ldir.x / normalisation;
-    //         ldir.y = ldir.y / normalisation;
-    //         ldir.z = ldir.z / normalisation;
-    //         angle = -((ray->x * ldir.x) + (ray->y * ldir.y) + (ray->z * ldir.z));
-    //         printf("%lf\n", angle);
-    //         ret = 0;
-    //         if (angle > 0)
-    //         {
-    //           intensity = map->lights->lumens * angle;
-    //           color1 = ptr->base->color->x * intensity;
-    //           color2 = ptr->base->color->y * intensity;
-    //           color3 = ptr->base->color->z * intensity;
-    //           ret = (color1 * 256 * 256) + (color2 * 256) + color3;
-    //         }
-    //         return (ret);
-    //       }
-    // }
+    if (ptr->type == 2)
+    {
+      if ((t = intersect_plan(ray, ptr, map)) != -1)
+        if (ray->x >= (ptr->base->origins->x - ptr->height) && ray->x <= (ptr->base->origins->x + ptr->height))
+          if (ray->y >= (ptr->base->origins->y - ptr->height) && ray->y <= (ptr->base->origins->y + ptr->height))
+          {
+            p.x = map->cams->base->origins->x + (t * ray->x);
+            p.y = map->cams->base->origins->y + (t * ray->y);
+            p.z = map->cams->base->origins->z + (t * ray->z);
+            normalisation = sqrt(pow(ray->x, 2) + pow(ray->y, 2) + pow(ray->z, 2));
+            ldir.x = map->lights->base->origins->x - p.x;
+            ldir.y = map->lights->base->origins->y - p.y;
+            ldir.z = map->lights->base->origins->z - p.z;
+            normalisation = sqrt(pow(ldir.x, 2) + pow(ldir.y, 2) + pow(ldir.z, 2));
+            ldir.x = ldir.x / normalisation;
+            ldir.y = ldir.y / normalisation;
+            ldir.z = ldir.z / normalisation;
+            angle = (((ray->x / normalisation2) * ldir.x) + ((ray->y / normalisation2) * ldir.y) + ((ray->z / normalisation2) * ldir.z));
+            if (angle < 0)
+              angle = -angle;
+            printf("%lf\n", angle);
+            if (angle > 0)
+            {
+              intensity = map->lights->lumens * angle;
+              color1 = ptr->base->color->x * intensity;
+              color2 = ptr->base->color->y * intensity;
+              color3 = ptr->base->color->z * intensity;
+              ret = (color1 * 256 * 256) + (color2 * 256) + color3;
+              return (ret);
+            }
+          }
+    }
     // if (ptr->type == 4)
     // {
     //
