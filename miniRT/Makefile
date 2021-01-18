@@ -1,6 +1,7 @@
-NAME    = a.out
+NAME		= a.out
 SRCS    =	main.c \
 					intersect/intersect_objects.c \
+					intersect/intersect_lights.c \
 					parsing/parse.c \
 					parsing/parse_forms.c \
 					parsing/parse_forms_utils.c \
@@ -15,7 +16,7 @@ CC        = gcc -D BUFFER_SIZE=4
 FLAGS    	= -Wall -Wextra -Werror
 LIB				=	-L. -lmlx
 
-$(NAME):
+$(NAME):	$(SRCS) minirt.h
 	@$(CC) $(SRCS) $(LIB)
 
 all:	$(NAME)

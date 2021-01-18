@@ -98,7 +98,8 @@ void ft_clear_cams(t_cams *cams);
 void ft_clear_lights(t_lights *lights);
 void ft_clear_objs(t_objs *objs);
 int ft_check_color_vdir(t_triade *check, int opt);
-int intersect(t_map *map, t_triade *ray);
-
+unsigned long int intersect(t_map *map, t_triade *ray);
+unsigned long int interlsphere(double t, t_triade *ray, t_objs *ptr, t_map *map);
+unsigned long int interlplan(double t, t_triade *ray, t_objs *ptr, t_map *map);
 
 #endif
