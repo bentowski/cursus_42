@@ -1,4 +1,4 @@
-#include "minirt.h"
+#include "../minirt.h"
 
 void ft_clear_base(t_base *base)
 {

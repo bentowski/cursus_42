@@ -1,11 +1,19 @@
 #include "includes/get_next_line/get_next_line.h"
-#include "mlx.h"
+#include "includes/mlx.h"
 #include <fcntl.h>
 #include <stdio.h>
 #include <math.h>
 
 #ifndef MINIRT_H
 # define MINIRT_H
+
+typedef struct  s_data {
+    void        *img;
+    char        *addr;
+    int         bits_per_pixel;
+    int         line_length;
+    int         endian;
+}               t_data;
 
 typedef struct s_triade
 {
@@ -90,6 +98,7 @@ void ft_clear_cams(t_cams *cams);
 void ft_clear_lights(t_lights *lights);
 void ft_clear_objs(t_objs *objs);
 int ft_check_color_vdir(t_triade *check, int opt);
+int intersect(t_map *map, t_triade *ray);
 
 
 #endif

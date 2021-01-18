@@ -71,7 +71,11 @@ int ft_parse(t_map **map, char *givedmap)
 
   ayet = 0;
   ryet = 0;
-  fd = open(givedmap, O_RDONLY);
+  if ((fd = open(givedmap, O_RDONLY)) < 0)
+  {
+    printf("%s\n%s", "Error", "Invalid map file");
+    return (-1);
+  }
   while (get_next_line(fd, &line) > 0)
   {
     i = 0;
