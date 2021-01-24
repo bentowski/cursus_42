@@ -24,9 +24,9 @@ unsigned long int interlsphere(double t, t_triade *ray, t_objs *ptr, t_map *map)
   normale.x = normale.x / normalisation;
   normale.y = normale.y / normalisation;
   normale.z = normale.z / normalisation;
-  ldir.x = map->lights->base->origins->x - p.x;
-  ldir.y = map->lights->base->origins->y - p.y;
-  ldir.z = map->lights->base->origins->z - p.z;
+  ldir.x = p.x - map->lights->base->origins->x;
+  ldir.y = p.y - map->lights->base->origins->y;
+  ldir.z = p.z - map->lights->base->origins->z;
   normalisation = sqrt(pow(ldir.x, 2) + pow(ldir.y, 2) + pow(ldir.z, 2));
   ldir.x = ldir.x / normalisation;
   ldir.y = ldir.y / normalisation;

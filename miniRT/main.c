@@ -75,15 +75,16 @@ int   main(int argc, char **argv)
   		mlx_win = mlx_new_window(mlx, map->resolution->win_width, map->resolution->win_height, "Hello world");
   		img.img = mlx_new_image(mlx, map->resolution->win_width, map->resolution->win_height);
   		img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
-      ray->z = -(map->resolution->win_width / (2 * (tan((180 - map->cams->fov) / 2))));
+      ray->z = (map->resolution->win_width / (2 * tan((map->cams->fov * M_PI / 180) / 2)));
+      ray->z = ray->z * map->cams->base->vdir->z;
       y = -1;
   		while (y++ < map->resolution->win_height - 1)
   		{
-        ray->y = -(y - map->resolution->win_height / 2);
+        ray->y = -(y - (map->resolution->win_height / 2)) * map->cams->base->vdir->y;
   			x = -1;
   			while (x++ < map->resolution->win_width - 1)
   			{
-          ray->x = (x - map->resolution->win_width / 2);
+          ray->x = (x - (map->resolution->win_width / 2)) * map->cams->base->vdir->x;
           my_mlx_pixel_put(&img, x, y, intersect(map, ray));
   			}
   		}
