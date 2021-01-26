@@ -26,6 +26,8 @@ double intersect_sphere(t_triade *ray, t_objs *ptr, t_map *map)
   t_triade alpha;
   t_triade polynome;
 
+  alpha.x = 0;
+  alpha.y = 0;
   polynome.x = (ray->x * ray->x) + (ray->y * ray->y) + (ray->z * ray->z);
   polynome.y = ray->x * (map->cams->base->origins->x - ptr->base->origins->x);
   polynome.y += ray->y * (map->cams->base->origins->y - ptr->base->origins->y);
@@ -39,10 +41,11 @@ double intersect_sphere(t_triade *ray, t_objs *ptr, t_map *map)
   {
     alpha.x = (-polynome.y - sqrt(alpha.z)) / (2 * polynome.x);
     alpha.y = (-polynome.y + sqrt(alpha.z)) / (2 * polynome.x);
+    if (alpha.y < 0)
+      return (-1);
     if (alpha.x > 0)
       return (alpha.x);
-    if (alpha.y > 0)
-      return (alpha.y);
+    return (alpha.y);
   }
   return (-1);
 }
@@ -90,12 +93,16 @@ unsigned long int intersect(t_map *map, t_triade *ray)
     if (ptr->type == 1)
      if ((alpha = intersect_sphere(ray, ptr, map)) >= 0)
        return (interlsphere(alpha, ray, ptr, map));
-    if (ptr->type == 2)
-      if ((alpha = intersect_plan(ray, ptr, map)) != -1)
+    if (ptr->type == 3)
+      if ((alpha = intersect_plan(ray, ptr, map)) >= 0)
         return (interlplan(alpha, ray, ptr, map));
-    // if (ptr->type == 3)
-    //   if ((alpha = intersect_plan(ray, ptr, map)) != -1)
-    //     return (interlplan(alpha, ray, ptr, map));
+   if (ptr->type == 2)
+    if (ray->x >= (ptr->base->origins->x - ptr->height) && ray->x <= (ptr->base->origins->x + ptr->height))
+      if (ray->y >= (ptr->base->origins->y - ptr->height) && ray->y <= (ptr->base->origins->y + ptr->height))
+        if ((alpha = intersect_plan(ray, ptr, map)) >= 0)
+        {
+          return (interlplan(alpha, ray, ptr, map));
+        }
     // if (ptr->type == 4)
     //   if ((alpha = intersect_plan(ray, ptr, map)) != -1)
     //     return (interlplan(alpha, ray, ptr, map));

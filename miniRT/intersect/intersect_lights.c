@@ -21,12 +21,12 @@ unsigned long int interlsphere(double t, t_triade *ray, t_objs *ptr, t_map *map)
   normale.y = p.y - ptr->base->origins->y;
   normale.z = p.z - ptr->base->origins->z;
   normalisation = sqrt(pow(normale.x, 2) + pow(normale.y, 2) + pow(normale.z, 2));
-  normale.x = normale.x / normalisation;
-  normale.y = normale.y / normalisation;
-  normale.z = normale.z / normalisation;
-  ldir.x = p.x - map->lights->base->origins->x;
-  ldir.y = p.y - map->lights->base->origins->y;
-  ldir.z = p.z - map->lights->base->origins->z;
+  normale.x = -normale.x / normalisation;
+  normale.y = -normale.y / normalisation;
+  normale.z = -normale.z / normalisation;
+  ldir.x = map->lights->base->origins->x - p.x;
+  ldir.y = map->lights->base->origins->y - p.y;
+  ldir.z = map->lights->base->origins->z - p.z;
   normalisation = sqrt(pow(ldir.x, 2) + pow(ldir.y, 2) + pow(ldir.z, 2));
   ldir.x = ldir.x / normalisation;
   ldir.y = ldir.y / normalisation;
@@ -36,10 +36,20 @@ unsigned long int interlsphere(double t, t_triade *ray, t_objs *ptr, t_map *map)
   intensity = intensity / (pow(ldir.x, 2) + pow(ldir.y, 2) + pow(ldir.z, 2));
   if (intensity < 0)
     intensity = 0;
-  color1 = ptr->base->color->x * intensity;
-  color2 = ptr->base->color->y * intensity;
-  color3 = ptr->base->color->z * intensity;
+  color1 = (map->ambiant->color->x - (255 - ptr->base->color->x)) * map->ambiant->lumens;
+  color1 += (map->ambiant->color->x - (255 - ptr->base->color->x)) * intensity;
+  if (color1 > 255)
+    color1 = 255;
+  color2 = (map->ambiant->color->y - (255 - ptr->base->color->y)) * map->ambiant->lumens;
+  color2 += (map->ambiant->color->y - (255 - ptr->base->color->y)) * intensity;
+  if (color2 > 255)
+    color2 = 255;
+  color3 = (map->ambiant->color->z - (255 - ptr->base->color->z)) * map->ambiant->lumens;
+  color3 += (map->ambiant->color->z - (255 - ptr->base->color->z)) * intensity;
+  if (color3 > 255)
+    color3 = 255;
   ret = (color1 * 256 * 256) + (color2 * 256) + color3;
+  printf("%lf, %p\n", intensity, ret);
   return (ret);
 }
 
@@ -54,6 +64,7 @@ unsigned long int interlplan(double t, t_triade *ray, t_objs *ptr, t_map *map)
   double normalisation2;
   t_triade normale;
   t_triade ldir;
+  double llong;
   t_triade p;
   unsigned long int ret;
 
@@ -70,15 +81,24 @@ unsigned long int interlplan(double t, t_triade *ray, t_objs *ptr, t_map *map)
   ldir.x = ldir.x / normalisation;
   ldir.y = ldir.y / normalisation;
   ldir.z = ldir.z / normalisation;
-  angle = ((normale.x * ldir.x) + (normale.y * ldir.y) + (normale.z * ldir.z));
-  intensity = (map->lights->lumens * angle);
+  intensity = ((normale.x * (ldir.x)) + (normale.y * (ldir.y)) + (normale.z * (ldir.z)));
+  intensity = (map->lights->lumens * intensity);
   intensity = intensity / (pow(ldir.x, 2) + pow(ldir.y, 2) + pow(ldir.z, 2));
   if (intensity < 0)
     intensity = 0;
-  printf("%lf\n", intensity);
-  color1 = ptr->base->color->x * intensity;
-  color2 = ptr->base->color->y * intensity;
-  color3 = ptr->base->color->z * intensity;
+  color1 = (map->ambiant->color->x - (255 - ptr->base->color->x)) * map->ambiant->lumens;
+  color1 += (map->ambiant->color->x - (255 - ptr->base->color->x)) * intensity;
+  if (color1 > 255)
+    color1 = 255;
+  color2 = (map->ambiant->color->y - (255 - ptr->base->color->y)) * map->ambiant->lumens;
+  color2 += (map->ambiant->color->y - (255 - ptr->base->color->y)) * intensity;
+  if (color2 > 255)
+    color2 = 255;
+  color3 = (map->ambiant->color->z - (255 - ptr->base->color->z)) * map->ambiant->lumens;
+  color3 += (map->ambiant->color->z - (255 - ptr->base->color->z)) * intensity;
+  if (color3 > 255)
+    color3 = 255;
   ret = (color1 * 256 * 256) + (color2 * 256) + color3;
+  printf("%lf, %p\n", intensity, ret);
   return (ret);
 }

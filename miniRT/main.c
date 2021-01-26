@@ -80,11 +80,11 @@ int   main(int argc, char **argv)
       y = -1;
   		while (y++ < map->resolution->win_height - 1)
   		{
-        ray->y = -(y - (map->resolution->win_height / 2)) * map->cams->base->vdir->y;
+        ray->y = -(y - (map->resolution->win_height / 2));
   			x = -1;
   			while (x++ < map->resolution->win_width - 1)
   			{
-          ray->x = (x - (map->resolution->win_width / 2)) * map->cams->base->vdir->x;
+          ray->x = (x - (map->resolution->win_width / 2));
           my_mlx_pixel_put(&img, x, y, intersect(map, ray));
   			}
   		}
