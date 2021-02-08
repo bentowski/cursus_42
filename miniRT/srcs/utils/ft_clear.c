@@ -1,4 +1,4 @@
-#include "../minirt.h"
+#include "../../minirt.h"
 
 void ft_clear_base(t_base *base)
 {
@@ -75,5 +75,6 @@ void ft_clear(t_map *map)
   ft_clear_objs(map->objs);
   ft_clear_cams(map->cams);
   ft_clear_lights(map->lights);
+  free(map->vnull);
   free(map);
 }

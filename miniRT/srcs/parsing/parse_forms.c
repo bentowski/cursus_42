@@ -1,4 +1,4 @@
-#include "../minirt.h"
+#include "../../minirt.h"
 
 int init_sphere(char *line, int i, t_objs **objs)
 {

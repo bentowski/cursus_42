@@ -1,4 +1,4 @@
-#include "../minirt.h"
+#include "../../minirt.h"
 
 int resolution(t_map ****map, char *line, int i)
 {

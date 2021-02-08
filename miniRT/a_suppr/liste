@@ -1,8 +1,7 @@
 affichage cylindre
 affichage triangle
 
-lumière ambiante tous
-lumière spot plan / carré / triangle
+lumière spot cylindre / carré / triangle
 
 multi spot
 changement caméras

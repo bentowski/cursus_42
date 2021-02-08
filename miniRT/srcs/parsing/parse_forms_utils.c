@@ -1,4 +1,4 @@
-#include "../minirt.h"
+#include "../../minirt.h"
 
 int ft_vecteur(t_triade *new, char *line, int i)
 {

@@ -1,4 +1,4 @@
-#include "../minirt.h"
+#include "../../minirt.h"
 
 double ft_routinedeux(double x, char *line, int **i)
 {

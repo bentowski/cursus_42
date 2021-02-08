@@ -1,4 +1,4 @@
-#include "../minirt.h"
+#include "../../minirt.h"
 
 int verif(char *line, int i, t_map ***map)
 {

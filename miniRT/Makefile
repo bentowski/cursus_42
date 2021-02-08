@@ -1,15 +1,17 @@
 NAME		= a.out
 SRCS    =	main.c \
-					intersect/intersect_objects.c \
-					intersect/intersect_lights.c \
-					parsing/parse.c \
-					parsing/parse_forms.c \
-					parsing/parse_forms_utils.c \
-					parsing/parse_utils.c \
-					parsing/parse_basic.c \
-					includes/ft_clear.c \
 					includes/get_next_line/get_next_line.c \
-					includes/get_next_line/get_next_line_utils.c
+					includes/get_next_line/get_next_line_utils.c \
+					srcs/raytracing.c \
+					srcs/coloring.c \
+					srcs/intersect/intersect_objects.c \
+					srcs/parsing/parse.c \
+					srcs/parsing/parse_forms.c \
+					srcs/parsing/parse_forms_utils.c \
+					srcs/parsing/parse_utils.c \
+					srcs/parsing/parse_basic.c \
+					srcs/utils/ft_clear.c \
+					srcs/utils/utils.c
 
 SRCDIR    = ./
 CC        = gcc -D BUFFER_SIZE=4

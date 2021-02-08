@@ -74,6 +74,7 @@ typedef struct s_map
   t_objs        *objs;
   t_cams        *cams;
   t_lights      *lights;
+  t_triade      *vnull;
 }             t_map;
 
 int init_sphere(char *line, int i, t_objs **objs);
@@ -98,8 +99,17 @@ void ft_clear_cams(t_cams *cams);
 void ft_clear_lights(t_lights *lights);
 void ft_clear_objs(t_objs *objs);
 int ft_check_color_vdir(t_triade *check, int opt);
-unsigned long int intersect(t_map *map, t_triade *ray);
-unsigned long int interlsphere(double t, t_triade *ray, t_objs *ptr, t_map *map);
-unsigned long int interlplan(double t, t_triade *ray, t_objs *ptr, t_map *map);
+t_objs *intersect(t_objs *ptr, t_triade *origins, t_triade ray, double *alpha);
+unsigned long int interlsphere(double t, t_triade ray, t_objs *ptr, t_map *map);
+unsigned long int interlplan(double t, t_triade ray, t_objs *ptr, t_map *map);
+t_triade get_norme(t_triade target);
+t_triade vector(t_triade *t1, t_triade *t2);
+double intersect_sphere(t_triade ray, t_objs *ptr, t_triade *origins);
+double intersect_plan(t_triade ray, t_objs *ptr, t_triade *origins);
+unsigned long int ft_raytracing(t_map *map, t_triade ray);
+double scale(t_triade *t1, t_triade *t2);
+t_triade get_position(t_triade *origins, t_triade ray, double t);
+t_triade get_normale(t_objs *ptr, t_triade position, t_map *map);
+unsigned long int get_color(t_ambiant *ambiant, t_objs *ptr, double intensity);
 
 #endif
