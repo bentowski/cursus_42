@@ -39,7 +39,7 @@ t_triade get_normale(t_objs *ptr, t_triade position, t_map *map)
     return (n);
   if (ptr->type == 1)
     n = get_norme(vector(&position, ptr->base->origins));
-  else if (ptr->type == 3)
+  else if (ptr->type == 3 || ptr->type == 2)
     n = get_norme(vector(ptr->base->vdir, map->vnull));
   return (n);
 }

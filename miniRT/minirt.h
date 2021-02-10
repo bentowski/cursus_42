@@ -111,5 +111,5 @@ double scale(t_triade *t1, t_triade *t2);
 t_triade get_position(t_triade *origins, t_triade ray, double t);
 t_triade get_normale(t_objs *ptr, t_triade position, t_map *map);
 unsigned long int get_color(t_ambiant *ambiant, t_objs *ptr, double intensity);
-
+int inside_square(double test, t_objs *ptr, t_triade ray, t_triade *origins);
 #endif

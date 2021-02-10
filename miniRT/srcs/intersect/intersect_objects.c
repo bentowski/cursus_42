@@ -78,6 +78,24 @@ double intersect_triangle(t_triade ray, t_objs *ptr, t_map *map)
   return (-1);
 }
 
+int inside_square(double test, t_objs *ptr, t_triade ray, t_triade *origins)
+{
+  t_triade p;
+  t_triade dist;
+  double inside;
+
+  inside = ptr->height / 2;
+  p.x = origins->x + test * ray.x;
+  p.y = origins->y + test * ray.y;
+  p.z = origins->z + test * ray.z;
+  dist.x = fabs(p.x - ptr->base->origins->x);
+  dist.y = fabs(p.y - ptr->base->origins->y);
+  dist.z = fabs(p.z - ptr->base->origins->z);
+  if (dist.x <= inside && dist.y <= inside && dist.z <= inside)
+    return(1);
+  return (0);
+}
+
 t_objs *intersect(t_objs *ptr, t_triade *origins, t_triade ray, double *alpha)
 {
   t_objs *ret;
@@ -100,6 +118,14 @@ t_objs *intersect(t_objs *ptr, t_triade *origins, t_triade ray, double *alpha)
           *alpha = test;
           ret = ptr;
         }
+    if (ptr->type == 2)
+      if ((test = intersect_plan(ray, ptr, origins)) >= 0)
+        if (inside_square(test, ptr, ray, origins))
+          if (test < *alpha || *alpha == -1)
+          {
+            *alpha = test;
+            ret = ptr;
+          }
     ptr = ptr->next;
   }
   return (ret);
