@@ -5,7 +5,10 @@ void ft_clear_base(t_base *base)
   if (base->origins)
     free(base->origins);
   if (base->vdir)
+  {
+
     free(base->vdir);
+  }
   if (base->color)
     free(base->color);
   free(base);

@@ -81,3 +81,20 @@ int ft_space(char *line, int i)
     }
   return (i);
 }
+
+int ft_vdir_tr(t_base *ptr, t_triade *p2, t_triade *p3)
+{
+  t_triade n;
+  t_triade n2;
+
+  n.x = p2->x - ptr->origins->x;
+  n.y = p2->y - ptr->origins->y;
+  n.z = p2->z - ptr->origins->z;
+  n2.x = p3->x - ptr->origins->x;
+  n2.y = p3->y - ptr->origins->y;
+  n2.z = p3->z - ptr->origins->z;
+  ptr->vdir->x = n.y * n2.z - n.z * n2.y;
+  ptr->vdir->y = n.z * n2.x - n.x * n2.z;
+  ptr->vdir->z = n.x * n2.y - n.y * n2.x;
+  return (1);
+}

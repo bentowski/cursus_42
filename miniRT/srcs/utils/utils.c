@@ -34,12 +34,13 @@ t_triade get_position(t_triade *origins, t_triade ray, double t)
 t_triade get_normale(t_objs *ptr, t_triade position, t_map *map)
 {
   t_triade n;
+  t_triade test;
 
   if (!ptr)
     return (n);
   if (ptr->type == 1)
     n = get_norme(vector(&position, ptr->base->origins));
-  else if (ptr->type == 3 || ptr->type == 2)
+  else if (ptr->type == 3 || ptr->type == 2 || ptr->type == 5)
     n = get_norme(vector(ptr->base->vdir, map->vnull));
   return (n);
 }
@@ -48,6 +49,27 @@ double scale(t_triade *t1, t_triade *t2)
 {
   double ret;
 
-  ret = t1->x * t2->x + t1->y * t2->y + t1->z * t2->z;
+  ret = t1->x * t2->x;
+  ret += t1->y * t2->y + t1->z * t2->z;
   return (ret);
+}
+
+t_triade *vector_v(t_triade *t1, t_triade *t2)
+{
+  t_triade *t3;
+
+  t3->x = t1->x - t2->x;
+  t3->y = t1->y - t2->y;
+  t3->z = t1->z - t2->z;
+  return (t3);
+}
+
+t_triade	crossprod(t_triade u, t_triade v)
+{
+	t_triade	res;
+
+	res.x = u.y * v.z - u.z * v.y;
+	res.y = u.z * v.x - u.x * v.z;
+	res.z = u.x * v.y - u.y * v.x;
+	return (res);
 }
