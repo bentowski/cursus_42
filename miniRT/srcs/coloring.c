@@ -14,20 +14,23 @@ int get_rgb(int color1, int color2, double intensity, double light)
   return (ret);
 }
 
-unsigned long int get_color(t_ambiant *ambiant, t_objs *ptr, double intensity)
+t_triade get_color(t_ambiant *ambiant, t_objs *ptr, double intensity)
 {
   t_triade color1;
   t_triade color2;
   double light;
-  unsigned long int ret;
+  t_triade ret;
 
   if (!ptr)
-    return (0);
+  {
+    ret.x = -1;
+    return (ret);
+  }
   color1 = *ambiant->color;
   color2 = *ptr->base->color;
   light = ambiant->lumens;
-  ret = get_rgb(color1.x, color2.x, intensity, light) * 256 * 256;
-  ret += get_rgb(color1.y, color2.y, intensity, light) * 256;
-  ret += get_rgb(color1.z, color2.z, intensity, light);
+  ret.x = get_rgb(color1.x, color2.x, intensity, light) * 256 * 256;
+  ret.y = get_rgb(color1.y, color2.y, intensity, light) * 256;
+  ret.z = get_rgb(color1.z, color2.z, intensity, light);
   return (ret);
 }

@@ -49,8 +49,7 @@ double scale(t_triade *t1, t_triade *t2)
 {
   double ret;
 
-  ret = t1->x * t2->x;
-  ret += t1->y * t2->y + t1->z * t2->z;
+  ret = t1->x * t2->x + t1->y * t2->y + t1->z * t2->z;
   return (ret);
 }
 
@@ -72,4 +71,14 @@ t_triade	crossprod(t_triade u, t_triade v)
 	res.y = u.z * v.x - u.x * v.z;
 	res.z = u.x * v.y - u.y * v.x;
 	return (res);
+}
+
+t_triade add_vectors(t_triade u, t_triade v)
+{
+  t_triade ret;
+
+  ret.x = u.x + v.x;
+  ret.y = u.y + v.y;
+  ret.z = u.z + v.z;
+  return (ret);
 }

@@ -1,5 +1,50 @@
 #include "../../minirt.h"
 
+int inside_square(double test, t_objs *ptr, t_triade ray, t_triade *origins)
+{
+  t_triade p;
+  t_triade dist;
+  double inside;
+
+  inside = ptr->height / 2;
+  p.x = origins->x + test * ray.x;
+  p.y = origins->y + test * ray.y;
+  p.z = origins->z + test * ray.z;
+  dist.x = fabs(p.x - ptr->base->origins->x);
+  dist.y = fabs(p.y - ptr->base->origins->y);
+  dist.z = fabs(p.z - ptr->base->origins->z);
+  if (dist.x <= inside && dist.y <= inside && dist.z <= inside)
+    return(1);
+  return (-1);
+}
+
+double inside_triangle(double test, t_objs *ptr, t_triade *origins, t_triade ray)
+{
+  t_triade p;
+  t_triade side[3];
+  t_triade i[3];
+  t_triade j[3];
+
+
+  p.x = origins->x + test * ray.x;
+  p.y = origins->y + test * ray.y;
+  p.z = origins->z + test * ray.z;
+  side[0] = vector(ptr->p2, ptr->base->origins);
+  side[1] = vector(ptr->p3, ptr->p2);
+  side[2] = vector(ptr->base->origins, ptr->p3);
+  i[0] = vector(&p, ptr->base->origins);
+  i[1] = vector(&p, ptr->p2);
+  i[2] = vector(&p, ptr->p3);
+  j[0] = crossprod(side[0], i[0]);
+  j[1] = crossprod(side[1], i[1]);
+  j[2] = crossprod(side[2], i[2]);
+  if ((scale(ptr->base->vdir, &j[0]) > 0)
+    && (scale(ptr->base->vdir, &j[1]) > 0)
+    && (scale(ptr->base->vdir, &j[2]) > 0))
+      return (1);
+  return (-1);
+}
+
 double intersect_plan(t_triade ray, t_objs *ptr, t_triade *origins)
 {
   t_triade alpha;
@@ -15,7 +60,16 @@ double intersect_plan(t_triade ray, t_objs *ptr, t_triade *origins)
   alpha.y += ray.z * vdir.z;
   alpha.z = alpha.x / alpha.y;
   if (alpha.z >= 0)
-    return (alpha.z);
+  {
+    if (ptr->type == 3)
+      return (alpha.z);
+    if (ptr->type == 2)
+      if (inside_square(alpha.z, ptr, ray, origins) == 1)
+        return (alpha.z);
+    if (ptr->type == 5)
+      if (inside_triangle(alpha.z, ptr, origins, ray) == 1)
+        return (alpha.z);
+  }
   return (-1);
 }
 
@@ -73,51 +127,6 @@ int intersect_cylinder(t_triade ray, t_objs *ptr, t_triade *origins)
   return (-1);
 }
 
-double inside_triangle(double test, t_objs *ptr, t_triade *origins, t_triade ray)
-{
-  t_triade p;
-  t_triade side[3];
-  t_triade i[3];
-  t_triade j[3];
-
-
-  p.x = origins->x + test * ray.x;
-  p.y = origins->y + test * ray.y;
-  p.z = origins->z + test * ray.z;
-  side[0] = vector(ptr->p2, ptr->base->origins);
-  side[1] = vector(ptr->p3, ptr->p2);
-  side[2] = vector(ptr->base->origins, ptr->p3);
-  i[0] = vector(&p, ptr->base->origins);
-  i[1] = vector(&p, ptr->p2);
-  i[2] = vector(&p, ptr->p3);
-  j[0] = crossprod(side[0], i[0]);
-  j[1] = crossprod(side[1], i[1]);
-  j[2] = crossprod(side[2], i[2]);
-  if ((scale(ptr->base->vdir, &j[0]) > 0)
-    && (scale(ptr->base->vdir, &j[1]) > 0)
-    && (scale(ptr->base->vdir, &j[2]) > 0))
-      return (1);
-  return (-1);
-}
-
-int inside_square(double test, t_objs *ptr, t_triade ray, t_triade *origins)
-{
-  t_triade p;
-  t_triade dist;
-  double inside;
-
-  inside = ptr->height / 2;
-  p.x = origins->x + test * ray.x;
-  p.y = origins->y + test * ray.y;
-  p.z = origins->z + test * ray.z;
-  dist.x = fabs(p.x - ptr->base->origins->x);
-  dist.y = fabs(p.y - ptr->base->origins->y);
-  dist.z = fabs(p.z - ptr->base->origins->z);
-  if (dist.x <= inside && dist.y <= inside && dist.z <= inside)
-    return(1);
-  return (-1);
-}
-
 t_objs *intersect(t_objs *ptr, t_triade *origins, t_triade ray, double *alpha)
 {
   t_objs *ret;
@@ -142,7 +151,6 @@ t_objs *intersect(t_objs *ptr, t_triade *origins, t_triade ray, double *alpha)
         }
     if (ptr->type == 2)
       if ((test = intersect_plan(ray, ptr, origins)) >= 0)
-        if (inside_square(test, ptr, ray, origins))
           if (test < *alpha || *alpha == -1)
           {
             *alpha = test;
@@ -150,7 +158,6 @@ t_objs *intersect(t_objs *ptr, t_triade *origins, t_triade ray, double *alpha)
           }
     if (ptr->type == 5)
       if ((test = intersect_plan(ray, ptr, origins)) >= 0)
-        if (inside_triangle(test, ptr, origins, ray) == 1)
           if (test < *alpha || *alpha == -1)
           {
             *alpha = test;
