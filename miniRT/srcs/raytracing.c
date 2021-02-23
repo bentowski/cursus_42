@@ -76,7 +76,16 @@ unsigned long int ft_raytracing(t_map *map, t_triade ray)
   while (light->next)
   {
     add = get_color(map->ambiant, target, get_light(map, n, position, light));
+    // printf("%lf, %lf, %lf\n", ret.x, ret.y, ret.z);
+    // printf("%lf, %lf, %lf\n", add.x, add.y, add.z);
     ret = add_vectors(ret, add);
+    printf("%lf, %lf, %lf\n", ret.x, ret.y, ret.z);
+    if (ret.x > 255)
+      ret.x = 255;
+    if (ret.y > 255)
+      ret.y = 255;
+    if (ret.z > 255)
+      ret.z = 255;
     light = light->next;
   }
   return ((ret.x * 256 * 256 + ret.y * 256 + ret.z));

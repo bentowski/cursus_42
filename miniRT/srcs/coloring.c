@@ -23,14 +23,16 @@ t_triade get_color(t_ambiant *ambiant, t_objs *ptr, double intensity)
 
   if (!ptr)
   {
-    ret.x = -1;
+    ret.x = 0;
+    ret.y = 0;
+    ret.z = 0;
     return (ret);
   }
   color1 = *ambiant->color;
   color2 = *ptr->base->color;
   light = ambiant->lumens;
-  ret.x = get_rgb(color1.x, color2.x, intensity, light) * 256 * 256;
-  ret.y = get_rgb(color1.y, color2.y, intensity, light) * 256;
+  ret.x = get_rgb(color1.x, color2.x, intensity, light);
+  ret.y = get_rgb(color1.y, color2.y, intensity, light);
   ret.z = get_rgb(color1.z, color2.z, intensity, light);
   return (ret);
 }
