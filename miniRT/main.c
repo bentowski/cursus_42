@@ -67,12 +67,12 @@ int   main(int argc, char **argv)
 	double y;
   t_triade ray;
 
-  if (argc == 2)
+  if (argc >= 2)
 	{
     if ((map_init(&map)) == -1)
       return (-1);
 		if (ft_parse(&map, argv[1]) != -1)
-		{
+    {
   		mlx = mlx_init();
   		mlx_win = mlx_new_window(mlx, map->resolution->win_width, map->resolution->win_height, "Hello world");
   		img.img = mlx_new_image(mlx, map->resolution->win_width, map->resolution->win_height);
@@ -90,13 +90,10 @@ int   main(int argc, char **argv)
           my_mlx_pixel_put(&img, x, y, ft_raytracing(map, get_norme(ray)));
   			}
   		}
-
   		mlx_put_image_to_window(mlx, mlx_win, img.img, 0, 0);
       ft_clear(map);
-      system("leaks a.out");
-      printf("%s\n", "FIN");
       mlx_loop(mlx);
-  		return (1);
+      return (1);
     }
     ft_clear(map);
     system("leaks a.out");

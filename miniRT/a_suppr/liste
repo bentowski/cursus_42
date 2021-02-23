@@ -1,15 +1,10 @@
 affichage cylindre
-affichage triangle
 
-lumière spot cylindre / carré / triangle
+lumière spéculaire
+lumière décroit avec la distance
 
-multi spot
 changement caméras
-
-changement taille diamètre sphère / côté carré / hauteur & longueur cylindre
-changement angle cams
-
-translation camera / sphere / triangle / carres / cylindre / plan / lumiere
+rotation caméras
 
 fermer fenetre par la croix rouge / ESC
 adaptation fenetre taille display si trop grand
