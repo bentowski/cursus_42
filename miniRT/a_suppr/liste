@@ -6,7 +6,7 @@ lumière décroit avec la distance
 changement caméras
 rotation caméras
 
-fermer fenetre par la croix rouge / ESC
+fermer fenetre par la croix rouge
 adaptation fenetre taille display si trop grand
 
 sauvegarde image bmp (avec argument --save)

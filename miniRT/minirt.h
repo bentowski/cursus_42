@@ -7,6 +7,24 @@
 #ifndef MINIRT_H
 # define MINIRT_H
 
+// # ifdef MACOS
+#  define OS 1
+#  define SPC_KEY 49
+#  define ESC_KEY 53
+#  define R_KEY 15
+#  define N_KEY 45
+#  define P_KEY 35
+#  define A_KEY 0
+#  define W_KEY 13
+#  define S_KEY 1
+#  define D_KEY 2
+#  define LARROW_KEY 123
+#  define UARROW_KEY 126
+#  define DARROW_KEY 125
+#  define RARROW_KEY 124
+#  define DESTROYNOTIFY 17
+// # endif
+
 typedef struct  s_data {
     void        *img;
     char        *addr;
@@ -76,6 +94,15 @@ typedef struct s_map
   t_lights      *lights;
   t_triade      *vnull;
 }             t_map;
+
+typedef struct s_env
+{
+  void *mlx;
+  void *mlx_win;
+  t_data img;
+  t_map *map;
+  char *rtfile;
+}               t_env;
 
 int init_sphere(char *line, int i, t_objs **objs);
 int init_plane(char *line, int i, t_objs **objs);
