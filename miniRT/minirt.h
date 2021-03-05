@@ -76,6 +76,7 @@ typedef struct s_cams
   t_base *base;
   double fov;
   struct s_cams *next;
+  struct s_cams *previous;
 }               t_cams;
 
 typedef struct s_lights

@@ -46,7 +46,9 @@ int ambiance(char *line, int i, t_ambiant **ambiant)
 int camera(char *line, int i, t_cams **cams)
 {
   t_cams *new;
+  t_cams *ptr;
 
+  ptr = *cams;
   if (!(new = ft_calloc(1, sizeof(t_cams))))
     return (-1);
   if (!(new->base = ft_calloc(1, sizeof(t_base))))
@@ -63,6 +65,7 @@ int camera(char *line, int i, t_cams **cams)
             if (new->fov >= 0 && new->fov <= 180)
             {
               new->next = *cams;
+              ptr->previous = new;
               *cams = new;
               return (i);
             }

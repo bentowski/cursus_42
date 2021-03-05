@@ -5,10 +5,7 @@ void ft_clear_base(t_base *base)
   if (base->origins)
     free(base->origins);
   if (base->vdir)
-  {
-
     free(base->vdir);
-  }
   if (base->color)
     free(base->color);
   free(base);
@@ -40,6 +37,8 @@ void ft_clear_cams(t_cams *cams)
   t_cams *tmp;
 
   ptr = cams;
+  while (ptr->previous)
+    ptr = ptr->previous;
   while (ptr)
   {
     tmp = ptr->next;
