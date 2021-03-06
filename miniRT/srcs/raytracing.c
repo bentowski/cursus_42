@@ -66,9 +66,6 @@ unsigned long int ft_raytracing(t_map *map, t_triade ray)
   target = intersect(map->objs, map->cams->base->origins, ray, &t);
   position = get_position(map->cams->base->origins, ray, t);
   n = get_normale(target, position, map);
-  // test = (ldir.x - (2 * (ldir.x * n.x) * n.x)) * ray.x;
-  // test += (ldir.y - (2 * (ldir.y * n.y) * n.y)) * ray.y;
-  // test += (ldir.z - (2 * (ldir.z * n.z) * n.z)) * ray.z;
   light = map->lights;
   ret.x = 0;
   ret.y = 0;
