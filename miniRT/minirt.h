@@ -134,6 +134,7 @@ t_triade get_norme(t_triade target);
 t_triade vector(t_triade *t1, t_triade *t2);
 double intersect_sphere(t_triade ray, t_objs *ptr, t_triade *origins);
 double intersect_plan(t_triade ray, t_objs *ptr, t_triade *origins);
+// double intersect_cy(t_triade ray, t_objs *ptr, t_triade *origins);
 unsigned long int ft_raytracing(t_map *map, t_triade ray);
 double scale(t_triade *t1, t_triade *t2);
 t_triade get_position(t_triade *origins, t_triade ray, double t);
@@ -143,5 +144,8 @@ t_triade crossprod(t_triade v1, t_triade v2);
 t_triade *vector_v(t_triade *t1, t_triade *t2);
 int ft_vdir_tr(t_base *ptr, t_triade *p2, t_triade *p3);
 t_triade add_vectors(t_triade u, t_triade v);
+t_triade subs(t_triade t1, t_triade t2);
+t_triade vector_n(t_triade t1, double n);
+
 
 #endif

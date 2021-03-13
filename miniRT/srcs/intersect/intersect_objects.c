@@ -78,7 +78,7 @@ double intersect_sphere(t_triade ray, t_objs *ptr, t_triade *origins)
   t_triade alpha;
   t_triade polynome;
 
-  polynome.x = 1;
+  polynome.x = ray.x * ray.x + ray.y * ray.y + ray.z * ray.z;
   polynome.y = ray.x * (origins->x - ptr->base->origins->x);
   polynome.y += ray.y * (origins->y - ptr->base->origins->y);
   polynome.y += ray.z * (origins->z - ptr->base->origins->z);
@@ -101,29 +101,53 @@ double intersect_sphere(t_triade ray, t_objs *ptr, t_triade *origins)
   return (-1);
 }
 
-int intersect_cylinder(t_triade ray, t_objs *ptr, t_triade *origins)
+double calcul_polynome(double x, double y, double z, int opt)
 {
   t_triade alpha;
-  t_triade polynome;
 
-  alpha.x = (ptr->base->origins->x - origins->x) * ptr->base->vdir->x;
-  alpha.x += (ptr->base->origins->y - origins->y) * ptr->base->vdir->y;
-  alpha.x += (ptr->base->origins->z - origins->z) * ptr->base->vdir->z;
-  alpha.y = ray.x * ptr->base->vdir->x;
-  alpha.y += ray.y * ptr->base->vdir->y;
-  alpha.y += ray.z * ptr->base->vdir->z;
-  alpha.z = alpha.x / alpha.y;
-  polynome.x = (ray.x * ray.x) + (ray.y * ray.y) + (ray.z * ray.z);
-  polynome.x = polynome.x * (alpha.z * alpha.z);
-  polynome.y = (2 * alpha.z) * ((ray.x * (origins->x - ptr->base->origins->x)));
-  polynome.y += (2 * alpha.z) * ((ray.y * (origins->y - ptr->base->origins->y)));
-  polynome.y += (2 * alpha.z) * ((ray.z * (origins->z - ptr->base->origins->z)));
-  polynome.z = (origins->x - ptr->base->origins->x) * (origins->x - ptr->base->origins->x);
-  polynome.z += (origins->y - ptr->base->origins->y) * (origins->y - ptr->base->origins->y);
-  polynome.z += (origins->z - ptr->base->origins->z) * (origins->z - ptr->base->origins->z);
-  polynome.z -= (ptr->diam / 2) * (ptr->diam/ 2);
-  if ((polynome.x + polynome.y + polynome.z) >= 0)
-    return (1);
+  alpha.z = pow(y, 2) - (4 * x * z);
+  if (alpha.z >= 0)
+  {
+    alpha.x = (-y - sqrt(alpha.z)) / (2 * x);
+    alpha.y = (-y + sqrt(alpha.z)) / (2 * x);
+    if (alpha.y < 0)
+      return (-1);
+    if (opt == 1)
+    {
+      if (alpha.x >= 0)
+        return (alpha.x);
+    }
+    else if (opt == 2)
+    {
+      if (alpha.x < alpha.y)
+        return (alpha.y);
+    }
+    return (alpha.y);
+  }
+  return (-1);
+}
+
+double intersect_cy(t_triade ray, t_objs *ptr, t_triade *origins, double *alpha)
+{
+  t_triade x;
+  t_triade y;
+  t_triade p;
+  t_triade v;
+  double ret[4];
+
+  v = subs(*origins, *ptr->base->origins);
+  x = subs(ray, vector_n(*ptr->base->vdir, scale(&ray, ptr->base->vdir)));
+  y = subs(subs(*origins, *ptr->base->origins), vector_n(*ptr->base->vdir, scale(&v, ptr->base->vdir)));
+  ret[0] = calcul_polynome(scale(&x, &x), 2 * scale(&x, &y), (scale(&y, &y) - pow((ptr->diam / 2), 2)), 1);
+  ret[1] = calcul_polynome(scale(&x, &x), 2 * scale(&x, &y), (scale(&y, &y) - pow((ptr->diam / 2), 2)), 2);
+  p = subs(vector_n(ray, ret[0]), subs(*ptr->base->origins, *origins));
+  ret[2] = scale(ptr->base->vdir, &p);
+  p = subs(vector_n(ray, ret[1]), subs(*ptr->base->origins, *origins));
+  ret[3] = scale(ptr->base->vdir, &p);
+  if (ret[3] < ptr->diam && ret[3] > 0 && ret[1] >= 0 && ret[1] < *alpha)
+    return (ret[1]);
+  if (ret[2] < ptr->diam && ret[2] > 0 && ret[0] >= 0 && ret[1] < *alpha)
+    return (ret[0]);
   return (-1);
 }
 
@@ -163,6 +187,13 @@ t_objs *intersect(t_objs *ptr, t_triade *origins, t_triade ray, double *alpha)
             *alpha = test;
             ret = ptr;
           }
+    if (ptr->type == 4)
+      if ((test = intersect_cy(ray, ptr, origins, alpha)) >= 0)
+        if (test < *alpha || *alpha == -1)
+        {
+          *alpha = test;
+          ret = ptr;
+        }
     ptr = ptr->next;
   }
   return (ret);
