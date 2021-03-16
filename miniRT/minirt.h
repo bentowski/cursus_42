@@ -1,5 +1,5 @@
 #include "includes/get_next_line/get_next_line.h"
-#include "includes/mlx.h"
+#include "./mlx/mlx.h"
 #include <fcntl.h>
 #include <stdio.h>
 #include <math.h>
