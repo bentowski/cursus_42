@@ -1,5 +1,29 @@
 #include "../../minirt.h"
 
+void	ft_bzero(void *s, size_t n)
+{
+	char	*p;
+
+	p = (char *)s;
+	while (n > 0)
+	{
+		p[n - 1] = 0;
+		n--;
+	}
+}
+
+void	*ft_calloc(size_t count, size_t size)
+{
+	char	*ptr;
+	int		lenght;
+
+	lenght = count * size;
+	if (!(ptr = malloc(lenght)))
+		return (NULL);
+	ft_bzero(ptr, lenght);
+	return (ptr);
+}
+
 int init_sphere(char *line, int i, t_objs **objs)
 {
   t_objs *new;
@@ -104,9 +128,6 @@ int init_cylinder(char *line, int i, t_objs **objs)
 int init_triangle(char *line, int i, t_objs **objs)
 {
   t_objs *new;
-  t_triade *test1;
-  t_triade *test2;
-  t_triade test3;
 
   if ((new = ft_calloc(1, sizeof(t_objs))))
     if ((new->base = ft_calloc(1, sizeof(t_base))))

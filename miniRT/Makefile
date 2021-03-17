@@ -1,33 +1,19 @@
 SHELL :=		/bin/bash
 
 CC =			clang -D BUFFER_SIZE=4
-
 FLAGS =			-Wall -Wextra -Werror -g
-
 RM =			rm -rf
-
 DIR_HEADERS =	./includes/
-
 DIR_SRCS =		./
-
 MLX_DIR = 		./
-
 MLX_HEADER = 	/usr/local/include/
-
 MLX_LIB = 		/usr/local/lib/
-
 MLX_FLAGS	=	-lmlx
-
 MACOS_FLAGS =	-framework OpenGL -framework AppKit
-
 LINUX_FLAGS =	-lXext -lX11 -lm
-
 LIBMLX =		libmlx.a
-
 LIBFT =			libft.a
-
 FSAN =			-fsanitize=address
-
 SRC =	main.c \
 			includes/get_next_line/get_next_line.c \
 			includes/get_next_line/get_next_line_utils.c \
@@ -43,43 +29,38 @@ SRC =	main.c \
 			srcs/utils/utils.c
 
 SRCS =			$(addprefix $(DIR_SRCS), $(SRC))
-
-COMPIL =		$(FLAGS)# $(FSAN)
-
 OBJS =			$(SRCS:.c=.o)
-
 NAME =			miniRT
-
 UNAME := 		$(shell uname)
-
 CP_MLX_H =		@cp $(MLX_DIR)/*.h $(MLX_HEADER)
-
 CP_MLX_LIB =	@cp $(MLX_DIR)/$(LIBMLX) $(MLX_LIB)
 
 all:			$(NAME)
 				@echo "Compiled "$(NAME)" successfully!"
 
 $(NAME) :		$(OBJS)
-				# @$(MAKE) -C ./libft
-				# @cp ./libft/$(LIBFT) $(LIBFT) && cp ./libft/libft.h $(DIR_HEADERS)/libft.h
-				$(CP_MLX_H)
-				@$(MAKE) CFLAGS="-Wall -Werror -Wextra -I" -C $(MLX_DIR)
-				$(CP_MLX_LIB)
-				@$(CC) $(COMPIL) $(OS) $(RES) $(OBJS) $(MLX_FLAGS) -L $(NAME)
+				@$(MAKE) -C ./libft
+				@cp ./libft/libft.a libft.a
+				@chmod 555 ./mlx/configure
+				@$(MAKE) -C ./mlx
+				@cp ./mlx/libmlx.a libmlx.a
+				@$(CC) $(CFLAGS) -o $@ -lmlx -L $^ -lm
 
 %.o: %.c
 				@$(CC) $(FLAGS) $(OS) $(RES) -c $< -o $@
 				@echo "Compiled "$<" successfully!"
 
 clean:
-				@$(MAKE) -C ./libft clean
-				@$(MAKE) -C $(MLX_DIR) clean
+	$(MAKE) -C ./libft clean
+	$(MAKE) -C ./mlx clean
+	rm -rf *.o
 
 fclean: clean
-				@$(MAKE) -C ./libft fclean
-				@$(RM) $(LIBFT)
-				@$(RM) $(LIBMLX)
-				@$(RM) $(NAME)
+	$(MAKE) -C ./libft fclean
+	rm -rf ./mlx/libmlx.a
+	rm -rf $(NAME)
+
+re: fclean all
 
 
 # re: fclean all
