@@ -6,7 +6,6 @@ int get_rgb(int color1, int color2, int color3, double intensity, double light)
 
   ret = (color1 - (255 - color2)) * light;
   ret += (color3 - (255 - color2)) * intensity;
-  // ret += (color1 - (255 - color2)) * test;
   if (ret > 255)
     return (255);
   if (ret < 0)

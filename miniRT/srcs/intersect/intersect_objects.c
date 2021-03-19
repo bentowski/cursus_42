@@ -49,7 +49,6 @@ double intersect_plan(t_triade ray, t_objs *ptr, t_triade *origins)
 {
   t_triade alpha;
   t_triade vdir;
-  t_map *useless;
 
   vdir = get_norme(*ptr->base->vdir);
   alpha.x = (ptr->base->origins->x - origins->x) * vdir.x;
@@ -144,9 +143,9 @@ double intersect_cy(t_triade ray, t_objs *ptr, t_triade *origins, double *alpha)
   ret[2] = scale(ptr->base->vdir, &p);
   p = subs(vector_n(ray, ret[1]), subs(*ptr->base->origins, *origins));
   ret[3] = scale(ptr->base->vdir, &p);
-  if (ret[3] < ptr->diam && ret[3] > 0 && ret[1] >= 0 && ret[1] < *alpha)
+  if (ret[3] < ptr->height && ret[3] > 0 && ret[1] >= 0 && ret[1] < *alpha)
     return (ret[1]);
-  if (ret[2] < ptr->diam && ret[2] > 0 && ret[0] >= 0 && ret[1] < *alpha)
+  if (ret[2] < ptr->height && ret[2] > 0 && ret[0] >= 0 && ret[1] < *alpha)
     return (ret[0]);
   return (-1);
 }
@@ -182,11 +181,11 @@ t_objs *intersect(t_objs *ptr, t_triade *origins, t_triade ray, double *alpha)
           }
     if (ptr->type == 5)
       if ((test = intersect_plan(ray, ptr, origins)) >= 0)
-          if (test < *alpha || *alpha == -1)
-          {
-            *alpha = test;
-            ret = ptr;
-          }
+        if (test < *alpha || *alpha == -1)
+        {
+          *alpha = test;
+          ret = ptr;
+        }
     if (ptr->type == 4)
       if ((test = intersect_cy(ray, ptr, origins, alpha)) >= 0)
         if (test < *alpha || *alpha == -1)

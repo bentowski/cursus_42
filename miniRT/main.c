@@ -8,30 +8,6 @@ void  my_mlx_pixel_put(t_data *data, int x, int y, int color)
     *(unsigned int*)dst = color;
 }
 
-void	ft_bzero(void *s, size_t n)
-{
-	char	*p;
-
-	p = (char *)s;
-	while (n > 0)
-	{
-		p[n - 1] = 0;
-		n--;
-	}
-}
-
-void	*ft_calloc(size_t count, size_t size)
-{
-	char	*ptr;
-	int		lenght;
-
-	lenght = count * size;
-	if (!(ptr = malloc(lenght)))
-		return (NULL);
-	ft_bzero(ptr, lenght);
-	return (ptr);
-}
-
 int   map_init(t_map **map)
 {
   t_map *ptrmap;
@@ -61,6 +37,7 @@ int   map_init(t_map **map)
 t_triade cams_orientation(t_triade ray, t_triade dir)
 {
   t_triade ret;
+  double test;
   t_triade x;
   t_triade y;
   t_triade z;
@@ -75,6 +52,13 @@ t_triade cams_orientation(t_triade ray, t_triade dir)
   ret.x = scale(&ray, &x);
   ret.y = scale(&ray, &y);
   ret.z = scale(&ray, &z);
+  test = sqrt(pow(ret.x, 2) + pow(ret.y, 2) + pow(ret.z, 2));
+  ret.x = ret.x / test;
+  ret.y = ret.y / test;
+  ret.z = ret.z / test;
+  printf("%f, %f, %f\n", ret.x, ret.y, ret.z);
+
+  // ret = get_norme(ret);
   return (ret);
 }
 
@@ -84,6 +68,7 @@ int gestion_win(int keycode, t_env *env)
   double x;
 	double y;
   t_triade ray;
+  printf("%d\n", keycode);
 
   if (keycode == R_KEY)
   {
@@ -119,17 +104,21 @@ int gestion_win(int keycode, t_env *env)
     if (env->map->cams->next->next != NULL)
     {
       map->cams = map->cams->next;
-      ray.z = map->resolution->win_width;
-      ray.z = ray.z / (2 * tan((map->cams->fov * M_PI / 180) / 2));
-      ray.z = ray.z * map->cams->base->vdir->z;
+      // ray.z = map->resolution->win_width;
+      // ray.z = ray.z / (2 * tan((map->cams->fov * M_PI / 180) / 2));
+      // ray.z = ray.z * map->cams->base->vdir->z;
       y = 0;
   		while (y < map->resolution->win_height - 1)
       {
-        ray.y = (-y + map->resolution->win_height / 2.0) * map->resolution->win_width / map->resolution->win_height;
+        // ray.y = (-y + map->resolution->win_height / 2.0) * map->resolution->win_width / map->resolution->win_height;
   			x = 0;
   			while (x < map->resolution->win_width - 1)
   			{
-          ray.x = (-x + map->resolution->win_width / 2.0) * map->resolution->win_width / map->resolution->win_height;
+          ray.x = (x - map->resolution->win_width / 2.0) * map->resolution->win_width / map->resolution->win_height;
+          ray.y = (-y + map->resolution->win_height / 2.0) * map->resolution->win_width / map->resolution->win_height;
+          ray.z = map->resolution->win_width;
+          ray.z = ray.z / (2 * tan((map->cams->fov * M_PI / 180) / 2));
+          ray.z = ray.z * map->cams->base->vdir->z;
           ray = cams_orientation(ray, *map->cams->base->vdir);
           my_mlx_pixel_put(&env->img, x, y, ft_raytracing(map, get_norme(ray)));
           x += 0.5;
@@ -173,7 +162,6 @@ int gestion_win(int keycode, t_env *env)
     free(env->mlx);
     free(env->img.img);
     ft_clear(env->map);
-    system("leaks a.out");
     exit(EXIT_SUCCESS);
   }
   return (1);
@@ -197,18 +185,21 @@ int   main(int argc, char **argv)
   		env.mlx_win = mlx_new_window(env.mlx, map->resolution->win_width, map->resolution->win_height, "Hello world");
   		env.img.img = mlx_new_image(env.mlx, map->resolution->win_width, map->resolution->win_height);
   		env.img.addr = mlx_get_data_addr(env.img.img, &env.img.bits_per_pixel, &env.img.line_length, &env.img.endian);
-      ray.z = 1 / (tan(M_PI / 180.0 * map->cams->fov / 2)) * map->resolution->win_width / 2;
-      ray.z = ray.z * map->cams->base->vdir->z;
+      // ray.z = 1 / (tan(M_PI / 180.0 * map->cams->fov / 2)) * map->resolution->win_width / 2;
+      // ray.z = ray.z * map->cams->base->vdir->z;
       y = 0;
   		while (y < map->resolution->win_height - 1)
       {
-        ray.y = (-y + map->resolution->win_height / 2.0) * map->resolution->win_width / map->resolution->win_height;
+        // ray.y = (-y + map->resolution->win_height / 2.0) * map->resolution->win_width / map->resolution->win_height;
   			x = 0;
   			while (x < map->resolution->win_width - 1)
   			{
-          ray.x = (-x + map->resolution->win_width / 2.0) * map->resolution->win_width / map->resolution->win_height;
+          ray.x = (x - map->resolution->win_width / 2.0) * map->resolution->win_width / map->resolution->win_height;
+          ray.y = (-y + map->resolution->win_height / 2.0) * map->resolution->win_width / map->resolution->win_height;
+          ray.z = 1 / (tan(M_PI / 180.0 * map->cams->fov / 2)) * map->resolution->win_width / 2;
+          ray.z = ray.z * map->cams->base->vdir->z;
           ray = cams_orientation(ray, *map->cams->base->vdir);
-          my_mlx_pixel_put(&env.img, x, y, ft_raytracing(map, get_norme(ray)));
+          my_mlx_pixel_put(&env.img, x, y, ft_raytracing(map, ray));
           x += 0.5;
         }
         y += 1;
@@ -222,10 +213,8 @@ int   main(int argc, char **argv)
       return (1);
     }
     ft_clear(map);
-    system("leaks a.out");
     return (-1);
 	}
 	printf("%s\n%s", "Error", "missing or too much arguments");
-  system("leaks a.out");
 	return (-1);
 }

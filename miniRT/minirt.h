@@ -9,19 +9,19 @@
 
 // # ifdef MACOS
 #  define OS 1
-#  define SPC_KEY 49
-#  define ESC_KEY 53
-#  define R_KEY 15
-#  define N_KEY 45
-#  define P_KEY 35
-#  define A_KEY 0
-#  define W_KEY 13
-#  define S_KEY 1
-#  define D_KEY 2
-#  define LARROW_KEY 123
-#  define UARROW_KEY 126
-#  define DARROW_KEY 125
-#  define RARROW_KEY 124
+#  define SPC_KEY 32
+#  define ESC_KEY 65307
+#  define R_KEY 114
+#  define N_KEY 110
+#  define P_KEY 112
+#  define A_KEY 97
+#  define W_KEY 119
+#  define S_KEY 115
+#  define D_KEY 100
+#  define LARROW_KEY 65361
+#  define UARROW_KEY 65362
+#  define DARROW_KEY 65364
+#  define RARROW_KEY 65363
 #  define DESTROYNOTIFY 17
 // # endif
 

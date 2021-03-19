@@ -32,8 +32,16 @@ SRCS =			$(addprefix $(DIR_SRCS), $(SRC))
 OBJS =			$(SRCS:.c=.o)
 NAME =			miniRT
 UNAME := 		$(shell uname)
+COMPIL = $(FLAGS)
 CP_MLX_H =		@cp $(MLX_DIR)/*.h $(MLX_HEADER)
 CP_MLX_LIB =	@cp $(MLX_DIR)/$(LIBMLX) $(MLX_LIB)
+
+CP_MLX_H += && echo "Copying mlx headers"
+CP_MLX_LIB += && echo "Copying mlx library"
+MLX_DIR = ./mlx_linux
+MLX_FLAGS = -Lmlx -lmlx -L$(MLX_LIB) -Imlx_linux $(LINUX_FLAGS)
+FLAGS += -I$(DIR_HEADERS) -I$(MLX_HEADER) -Imlx_linux
+OS = -D LINUX
 
 all:			$(NAME)
 				@echo "Compiled "$(NAME)" successfully!"
@@ -44,7 +52,7 @@ $(NAME) :		$(OBJS)
 				@chmod 555 ./mlx/configure
 				@$(MAKE) -C ./mlx
 				@cp ./mlx/libmlx.a libmlx.a
-				@$(CC) $(CFLAGS) -o $@ -lmlx -L $^ -lm
+				@@$(CC) $(COMPIL) $(OS) $(RES) $(OBJS) $(MLX_FLAGS) -L $(LIB)libft -lft -o $(NAME)
 
 %.o: %.c
 				@$(CC) $(FLAGS) $(OS) $(RES) -c $< -o $@
@@ -53,11 +61,12 @@ $(NAME) :		$(OBJS)
 clean:
 	$(MAKE) -C ./libft clean
 	$(MAKE) -C ./mlx clean
-	rm -rf *.o
+	rm -rf *.o srcs/*.o srcs/*/*.o
 
 fclean: clean
 	$(MAKE) -C ./libft fclean
 	rm -rf ./mlx/libmlx.a
+	rm -rf libft.a libmlx.a
 	rm -rf $(NAME)
 
 re: fclean all

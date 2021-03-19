@@ -4,7 +4,6 @@ int get_shadows(t_map *map, t_triade ray, t_triade *p, double ldist)
 {
   t_objs *ptr;
   double alpha;
-  double tmp;
 
   ptr = map->objs;
   while (ptr->next)
@@ -55,9 +54,7 @@ unsigned long int ft_raytracing(t_map *map, t_triade ray)
   t_objs *target;
   t_triade position;
   t_triade n;
-  t_triade reflexion;
   double t;
-  double test;
   t_triade ret;
   t_lights *light;
   t_triade add;

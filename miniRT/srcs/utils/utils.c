@@ -24,6 +24,7 @@ t_triade *vector_v(t_triade *t1, t_triade *t2)
 {
   t_triade *t3;
 
+  t3 = NULL;
   t3->x = t1->x - t2->x;
   t3->y = t1->y - t2->y;
   t3->z = t1->z - t2->z;
@@ -74,8 +75,10 @@ t_triade get_norme(t_triade target)
 t_triade get_normale(t_objs *ptr, t_triade position, t_map *map)
 {
   t_triade n;
-  t_triade test;
 
+  n.x = 0;
+  n.y = 0;
+  n.z = 0;
   if (!ptr)
     return (n);
   if (ptr->type == 1)
