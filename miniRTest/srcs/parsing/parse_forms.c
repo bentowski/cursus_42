@@ -1,4 +1,4 @@
-#include "../../minirt.h"
+#include "parsing.h"
 
 int init_sphere(char *line, int i, t_objs **objs)
 {

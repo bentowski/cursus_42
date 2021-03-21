@@ -1,4 +1,4 @@
-#include "minirt.h"
+#include "parsing.h"
 
 int foisdeux(char *line, int *ayet, int *ryet)
 {
@@ -25,7 +25,7 @@ int foisdeux(char *line, int *ayet, int *ryet)
   return (1);
 }
 
-int verif(char *line, int i, t_map ***map)
+int verif(char *line, int i)
 {
   char c;
   char p;
@@ -103,14 +103,15 @@ int ft_parse(t_map **map, char *givedmap)
   char *line;
   int fd;
 
-  if ((fd = open(gived, O_RDONLY)) >= 0)
+  line = NULL;
+  if ((fd = open(givedmap, O_RDONLY)) >= 0)
   {
     while (get_next_line(fd, &line) > 0)
     {
       i = 0;
       if (foisdeux(line, &ayet, &ryet) != -1)
-        if ((i = verif(line, i, &map)) != -1)
-          if ((i = mapping(line, i, &map)) != -1)
+        if ((i = verif(line, i)) != -1)
+          if ((i = objects_mapping(line, i, &map)) != -1)
             i++;
       if (i == -1)
         break;

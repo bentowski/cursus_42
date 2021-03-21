@@ -1,4 +1,4 @@
-#include "../../minirt.h"
+#include "raytracing.h"
 
 int inside_square(double test, t_objs *ptr, t_triade ray, t_triade *origins)
 {
@@ -29,12 +29,12 @@ double inside_triangle(double test, t_objs *ptr, t_triade *origins, t_triade ray
   p.x = origins->x + test * ray.x;
   p.y = origins->y + test * ray.y;
   p.z = origins->z + test * ray.z;
-  side[0] = vector(ptr->p2, ptr->base->origins);
-  side[1] = vector(ptr->p3, ptr->p2);
-  side[2] = vector(ptr->base->origins, ptr->p3);
-  i[0] = vector(&p, ptr->base->origins);
-  i[1] = vector(&p, ptr->p2);
-  i[2] = vector(&p, ptr->p3);
+  side[0] = subs(ptr->p2, ptr->base->origins);
+  side[1] = subs(ptr->p3, ptr->p2);
+  side[2] = subs(ptr->base->origins, ptr->p3);
+  i[0] = subs(&p, ptr->base->origins);
+  i[1] = subs(&p, ptr->p2);
+  i[2] = subs(&p, ptr->p3);
   j[0] = crossprod(side[0], i[0]);
   j[1] = crossprod(side[1], i[1]);
   j[2] = crossprod(side[2], i[2]);
@@ -45,12 +45,13 @@ double inside_triangle(double test, t_objs *ptr, t_triade *origins, t_triade ray
   return (-1);
 }
 
-double intersect_plan(t_triade ray, t_objs *ptr, t_triade *origins)
+double intersect_plan(t_triade ray, t_objs *ptr, t_triade *origins, double *u)
 {
   t_triade alpha;
   t_triade vdir;
 
-  vdir = get_norme(*ptr->base->vdir);
+  alpha.x = *u;
+  vdir = normalize(*ptr->base->vdir);
   alpha.x = (ptr->base->origins->x - origins->x) * vdir.x;
   alpha.x += (ptr->base->origins->y - origins->y) * vdir.y;
   alpha.x += (ptr->base->origins->z - origins->z) * vdir.z;
@@ -72,11 +73,12 @@ double intersect_plan(t_triade ray, t_objs *ptr, t_triade *origins)
   return (-1);
 }
 
-double intersect_sphere(t_triade ray, t_objs *ptr, t_triade *origins)
+double intersect_sphere(t_triade ray, t_objs *ptr, t_triade *origins, double *u)
 {
   t_triade alpha;
   t_triade polynome;
 
+  alpha.x = *u;
   polynome.x = ray.x * ray.x + ray.y * ray.y + ray.z * ray.z;
   polynome.y = ray.x * (origins->x - ptr->base->origins->x);
   polynome.y += ray.y * (origins->y - ptr->base->origins->y);
@@ -100,33 +102,7 @@ double intersect_sphere(t_triade ray, t_objs *ptr, t_triade *origins)
   return (-1);
 }
 
-double calcul_polynome_cylinder(double x, double y, double z, int opt)
-{
-  t_triade alpha;
-
-  alpha.z = pow(y, 2) - (4 * x * z);
-  if (alpha.z >= 0)
-  {
-    alpha.x = (-y - sqrt(alpha.z)) / (2 * x);
-    alpha.y = (-y + sqrt(alpha.z)) / (2 * x);
-    if (alpha.y < 0)
-      return (-1);
-    if (opt == 1)
-    {
-      if (alpha.x >= 0)
-        return (alpha.x);
-    }
-    else if (opt == 2)
-    {
-      if (alpha.x < alpha.y)
-        return (alpha.y);
-    }
-    return (alpha.y);
-  }
-  return (-1);
-}
-
-double intersect_cy(t_triade ray, t_objs *ptr, t_triade *origins, double *alpha)
+double intersect_cylinder(t_triade ray, t_objs *ptr, t_triade *origins, double *alpha)
 {
   t_triade x;
   t_triade y;
@@ -134,66 +110,18 @@ double intersect_cy(t_triade ray, t_objs *ptr, t_triade *origins, double *alpha)
   t_triade v;
   double ret[4];
 
-  v = subs(*origins, *ptr->base->origins);
-  x = subs(ray, vector_n(*ptr->base->vdir, scale(&ray, ptr->base->vdir)));
-  y = subs(subs(*origins, *ptr->base->origins), vector_n(*ptr->base->vdir, scale(&v, ptr->base->vdir)));
-  ret[0] = calcul_polynome(scale(&x, &x), 2 * scale(&x, &y), (scale(&y, &y) - pow((ptr->diam / 2), 2)), 1);
-  ret[1] = calcul_polynome(scale(&x, &x), 2 * scale(&x, &y), (scale(&y, &y) - pow((ptr->diam / 2), 2)), 2);
-  p = subs(vector_n(ray, ret[0]), subs(*ptr->base->origins, *origins));
+  v = subs(origins, ptr->base->origins);
+  x = subs(&ray, increase_p(*ptr->base->vdir, scale(&ray, ptr->base->vdir)));
+  y = subs(subs_p(origins, ptr->base->origins), increase_p(*ptr->base->vdir, scale(&v, ptr->base->vdir)));
+  ret[0] = calcul_polynome_cylinder(scale(&x, &x), 2 * scale(&x, &y), (scale(&y, &y) - pow((ptr->diam / 2), 2)), 1);
+  ret[1] = calcul_polynome_cylinder(scale(&x, &x), 2 * scale(&x, &y), (scale(&y, &y) - pow((ptr->diam / 2), 2)), 2);
+  p = subs(increase_p(ray, ret[0]), subs_p(ptr->base->origins, origins));
   ret[2] = scale(ptr->base->vdir, &p);
-  p = subs(vector_n(ray, ret[1]), subs(*ptr->base->origins, *origins));
+  p = subs(increase_p(ray, ret[1]), subs_p(ptr->base->origins, origins));
   ret[3] = scale(ptr->base->vdir, &p);
   if (ret[3] < ptr->height && ret[3] > 0 && ret[1] >= 0 && ret[1] < *alpha)
     return (ret[1]);
   if (ret[2] < ptr->height && ret[2] > 0 && ret[0] >= 0 && ret[1] < *alpha)
     return (ret[0]);
   return (-1);
-}
-
-t_objs *intersect(t_objs *ptr, t_triade *origins, t_triade ray, double *alpha)
-{
-  t_objs *ret;
-  double test;
-
-  ret = NULL;
-  while (ptr->next)
-  {
-    if (ptr->type == 3)
-      if ((test = intersect_plan(ray, ptr, origins)) >= 0)
-        if (test < *alpha || *alpha == -1)
-        {
-          *alpha = test;
-          ret = ptr;
-        }
-    if (ptr->type == 1)
-      if ((test = intersect_sphere(ray, ptr, origins)) >= 0)
-        if (test < *alpha || *alpha == -1)
-        {
-          *alpha = test;
-          ret = ptr;
-        }
-    if (ptr->type == 2)
-      if ((test = intersect_plan(ray, ptr, origins)) >= 0)
-          if (test < *alpha || *alpha == -1)
-          {
-            *alpha = test;
-            ret = ptr;
-          }
-    if (ptr->type == 5)
-      if ((test = intersect_plan(ray, ptr, origins)) >= 0)
-        if (test < *alpha || *alpha == -1)
-        {
-          *alpha = test;
-          ret = ptr;
-        }
-    if (ptr->type == 4)
-      if ((test = intersect_cy(ray, ptr, origins, alpha)) >= 0)
-        if (test < *alpha || *alpha == -1)
-        {
-          *alpha = test;
-          ret = ptr;
-        }
-    ptr = ptr->next;
-  }
-  return (ret);
 }

@@ -4,8 +4,10 @@
 void  my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {
     char    *dst;
+    t_data *ptr;
 
-    dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
+    ptr = data;
+    dst = ptr->addr + (y * ptr->line_length + x * (ptr->bits_per_pixel / 8));
     *(unsigned int*)dst = color;
 }
 
@@ -18,12 +20,12 @@ t_triade cams_orientation(t_triade ray, t_triade dir)
   t_triade z;
 
   y = (t_triade){0, 1, 0};
-  z = get_norme(dir);
+  z = normalize(dir);
   if (dir.x == 0 && dir.z == 0 && (dir.y == 1 || dir.y == -1))
     x = (t_triade){1, 0, 0};
   else
-    x = crossprod(y, z);
-  y = crossprod(z, x);
+    x = crossprod(&y, &z);
+  y = crossprod(&z, &x);
   ret.x = scale(&ray, &x);
   ret.y = scale(&ray, &y);
   ret.z = scale(&ray, &z);
@@ -41,7 +43,7 @@ void drop_ray(t_env *env)
   t_triade ray;
   t_map *map;
 
-  map = env->map
+  map = env->map;
   y = 0;
 	while (y < map->resolution->win_height - 1)
   {
@@ -93,9 +95,9 @@ int main(int argc, char **argv)
 
   if (argc >= 2)
   {
-    env.rtfile = argv[1]
+    env.rtfile = argv[1];
     if (map_init(&env.map) != -1)
-      if (ft_parse(&map, env.rtfile) != 1)
+      if (ft_parse(&env.map, env.rtfile) != 1)
       {
         env.mlx = mlx_init();
     		env.mlx_win = mlx_new_window(env.mlx, env.map->resolution->win_width, env.map->resolution->win_height, "Hello world");

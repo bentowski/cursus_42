@@ -17,16 +17,18 @@ FSAN =			-fsanitize=address
 SRC =	main.c \
 			get_next_line/get_next_line.c \
 			get_next_line/get_next_line_utils.c \
-			srcs/raytracing.c \
-			srcs/coloring.c \
-			srcs/intersect/intersect_objects.c \
-			srcs/parsing/parse.c \
-			srcs/parsing/parse_forms.c \
 			srcs/parsing/parse_forms_utils.c \
+			srcs/parsing/parse_forms.c \
+			srcs/parsing/parse_others.c \
 			srcs/parsing/parse_utils.c \
-			srcs/parsing/parse_basic.c \
+			srcs/parsing/parse.c \
+			srcs/raytracing/coloring.c \
+			srcs/raytracing/raytracing.c \
+			srcs/raytracing/intersect.c \
+			srcs/utils/divers.c \
 			srcs/utils/ft_clear.c \
-			srcs/utils/utils.c
+			srcs/utils/vecteurs_p.c \
+			srcs/utils/vecteurs.c
 
 SRCS =			$(addprefix $(DIR_SRCS), $(SRC))
 OBJS =			$(SRCS:.c=.o)

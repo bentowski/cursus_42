@@ -1,7 +1,10 @@
-#include "minirt.h"
+#include "parsing.h"
 
 int resolution(char *line, int i, t_resolution **resolution)
 {
+  t_resolution *new;
+
+  new = *resolution;
   i++;
   if ((i = ft_space(line, i)) == -1)
   {
@@ -9,14 +12,15 @@ int resolution(char *line, int i, t_resolution **resolution)
     return (-1);
   }
   while (line[i] >= '0' && line[i] <= '9')
-    *resolution->win_width = *resolution->win_width * 10 + (line[i++] - 48);
+    new->win_width = new->win_width * 10 + (line[i++] - 48);
   if ((i = ft_space(line, i)) == -1)
   {
     printf("%s : %d\n", "ERREUR MAP CONFIG win_width, &win_height", i);
     return (-1);
   }
   while (line[i] >= '0' && line[i] <= '9')
-    *resolution->win_height = (*resolution->win_height * 10) + (line[i++] - 48);
+    new->win_height = (new->win_height * 10) + (line[i++] - 48);
+  *resolution = new;
   return (i);
 }
 

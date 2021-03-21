@@ -1,4 +1,4 @@
-#include "../../minirt.h"
+#include "parsing.h"
 
 double ft_routinedeux(double x, char *line, int **i)
 {

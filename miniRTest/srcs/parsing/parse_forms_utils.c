@@ -1,4 +1,4 @@
-#include "../../minirt.h"
+#include "parsing.h"
 
 int ft_vecteur(t_triade *new, char *line, int i)
 {
