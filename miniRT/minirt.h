@@ -9,19 +9,19 @@
 
 // # ifdef MACOS
 #  define OS 1
-#  define SPC_KEY 49
-#  define ESC_KEY 53
-#  define R_KEY 15
-#  define N_KEY 45
-#  define P_KEY 35
-#  define A_KEY 0
-#  define W_KEY 13
-#  define S_KEY 1
-#  define D_KEY 2
-#  define LARROW_KEY 123
-#  define UARROW_KEY 126
-#  define DARROW_KEY 125
-#  define RARROW_KEY 124
+#  define SPC_KEY 32
+#  define ESC_KEY 65307
+#  define R_KEY 114
+#  define N_KEY 110
+#  define P_KEY 112
+#  define A_KEY 97
+#  define W_KEY 119
+#  define S_KEY 115
+#  define D_KEY 100
+#  define LARROW_KEY 65361
+#  define UARROW_KEY 65362
+#  define DARROW_KEY 65364
+#  define RARROW_KEY 65363
 #  define DESTROYNOTIFY 17
 // # endif
 
@@ -105,47 +105,19 @@ typedef struct s_env
   char *rtfile;
 }               t_env;
 
-int init_sphere(char *line, int i, t_objs **objs);
-int init_plane(char *line, int i, t_objs **objs);
-int init_square(char *line, int i, t_objs **objs);
-int init_cylinder(char *line, int i, t_objs **objs);
-int init_triangle(char *line, int i, t_objs **objs);
-int ft_coordonnees(t_triade *new, char *line, int i);
-int ft_structuration(t_triade *new, char *line, int i);
-int ft_space(char *line, int i);
-int ft_color(t_triade *color, char *line, int i);
 void	*ft_calloc(size_t count, size_t size);
-int ft_routine(double *x, char *line, int *i, int opt);
-int resolution(t_map ****map, char *line, int i);
-int ambiance(char *line, int i, t_ambiant **ambiant);
-int camera(char *line, int i, t_cams **cams);
-int light(char *line, int i, t_lights **lights);
 int ft_parse(t_map **map, char *givedmap);
-int foisdeux(char *line, int *ayet, int *ryet);
 void ft_clear(t_map *map);
 void ft_clear_cams(t_cams *cams);
 void ft_clear_lights(t_lights *lights);
 void ft_clear_objs(t_objs *objs);
-int ft_check_color_vdir(t_triade *check, int opt);
-t_objs *intersect(t_objs *ptr, t_triade *origins, t_triade ray, double *alpha);
-unsigned long int interlsphere(double t, t_triade ray, t_objs *ptr, t_map *map);
-unsigned long int interlplan(double t, t_triade ray, t_objs *ptr, t_map *map);
 t_triade get_norme(t_triade target);
-t_triade vector(t_triade *t1, t_triade *t2);
-double intersect_sphere(t_triade ray, t_objs *ptr, t_triade *origins);
-double intersect_plan(t_triade ray, t_objs *ptr, t_triade *origins);
-// double intersect_cy(t_triade ray, t_objs *ptr, t_triade *origins);
 unsigned long int ft_raytracing(t_map *map, t_triade ray);
+void  my_mlx_pixel_put(t_data *data, int x, int y, int color);
 double scale(t_triade *t1, t_triade *t2);
-t_triade get_position(t_triade *origins, t_triade ray, double t);
-t_triade get_normale(t_objs *ptr, t_triade position, t_map *map);
-t_triade get_color(t_ambiant *ambiant, t_lights *lights, t_objs *ptr, double intensity);
 t_triade crossprod(t_triade v1, t_triade v2);
-t_triade *vector_v(t_triade *t1, t_triade *t2);
-int ft_vdir_tr(t_base *ptr, t_triade *p2, t_triade *p3);
-t_triade add_vectors(t_triade u, t_triade v);
 t_triade subs(t_triade t1, t_triade t2);
-t_triade vector_n(t_triade t1, double n);
+
 
 
 #endif

@@ -1,26 +1,29 @@
-#include "parse.h"
+#include "parsing.h"
 
-int resolution(t_map ****map, char *line, int i)
+int resolution(char *line, int i, t_resolution **resolution)
 {
-  t_map *new;
+  t_resolution *new;
 
-  new = ***map;
+  new = *resolution;
   i++;
   if ((i = ft_space(line, i)) == -1)
   {
-    printf("%s : %d\n", "ERREUR MAP CONFIG win_width, &win_heightOLUTION", i);
+    printf("%s : %d\n", "ERREUR MAP CONFIG win_width, &win_height", i);
     return (-1);
   }
   while (line[i] >= '0' && line[i] <= '9')
-    new->resolution->win_width = new->resolution->win_width * 10 + (line[i++] - 48);
+    new->win_width = new->win_width * 10 + (line[i++] - 48);
   if ((i = ft_space(line, i)) == -1)
   {
-    printf("%s : %d\n", "ERREUR MAP CONFIG win_width, &win_heightOLUTION", i);
+    printf("%s : %d\n", "ERREUR MAP CONFIG win_width, &win_height", i);
     return (-1);
   }
   while (line[i] >= '0' && line[i] <= '9')
-    new->resolution->win_height = (new->resolution->win_height * 10) + (line[i++] - 48);
-  ***map = new;
+    new->win_height = (new->win_height * 10) + (line[i++] - 48);
+  printf("%s\n", "LA");
+  printf("%d\n", new->win_width);
+  printf("%d\n", new->win_height);
+  *resolution = new;
   return (i);
 }
 

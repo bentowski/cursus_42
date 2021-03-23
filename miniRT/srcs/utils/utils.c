@@ -1,53 +1,37 @@
 #include "../../minirt.h"
 
-t_triade vector(t_triade *t1, t_triade *t2)
+void  my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {
-  t_triade t3;
+    char    *dst;
 
-  t3.x = t1->x - t2->x;
-  t3.y = t1->y - t2->y;
-  t3.z = t1->z - t2->z;
-  return (t3);
+    dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
+    *(unsigned int*)dst = color;
 }
 
-t_triade subs(t_triade t1, t_triade t2)
+double calcul_polynome(double x, double y, double z, int opt)
 {
-  t_triade t3;
+  t_triade alpha;
 
-  t3.x = t1.x - t2.x;
-  t3.y = t1.y - t2.y;
-  t3.z = t1.z - t2.z;
-  return (t3);
-}
-
-t_triade *vector_v(t_triade *t1, t_triade *t2)
-{
-  t_triade *t3;
-
-  t3->x = t1->x - t2->x;
-  t3->y = t1->y - t2->y;
-  t3->z = t1->z - t2->z;
-  return (t3);
-}
-
-t_triade vector_n(t_triade t1, double n)
-{
-  t_triade ret;
-
-  ret.x = t1.x * n;
-  ret.y = t1.y * n;
-  ret.z = t1.z * n;
-  return (ret);
-}
-
-t_triade add_vectors(t_triade u, t_triade v)
-{
-  t_triade ret;
-
-  ret.x = u.x + v.x;
-  ret.y = u.y + v.y;
-  ret.z = u.z + v.z;
-  return (ret);
+  alpha.z = pow(y, 2) - (4 * x * z);
+  if (alpha.z >= 0)
+  {
+    alpha.x = (-y - sqrt(alpha.z)) / (2 * x);
+    alpha.y = (-y + sqrt(alpha.z)) / (2 * x);
+    if (alpha.y < 0)
+      return (-1);
+    if (opt == 1)
+    {
+      if (alpha.x >= 0)
+        return (alpha.x);
+    }
+    else if (opt == 2)
+    {
+      if (alpha.x < alpha.y)
+        return (alpha.y);
+    }
+    return (alpha.y);
+  }
+  return (-1);
 }
 
 t_triade get_position(t_triade *origins, t_triade ray, double t)
@@ -74,31 +58,15 @@ t_triade get_norme(t_triade target)
 t_triade get_normale(t_objs *ptr, t_triade position, t_map *map)
 {
   t_triade n;
-  t_triade test;
 
+  n.x = 0;
+  n.y = 0;
+  n.z = 0;
   if (!ptr)
     return (n);
   if (ptr->type == 1)
-    n = get_norme(vector(&position, ptr->base->origins));
+    n = get_norme(subs(position, *ptr->base->origins));
   else if (ptr->type == 3 || ptr->type == 2 || ptr->type == 5)
-    n = get_norme(vector(ptr->base->vdir, map->vnull));
+    n = get_norme(subs(*ptr->base->vdir, *map->vnull));
   return (n);
-}
-
-double scale(t_triade *t1, t_triade *t2)
-{
-  double ret;
-
-  ret = t1->x * t2->x + t1->y * t2->y + t1->z * t2->z;
-  return (ret);
-}
-
-t_triade	crossprod(t_triade u, t_triade v)
-{
-	t_triade	res;
-
-	res.x = u.y * v.z - u.z * v.y;
-	res.y = u.z * v.x - u.x * v.z;
-	res.z = u.x * v.y - u.y * v.x;
-	return (res);
 }

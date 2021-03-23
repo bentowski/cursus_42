@@ -1,4 +1,4 @@
-#include "parse.h"
+#include "parsing.h"
 
 double ft_routinedeux(double x, char *line, int **i)
 {
@@ -46,31 +46,6 @@ int ft_routine(double *x, char *line, int *i, int opt)
   return (1);
 }
 
-int foisdeux(char *line, int *ayet, int *ryet)
-{
-  if (line[0] == 'A')
-  {
-    if (*ayet == 1)
-    {
-      printf("%s\n%s", "Error", "Ambiant x2");
-      return (-1);
-    }
-    else
-      *ayet = *ayet + 1;
-  }
-  if (line[0] == 'R')
-  {
-    if (*ryet == 1)
-    {
-      printf("%s\n%s", "Error", "Resolution x2");
-      return (-1);
-    }
-    else
-      *ryet = *ryet + 1;
-  }
-  return (1);
-}
-
 int ft_space(char *line, int i)
 {
   while (line[i] && (line[i] < '0' || line[i] > '9') && line[i] != '-')
@@ -82,19 +57,24 @@ int ft_space(char *line, int i)
   return (i);
 }
 
-int ft_vdir_tr(t_base *ptr, t_triade *p2, t_triade *p3)
+int ft_check_color_vdir(t_triade *check, int opt)
 {
-  t_triade n;
-  t_triade n2;
+  int min;
+  int max;
 
-  n.x = p2->x - ptr->origins->x;
-  n.y = p2->y - ptr->origins->y;
-  n.z = p2->z - ptr->origins->z;
-  n2.x = p3->x - ptr->origins->x;
-  n2.y = p3->y - ptr->origins->y;
-  n2.z = p3->z - ptr->origins->z;
-  ptr->vdir->x = n.y * n2.z - n.z * n2.y;
-  ptr->vdir->y = n.z * n2.x - n.x * n2.z;
-  ptr->vdir->z = n.x * n2.y - n.y * n2.x;
-  return (1);
+  if (opt == 1)
+  {
+    min = -1;
+    max = 1;
+  }
+  if (opt == 2)
+  {
+    min = 0;
+    max = 255;
+  }
+  if (check->x >= min && check->x <= max)
+    if (check->y >= min && check->y <= max)
+      if (check->z >= min && check->z <= max)
+        return (1);
+  return (-1);
 }
