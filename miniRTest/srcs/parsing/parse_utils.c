@@ -46,6 +46,34 @@ int ft_routine(double *x, char *line, int *i, int opt)
   return (1);
 }
 
+<<<<<<< HEAD
+=======
+int foisdeux(char *line, int *ayet, int *ryet)
+{
+  if (line[0] == 'A')
+  {
+    if (*ayet == 1)
+    {
+      printf("%s\n%s", "Error", "Ambiant x2");
+      return (-1);
+    }
+    else
+      *ayet = *ayet + 1;
+  }
+  if (line[0] == 'R')
+  {
+    if (*ryet == 1)
+    {
+      printf("%s\n%s", "Error", "Resolution x2");
+      return (-1);
+    }
+    else
+      *ryet = *ryet + 1;
+  }
+  return (1);
+}
+
+>>>>>>> refs/remotes/origin/master
 int ft_space(char *line, int i)
 {
   while (line[i] && (line[i] < '0' || line[i] > '9') && line[i] != '-')

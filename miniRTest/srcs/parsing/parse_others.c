@@ -20,9 +20,12 @@ int resolution(char *line, int i, t_resolution **resolution)
   }
   while (line[i] >= '0' && line[i] <= '9')
     new->win_height = (new->win_height * 10) + (line[i++] - 48);
+<<<<<<< HEAD
   printf("%s\n", "LA");
   printf("%d\n", new->win_width);
   printf("%d\n", new->win_height);
+=======
+>>>>>>> refs/remotes/origin/master
   *resolution = new;
   return (i);
 }

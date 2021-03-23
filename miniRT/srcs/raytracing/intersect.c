@@ -102,6 +102,35 @@ double intersect_sphere(t_triade ray, t_objs *ptr, t_triade *origins, double *u)
   return (-1);
 }
 
+<<<<<<< HEAD:miniRT/srcs/raytracing/intersect.c
+=======
+double calcul_polynome_cylinder(double x, double y, double z, int opt)
+{
+  t_triade alpha;
+
+  alpha.z = pow(y, 2) - (4 * x * z);
+  if (alpha.z >= 0)
+  {
+    alpha.x = (-y - sqrt(alpha.z)) / (2 * x);
+    alpha.y = (-y + sqrt(alpha.z)) / (2 * x);
+    if (alpha.y < 0)
+      return (-1);
+    if (opt == 1)
+    {
+      if (alpha.x >= 0)
+        return (alpha.x);
+    }
+    else if (opt == 2)
+    {
+      if (alpha.x < alpha.y)
+        return (alpha.y);
+    }
+    return (alpha.y);
+  }
+  return (-1);
+}
+
+>>>>>>> refs/remotes/origin/master:miniRT/srcs/intersect/intersect_objects.c
 double intersect_cy(t_triade ray, t_objs *ptr, t_triade *origins, double *alpha)
 {
   t_triade x;
@@ -119,9 +148,60 @@ double intersect_cy(t_triade ray, t_objs *ptr, t_triade *origins, double *alpha)
   ret[2] = scale(ptr->base->vdir, &p);
   p = subs(increase(ray, ret[1]), subs(*ptr->base->origins, *origins));
   ret[3] = scale(ptr->base->vdir, &p);
-  if (ret[3] < ptr->diam && ret[3] > 0 && ret[1] >= 0 && ret[1] < *alpha)
+  if (ret[3] < ptr->height && ret[3] > 0 && ret[1] >= 0 && ret[1] < *alpha)
     return (ret[1]);
-  if (ret[2] < ptr->diam && ret[2] > 0 && ret[0] >= 0 && ret[1] < *alpha)
+  if (ret[2] < ptr->height && ret[2] > 0 && ret[0] >= 0 && ret[1] < *alpha)
     return (ret[0]);
   return (-1);
 }
+<<<<<<< HEAD:miniRT/srcs/raytracing/intersect.c
+=======
+
+t_objs *intersect(t_objs *ptr, t_triade *origins, t_triade ray, double *alpha)
+{
+  t_objs *ret;
+  double test;
+
+  ret = NULL;
+  while (ptr->next)
+  {
+    if (ptr->type == 3)
+      if ((test = intersect_plan(ray, ptr, origins)) >= 0)
+        if (test < *alpha || *alpha == -1)
+        {
+          *alpha = test;
+          ret = ptr;
+        }
+    if (ptr->type == 1)
+      if ((test = intersect_sphere(ray, ptr, origins)) >= 0)
+        if (test < *alpha || *alpha == -1)
+        {
+          *alpha = test;
+          ret = ptr;
+        }
+    if (ptr->type == 2)
+      if ((test = intersect_plan(ray, ptr, origins)) >= 0)
+          if (test < *alpha || *alpha == -1)
+          {
+            *alpha = test;
+            ret = ptr;
+          }
+    if (ptr->type == 5)
+      if ((test = intersect_plan(ray, ptr, origins)) >= 0)
+        if (test < *alpha || *alpha == -1)
+        {
+          *alpha = test;
+          ret = ptr;
+        }
+    if (ptr->type == 4)
+      if ((test = intersect_cy(ray, ptr, origins, alpha)) >= 0)
+        if (test < *alpha || *alpha == -1)
+        {
+          *alpha = test;
+          ret = ptr;
+        }
+    ptr = ptr->next;
+  }
+  return (ret);
+}
+>>>>>>> refs/remotes/origin/master:miniRT/srcs/intersect/intersect_objects.c

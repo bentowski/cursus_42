@@ -1,5 +1,6 @@
 #include "../../minirt.h"
 
+<<<<<<< HEAD
 // t_triade increase(t_triade t1, double n)
 // {
 //   t_triade t2;
@@ -13,6 +14,19 @@
 //===========================
 
 t_triade vector(t_triade *t1, t_triade *t2)
+=======
+t_triade increase(t_triade t1, double n)
+{
+  t_triade t2;
+
+  t2.x = t1.x * n;
+  t2.y = t1.y * n;
+  t2.z = t1.z * n;
+  return (t2);
+}
+
+t_triade subs(t_triade *t1, t_triade *t2)
+>>>>>>> refs/remotes/origin/master
 {
   t_triade t3;
 
@@ -22,6 +36,7 @@ t_triade vector(t_triade *t1, t_triade *t2)
   return (t3);
 }
 
+<<<<<<< HEAD
 t_triade subs(t_triade t1, t_triade t2)
 {
   t_triade t3;
@@ -74,6 +89,37 @@ t_triade get_position(t_triade *origins, t_triade ray, double t)
 }
 
 t_triade get_norme(t_triade target)
+=======
+t_triade add_vectors(t_triade *t1, t_triade *t2)
+{
+  t_triade t3;
+
+  t3.x = t1->x + t2->x;
+  t3.y = t1->y + t2->y;
+  t3.z = t1->z + t2->z;
+  return (t3);
+}
+
+t_triade crossprod(t_triade *t1, t_triade *t2)
+{
+  t_triade t3;
+
+  t3.x = t1->y * t2->z - t1->z * t2->y;
+  t3.y = t1->z * t2->x - t1->x * t2->z;
+  t3.z = t1->x * t2->y - t1->y * t2->x;
+  return (t3);
+}
+
+double scale(t_triade *t1, t_triade *t2)
+{
+  double ret;
+
+  ret = t1->x * t2->x + t1->y * t2->y + t1->z * t2->z;
+  return (ret);
+}
+
+t_triade normalize(t_triade target)
+>>>>>>> refs/remotes/origin/master
 {
   double tmp;
 
@@ -94,6 +140,7 @@ t_triade get_normale(t_objs *ptr, t_triade position, t_map *map)
   if (!ptr)
     return (n);
   if (ptr->type == 1)
+<<<<<<< HEAD
     n = get_norme(vector(&position, ptr->base->origins));
   else if (ptr->type == 3 || ptr->type == 2 || ptr->type == 5)
     n = get_norme(vector(ptr->base->vdir, map->vnull));
@@ -195,3 +242,20 @@ t_triade normalize(t_triade target)
 //   position.z = origins->z + ray.z * t;
 //   return (position);
 // }
+=======
+    n = normalize(subs(&position, ptr->base->origins));
+  else if (ptr->type == 3 || ptr->type == 2 || ptr->type == 5)
+    n = normalize(subs(ptr->base->vdir, map->vnull));
+  return (n);
+}
+
+t_triade get_position(t_triade *origins, t_triade ray, double t)
+{
+  t_triade position;
+
+  position.x = origins->x + ray.x * t;
+  position.y = origins->y + ray.y * t;
+  position.z = origins->z + ray.z * t;
+  return (position);
+}
+>>>>>>> refs/remotes/origin/master

@@ -111,9 +111,14 @@ int ft_parse(t_map **map, char *givedmap)
       i = 0;
       if (foisdeux(line, &ayet, &ryet) != -1)
         if ((i = verif(line, i)) != -1)
+<<<<<<< HEAD
           if ((i = other_maping(line, i, &map)) != -1)
             if ((i = objects_mapping(line, i, &map)) != -1)
               i++;
+=======
+          if ((i = objects_mapping(line, i, &map)) != -1)
+            i++;
+>>>>>>> refs/remotes/origin/master
       if (i == -1)
         break;
     }

@@ -53,7 +53,11 @@ $(NAME) :		$(OBJS)
 				@chmod 555 ./mlx/configure
 				@$(MAKE) -C ./mlx
 				@cp ./mlx/libmlx.a libmlx.a
+<<<<<<< HEAD
 				@$(CC) $(COMPIL) $(OS) $(RES) $(OBJS) $(MLX_FLAGS) -L $(LIB)libft -lft -o $(NAME)
+=======
+				@@$(CC) $(COMPIL) $(OS) $(RES) $(OBJS) $(MLX_FLAGS) -L $(LIB)libft -lft -o $(NAME)
+>>>>>>> refs/remotes/origin/master
 
 %.o: %.c
 				@$(CC) $(FLAGS) $(OS) $(RES) -c $< -o $@

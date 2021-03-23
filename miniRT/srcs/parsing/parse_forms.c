@@ -1,29 +1,5 @@
 #include "parse.h"
 
-void	ft_bzero(void *s, size_t n)
-{
-	char	*p;
-
-	p = (char *)s;
-	while (n > 0)
-	{
-		p[n - 1] = 0;
-		n--;
-	}
-}
-
-void	*ft_calloc(size_t count, size_t size)
-{
-	char	*ptr;
-	int		lenght;
-
-	lenght = count * size;
-	if (!(ptr = malloc(lenght)))
-		return (NULL);
-	ft_bzero(ptr, lenght);
-	return (ptr);
-}
-
 int init_sphere(char *line, int i, t_objs **objs)
 {
   t_objs *new;
@@ -38,7 +14,7 @@ int init_sphere(char *line, int i, t_objs **objs)
                 if ((i = ft_color(new->base->color, line, i)) != -1)
                   if (ft_check_color_vdir(new->base->color, 2) != -1)
                       {
-                        new->type = 1;
+                        new->type = 0;
                         new->next = *objs;
                         *objs = new;
                         return (i);
@@ -64,7 +40,7 @@ int init_square(char *line, int i, t_objs **objs)
                       if ((i = ft_color(new->base->color, line, i)) != -1)
                         if (ft_check_color_vdir(new->base->color, 2) != -1)
                         {
-                          new->type = 2;
+                          new->type = 1;
                           new->next = *objs;
                           *objs = new;
                           return (i);
@@ -88,7 +64,7 @@ int init_plane(char *line, int i, t_objs **objs)
                   if ((i = ft_color(new->base->color, line, i)) != -1)
                     if (ft_check_color_vdir(new->base->color, 2) != -1)
                     {
-                      new->type = 3;
+                      new->type = 2;
                       new->next = *objs;
                       *objs = new;
                       return (i);
@@ -116,7 +92,7 @@ int init_cylinder(char *line, int i, t_objs **objs)
                           if ((i = ft_color(new->base->color, line, i)) != -1)
                             if (ft_check_color_vdir(new->base->color, 2) != -1)
                             {
-                              new->type = 4;
+                              new->type = 3;
                               new->next = *objs;
                               *objs = new;
                               return (i);
@@ -143,7 +119,7 @@ int init_triangle(char *line, int i, t_objs **objs)
                         if ((i = ft_color(new->base->color, line, i)) != -1)
                           if (ft_check_color_vdir(new->base->color, 2) != -1)
                           {
-                            new->type = 5;
+                            new->type = 4;
                             new->next = *objs;
                             *objs = new;
                             return (i);

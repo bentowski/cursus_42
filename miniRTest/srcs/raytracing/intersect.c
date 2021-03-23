@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 #include "../../minirt.h"
+=======
+#include "raytracing.h"
+>>>>>>> refs/remotes/origin/master
 
 int inside_square(double test, t_objs *ptr, t_triade ray, t_triade *origins)
 {
@@ -29,12 +33,21 @@ double inside_triangle(double test, t_objs *ptr, t_triade *origins, t_triade ray
   p.x = origins->x + test * ray.x;
   p.y = origins->y + test * ray.y;
   p.z = origins->z + test * ray.z;
+<<<<<<< HEAD
   side[0] = vector(ptr->p2, ptr->base->origins);
   side[1] = vector(ptr->p3, ptr->p2);
   side[2] = vector(ptr->base->origins, ptr->p3);
   i[0] = vector(&p, ptr->base->origins);
   i[1] = vector(&p, ptr->p2);
   i[2] = vector(&p, ptr->p3);
+=======
+  side[0] = subs(ptr->p2, ptr->base->origins);
+  side[1] = subs(ptr->p3, ptr->p2);
+  side[2] = subs(ptr->base->origins, ptr->p3);
+  i[0] = subs(&p, ptr->base->origins);
+  i[1] = subs(&p, ptr->p2);
+  i[2] = subs(&p, ptr->p3);
+>>>>>>> refs/remotes/origin/master
   j[0] = crossprod(side[0], i[0]);
   j[1] = crossprod(side[1], i[1]);
   j[2] = crossprod(side[2], i[2]);
@@ -45,12 +58,21 @@ double inside_triangle(double test, t_objs *ptr, t_triade *origins, t_triade ray
   return (-1);
 }
 
+<<<<<<< HEAD
 double intersect_plan(t_triade ray, t_objs *ptr, t_triade *origins)
+=======
+double intersect_plan(t_triade ray, t_objs *ptr, t_triade *origins, double *u)
+>>>>>>> refs/remotes/origin/master
 {
   t_triade alpha;
   t_triade vdir;
 
+<<<<<<< HEAD
   vdir = get_norme(*ptr->base->vdir);
+=======
+  alpha.x = *u;
+  vdir = normalize(*ptr->base->vdir);
+>>>>>>> refs/remotes/origin/master
   alpha.x = (ptr->base->origins->x - origins->x) * vdir.x;
   alpha.x += (ptr->base->origins->y - origins->y) * vdir.y;
   alpha.x += (ptr->base->origins->z - origins->z) * vdir.z;
@@ -72,11 +94,19 @@ double intersect_plan(t_triade ray, t_objs *ptr, t_triade *origins)
   return (-1);
 }
 
+<<<<<<< HEAD
 double intersect_sphere(t_triade ray, t_objs *ptr, t_triade *origins)
+=======
+double intersect_sphere(t_triade ray, t_objs *ptr, t_triade *origins, double *u)
+>>>>>>> refs/remotes/origin/master
 {
   t_triade alpha;
   t_triade polynome;
 
+<<<<<<< HEAD
+=======
+  alpha.x = *u;
+>>>>>>> refs/remotes/origin/master
   polynome.x = ray.x * ray.x + ray.y * ray.y + ray.z * ray.z;
   polynome.y = ray.x * (origins->x - ptr->base->origins->x);
   polynome.y += ray.y * (origins->y - ptr->base->origins->y);
@@ -100,6 +130,7 @@ double intersect_sphere(t_triade ray, t_objs *ptr, t_triade *origins)
   return (-1);
 }
 
+<<<<<<< HEAD
 double calcul_polynome(double x, double y, double z, int opt)
 {
   t_triade alpha;
@@ -126,6 +157,8 @@ double calcul_polynome(double x, double y, double z, int opt)
   return (-1);
 }
 
+=======
+>>>>>>> refs/remotes/origin/master
 double intersect_cylinder(t_triade ray, t_objs *ptr, t_triade *origins, double *alpha)
 {
   t_triade x;
@@ -134,6 +167,7 @@ double intersect_cylinder(t_triade ray, t_objs *ptr, t_triade *origins, double *
   t_triade v;
   double ret[4];
 
+<<<<<<< HEAD
   v = subs(*origins, *ptr->base->origins);
   x = subs(ray, vector_n(*ptr->base->vdir, scale(&ray, ptr->base->vdir)));
   y = subs(subs(*origins, *ptr->base->origins), vector_n(*ptr->base->vdir, scale(&v, ptr->base->vdir)));
@@ -282,3 +316,20 @@ double intersect_cylinder(t_triade ray, t_objs *ptr, t_triade *origins, double *
 //     return (ret[0]);
 //   return (-1);
 // }
+=======
+  v = subs(origins, ptr->base->origins);
+  x = subs(&ray, increase_p(*ptr->base->vdir, scale(&ray, ptr->base->vdir)));
+  y = subs(subs_p(origins, ptr->base->origins), increase_p(*ptr->base->vdir, scale(&v, ptr->base->vdir)));
+  ret[0] = calcul_polynome_cylinder(scale(&x, &x), 2 * scale(&x, &y), (scale(&y, &y) - pow((ptr->diam / 2), 2)), 1);
+  ret[1] = calcul_polynome_cylinder(scale(&x, &x), 2 * scale(&x, &y), (scale(&y, &y) - pow((ptr->diam / 2), 2)), 2);
+  p = subs(increase_p(ray, ret[0]), subs_p(ptr->base->origins, origins));
+  ret[2] = scale(ptr->base->vdir, &p);
+  p = subs(increase_p(ray, ret[1]), subs_p(ptr->base->origins, origins));
+  ret[3] = scale(ptr->base->vdir, &p);
+  if (ret[3] < ptr->height && ret[3] > 0 && ret[1] >= 0 && ret[1] < *alpha)
+    return (ret[1]);
+  if (ret[2] < ptr->height && ret[2] > 0 && ret[0] >= 0 && ret[1] < *alpha)
+    return (ret[0]);
+  return (-1);
+}
+>>>>>>> refs/remotes/origin/master
