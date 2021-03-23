@@ -10,7 +10,6 @@ void  my_mlx_pixel_put(t_data *data, int x, int y, int color)
 
 double calcul_polynome(double x, double y, double z, int opt)
 {
-<<<<<<< HEAD
   t_triade alpha;
 
   alpha.z = pow(y, 2) - (4 * x * z);
@@ -33,45 +32,6 @@ double calcul_polynome(double x, double y, double z, int opt)
     return (alpha.y);
   }
   return (-1);
-=======
-  t_triade t3;
-
-  t3.x = t1.x - t2.x;
-  t3.y = t1.y - t2.y;
-  t3.z = t1.z - t2.z;
-  return (t3);
-}
-
-t_triade *vector_v(t_triade *t1, t_triade *t2)
-{
-  t_triade *t3;
-
-  t3 = NULL;
-  t3->x = t1->x - t2->x;
-  t3->y = t1->y - t2->y;
-  t3->z = t1->z - t2->z;
-  return (t3);
-}
-
-t_triade vector_n(t_triade t1, double n)
-{
-  t_triade ret;
-
-  ret.x = t1.x * n;
-  ret.y = t1.y * n;
-  ret.z = t1.z * n;
-  return (ret);
-}
-
-t_triade add_vectors(t_triade u, t_triade v)
-{
-  t_triade ret;
-
-  ret.x = u.x + v.x;
-  ret.y = u.y + v.y;
-  ret.z = u.z + v.z;
-  return (ret);
->>>>>>> refs/remotes/origin/master
 }
 
 t_triade get_position(t_triade *origins, t_triade ray, double t)
