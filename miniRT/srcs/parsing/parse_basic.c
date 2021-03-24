@@ -20,6 +20,10 @@ int resolution(t_map ****map, char *line, int i)
   }
   while (line[i] >= '0' && line[i] <= '9')
     new->resolution->win_height = (new->resolution->win_height * 10) + (line[i++] - 48);
+  if (new->resolution->win_width > new->resolution->width_max)
+    new->resolution->win_width = new->resolution->width_max;
+  if (new->resolution->win_height > new->resolution->height_max)
+    new->resolution->win_height = new->resolution->height_max;
   ***map = new;
   return (i);
 }

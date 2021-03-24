@@ -1,14 +1,4 @@
-Reste à faire : 15jours max (25 Mars)
-
-affichage cylindre : 2jours
-1) traduire code 1/2journée
-2) adapter 1/2journée
-3) appliquer 1journée
-
-lumière décroit avec la distance : 5jours
--corriger formule ou trouver une plus exact 2jours
--tester 1journée
--corrections des bugs 2jours
+Reste à faire : 7jours max (25 Mars)(31 Mars)
 
 
 Probleme plan lorsque : 1journée
@@ -17,11 +7,5 @@ Probleme plan lorsque : 1journée
 
 rotation caméras : 3jours
 -soucis lorsque cams regarde ailleurs que 0,0,x {-1 < x < 1}
-
-
-gestion de fenetre : 1journée
--fermer fenetre par la croix rouge 1/2journée
--adaptation fenetre taille display si trop grand 2heures
--sauvegarde image bmp (avec argument --save) 2heures
 
 debuguage : 3jours

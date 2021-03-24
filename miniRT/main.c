@@ -167,10 +167,19 @@ void drop_ray(t_env *env)
       ray.x = (-x + map->resolution->win_width / 2.0) * map->resolution->win_width / map->resolution->win_height;
       ray = cams_orientation(ray, *map->cams->base->vdir);
       my_mlx_pixel_put(&env->img, x, y, ft_raytracing(map, get_norme(ray)));
-      x += 0.5;
+      x += 1;
     }
     y += 1;
   }
+}
+
+int		close_wdw(t_env *env)
+{
+	mlx_destroy_window(env->mlx, env->mlx_win);
+	mlx_destroy_display(env->mlx);
+	free(env->mlx);
+	exit(EXIT_SUCCESS);
+	return (0);
 }
 
 int   main(int argc, char **argv)
@@ -180,18 +189,22 @@ int   main(int argc, char **argv)
   if (argc >= 2)
 	{
     env.rtfile = argv[1];
-    if ((map_init(&env.map)) != -1)
-  		if (ft_parse(&env.map, argv[1]) != -1)
-      {
-    		env.mlx = mlx_init();
-    		env.mlx_win = mlx_new_window(env.mlx, env.map->resolution->win_width, env.map->resolution->win_height, "Hello world");
-    		env.img.img = mlx_new_image(env.mlx, env.map->resolution->win_width, env.map->resolution->win_height);
-    		env.img.addr = mlx_get_data_addr(env.img.img, &env.img.bits_per_pixel, &env.img.line_length, &env.img.endian);
-        drop_ray(&env);
-    		mlx_put_image_to_window(env.mlx, env.mlx_win, env.img.img, 0, 0);
-        mlx_key_hook(env.mlx_win, gestion_win, &env);
-        mlx_loop(env.mlx);
-      }
+    env.mlx = mlx_init();
+    if ((map_init(&env.map)) == -1)
+      return (-1);
+    mlx_get_screen_size(env.mlx, &env.map->resolution->width_max, &env.map->resolution->height_max);
+		if (ft_parse(&env.map, argv[1]) != -1)
+    {
+  		env.mlx_win = mlx_new_window(env.mlx, env.map->resolution->win_width, env.map->resolution->win_height, "Hello world");
+  		env.img.img = mlx_new_image(env.mlx, env.map->resolution->win_width, env.map->resolution->win_height);
+  		env.img.addr = mlx_get_data_addr(env.img.img, &env.img.bits_per_pixel, &env.img.line_length, &env.img.endian);
+      drop_ray(&env);
+  		mlx_put_image_to_window(env.mlx, env.mlx_win, env.img.img, 0, 0);
+      saving(&env);
+      mlx_key_hook(env.mlx_win, gestion_win, &env);
+      mlx_hook(env.mlx_win, DESTROY, STRUCTMASK, close_wdw, &env);
+      mlx_loop(env.mlx);
+    }
     ft_clear(env.map);
     return (-1);
 	}

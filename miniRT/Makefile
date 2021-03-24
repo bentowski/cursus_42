@@ -27,6 +27,7 @@ SRC =	main.c \
 			srcs/raytracing/intersect.c \
 			srcs/utils/ft_clear.c \
 			srcs/utils/vectors.c \
+			srcs/utils/saving.c \
 			srcs/utils/utils.c
 
 SRCS =			$(addprefix $(DIR_SRCS), $(SRC))

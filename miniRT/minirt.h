@@ -22,7 +22,15 @@
 #  define UARROW_KEY 65362
 #  define DARROW_KEY 65364
 #  define RARROW_KEY 65363
-#  define DESTROYNOTIFY 17
+#  define DESTROY 33
+#  define STRUCTMASK 131072
+# define BMP_FILENAME "miniRT.bmp"
+# define TRUE_COLOR 24
+# define DEFAULT_DPI 96
+# define PPM_CONV_FACTOR 39.375
+# define HEADER_BYTES 54
+# define DEFAULT_BIPLANES 1
+# define FILE_PERMISSIONS 0644
 // # endif
 
 typedef struct  s_data {
@@ -32,6 +40,30 @@ typedef struct  s_data {
     int         line_length;
     int         endian;
 }               t_data;
+
+typedef struct	s_bmp_h
+{
+	unsigned char	bmp_type[2];
+	int				file_size;
+	short			reserved1;
+	short			reserved2;
+	unsigned int	offset;
+}				t_bmp_h;
+
+typedef struct	s_dib_h
+{
+	unsigned int	size_header;
+	unsigned int	width;
+	unsigned int	height;
+	short			planes;
+	short			bit_count;
+	unsigned int	compr;
+	unsigned int	img_size;
+	unsigned int	ppm_x;
+	unsigned int	ppm_y;
+	unsigned int	clr_used;
+	unsigned int	clr_important;
+}				t_dib_h;
 
 typedef struct s_triade
 {
@@ -58,6 +90,8 @@ typedef struct s_resolution
 {
   int win_width;
   int win_height;
+  int width_max;
+  int height_max;
 }               t_resolution;
 
 typedef struct s_objs
@@ -105,6 +139,7 @@ typedef struct s_env
   char *rtfile;
 }               t_env;
 
+void	ft_bzero(void *s, size_t n);
 void	*ft_calloc(size_t count, size_t size);
 int ft_parse(t_map **map, char *givedmap);
 void ft_clear(t_map *map);
@@ -117,7 +152,7 @@ void  my_mlx_pixel_put(t_data *data, int x, int y, int color);
 double scale(t_triade *t1, t_triade *t2);
 t_triade crossprod(t_triade v1, t_triade v2);
 t_triade subs(t_triade t1, t_triade t2);
-
+int saving(t_env *env);
 
 
 #endif
