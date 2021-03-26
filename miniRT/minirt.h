@@ -31,6 +31,9 @@
 # define HEADER_BYTES 54
 # define DEFAULT_BIPLANES 1
 # define FILE_PERMISSIONS 0644
+# define MAPNOTIFY 19
+
+
 // # endif
 
 typedef struct  s_data {

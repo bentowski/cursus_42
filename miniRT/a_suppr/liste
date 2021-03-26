@@ -1,11 +1,7 @@
-Reste à faire : 7jours max (25 Mars)(31 Mars)
+Reste à faire : 4jours max (25 Mars)(29 Mars)
 
 
 Probleme plan lorsque : 1journée
 -camera {0,0,0   0,0,-1} & plan {0,0,-x  y,y,0} {x >= 0}   {-1 < y < 1}
-
-
-rotation caméras : 3jours
--soucis lorsque cams regarde ailleurs que 0,0,x {-1 < x < 1}
 
 debuguage : 3jours
