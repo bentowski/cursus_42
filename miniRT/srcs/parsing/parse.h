@@ -13,7 +13,7 @@ int ft_structuration(t_triade *new, char *line, int i);
 int ft_space(char *line, int i);
 int ft_color(t_triade *color, char *line, int i);
 int ft_routine(double *x, char *line, int *i, int opt);
-int resolution(t_map ****map, char *line, int i);
+int res(char *line, int i, t_res **res);
 int ambiance(char *line, int i, t_ambiant **ambiant);
 int camera(char *line, int i, t_cams **cams);
 int light(char *line, int i, t_lights **lights);

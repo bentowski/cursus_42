@@ -89,13 +89,13 @@ typedef struct s_ambiant
   t_triade *color;
 }               t_ambiant;
 
-typedef struct s_resolution
+typedef struct s_res
 {
   int win_width;
   int win_height;
   int width_max;
   int height_max;
-}               t_resolution;
+}               t_res;
 
 typedef struct s_objs
 {
@@ -126,7 +126,7 @@ typedef struct s_lights
 typedef struct s_map
 {
   t_ambiant     *ambiant;
-  t_resolution  *resolution;
+  t_res  *res;
   t_objs        *objs;
   t_cams        *cams;
   t_lights      *lights;
@@ -155,7 +155,9 @@ void  my_mlx_pixel_put(t_data *data, int x, int y, int color);
 double scale(t_triade *t1, t_triade *t2);
 t_triade crossprod(t_triade v1, t_triade v2);
 t_triade subs(t_triade t1, t_triade t2);
-int saving(t_env *env);
-
+int create_bmp(t_env *env);
+int   map_init(t_map **map);
+void drop_ray(t_env *env);
+int mlx_gestion(t_env *env);
 
 #endif

@@ -1,23 +1,5 @@
 #include "../../minirt.h"
 
-// int draw_bmp(t_env *env, int fd)
-// {
-//   int x;
-//   int y;
-//   unsigned long int *p;
-//
-//   y = env->map->resolution->height;
-//   while (y-- > -1)
-//     while (x < env->map->resolution->width)
-//     {
-//       p = (unsigned long int *)(env->mlx_img->addr + (x + env->map->resolution->width * y) * 4);
-//       if (write(fd, p, 3) < 0)
-//         return (-1);
-//       x++;
-//     }
-//   return (1);
-// }
-
 static void	create_bmpfileheader(t_bmp_h *header, int size)
 {
 	ft_bzero(header, sizeof(t_bmp_h));
@@ -29,15 +11,15 @@ static void	create_bmpfileheader(t_bmp_h *header, int size)
 	header->offset = HEADER_BYTES;
 }
 
-static void	create_bmpdibheader(t_resolution *resolution, t_dib_h *header, int size)
+static void	create_bmpdibheader(t_res *res, t_dib_h *header, int size)
 {
 	int		ppm;
 
 	ppm = DEFAULT_DPI * PPM_CONV_FACTOR;
 	ft_bzero(header, sizeof(t_dib_h));
 	header->size_header = sizeof(t_dib_h);
-	header->width = resolution->win_width;
-	header->height = resolution->win_height;
+	header->width = res->win_width;
+	header->height = res->win_height;
 	header->planes = DEFAULT_BIPLANES;
 	header->bit_count = TRUE_COLOR;
 	header->compr = 0;
@@ -54,12 +36,12 @@ static void	edit_bmp(t_env *env, int fd)
 	t_bmp_h	file_header;
 	t_dib_h	dib_header;
 	int		size;
-  t_resolution *resolution;
+  t_res *res;
 
-  resolution = env->map->resolution;
-	size = resolution->win_width * resolution->win_height * 3;
+  res = env->map->res;
+	size = res->win_width * res->win_height * 3;
 	create_bmpfileheader(&file_header, size);
-	create_bmpdibheader(resolution, &dib_header, size);
+	create_bmpdibheader(res, &dib_header, size);
 	write(fd, &(file_header.bmp_type), 2);
 	write(fd, &(file_header.file_size), 4);
 	write(fd, &(file_header.reserved1), 2);
@@ -78,7 +60,7 @@ static void	edit_bmp(t_env *env, int fd)
 	write(fd, &(dib_header.clr_important), 4);
 }
 
-int saving(t_env *env)
+int create_bmp(t_env *env)
 {
   int fd;
   int x;
@@ -89,22 +71,20 @@ int saving(t_env *env)
   if (fd > 0)
   {
     edit_bmp(env, fd);
-    y = env->map->resolution->win_height;
+    y = env->map->res->win_height;
     while (y-- > -1)
 		{
-			x = 0;
-			while (x < env->map->resolution->win_width)
+			x = -1;
+			while (x++ < env->map->res->win_width)
 			{
-				p = (unsigned long int *)(env->img.addr + (x + env->map->resolution->win_width * y) * 4);
+				p = (unsigned long int *)(env->img.addr + (x + env->map->res->win_width * y) * 4);
 				if (write(fd, p, 3) < 0)
 					return (-1);
-				x++;
 			}
 		}
     close(fd);
     ft_clear(env->map);
     exit(EXIT_SUCCESS);
   }
-  ft_clear(env->map);
   return (-1);
 }

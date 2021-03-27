@@ -1,29 +1,5 @@
 #include "parse.h"
 
-void	ft_bzero(void *s, size_t n)
-{
-	char	*p;
-
-	p = (char *)s;
-	while (n > 0)
-	{
-		p[n - 1] = 0;
-		n--;
-	}
-}
-
-void	*ft_calloc(size_t count, size_t size)
-{
-	char	*ptr;
-	int		lenght;
-
-	lenght = count * size;
-	if (!(ptr = malloc(lenght)))
-		return (NULL);
-	ft_bzero(ptr, lenght);
-	return (ptr);
-}
-
 int init_sphere(char *line, int i, t_objs **objs)
 {
   t_objs *new;

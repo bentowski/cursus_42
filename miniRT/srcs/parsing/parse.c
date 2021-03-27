@@ -1,6 +1,6 @@
 #include "parse.h"
 
-int verif(char *line, int i, t_map ***map)
+static int verif(char *line, int i)
 {
   char c;
   char p;
@@ -23,26 +23,34 @@ int verif(char *line, int i, t_map ***map)
         return (-1);
       }
     }
-  if (line[i] == 'R')
-    if ((i = resolution(&map, line, i)) == -1)
-      printf("%s\n%s\n", "Error", "Invalid win_width, &win_heightolution data");
   return (i);
 }
 
-int init_map(char *line, int i, t_map ***map)
+static int other_maping(char *line, int i, t_map ***map)
 {
   t_map *new;
 
   new = **map;
+  if (line[i] == 'R')
+    if ((i = res(line, i, &new->res)) == -1)
+      printf("%s\n%s\n", "Error", "Invalid win_width, &win_heightolution data");
   if (line[i] == 'A')
-    if ((i = ambiance(line, i + 1, &new->ambiant)) == -1)
-      printf("%s\n%s\n", "Error", "Invalid ambiant data");
+      if ((i = ambiance(line, i + 1, &new->ambiant)) == -1)
+        printf("%s\n%s\n", "Error", "Invalid ambiant data");
   if (line[i] == 'c' && line[i + 1] != 'y')
     if ((i = camera(line, i + 1, &new->cams)) == -1)
       printf("%s\n%s\n", "Error", "Invalid camera data");
   if (line[i] == 'l')
     if ((i = light(line, i + 1, &new->lights)) == -1)
       printf("%s\n%s\n", "Error", "Invalid light data");
+  return (i);
+}
+
+static int objects_mapping(char *line, int i, t_map ***map)
+{
+  t_map *new;
+
+  new = **map;
   if (line[i] == 's' && line[i + 1] == 'p')
     if ((i = init_sphere(line, i + 2, &new->objs)) == -1)
       printf("%s\n%s\n", "Error", "Invalid object data");
@@ -69,33 +77,23 @@ int ft_parse(t_map **map, char *givedmap)
   char *line;
   int fd;
 
-  ayet = 0;
-  ryet = 0;
-  if ((fd = open(givedmap, O_RDONLY)) < 0)
+  line = NULL;
+  if ((fd = open(givedmap, O_RDONLY)) >= 0)
   {
-    printf("%s\n%s", "Error", "Invalid map file");
-    return (-1);
-  }
-  while (get_next_line(fd, &line) > 0)
-  {
-    i = 0;
-    if (foisdeux(line, &ayet, &ryet) == -1)
+    while (get_next_line(fd, &line) > 0)
     {
-      free(line);
-      return (-1);
+      i = 0;
+      if (foisdeux(line, &ayet, &ryet) != -1)
+        if ((i = verif(line, i)) != -1)
+          if ((i = other_maping(line, i, &map)) != -1)
+            if ((i = objects_mapping(line, i, &map)) != -1)
+              i++;
+      if (i == -1)
+        return (-1);
     }
-    if ((i = verif(line, i, &map)) == -1)
-    {
-      free(line);
-      return (-1);
-    }
-    if ((i = init_map(line, i, &map)) == -1)
-    {
-      free(line);
-      return (-1);
-    }
-    free(line);
+      return (1);
   }
   free(line);
-  return (1);
+  printf("%s\n%s", "Error", "Invalid map file");
+  return (-1);
 }

@@ -27,7 +27,8 @@ SRC =	main.c \
 			srcs/raytracing/intersect.c \
 			srcs/utils/ft_clear.c \
 			srcs/utils/vectors.c \
-			srcs/utils/saving.c \
+			srcs/utils/create_bmp.c \
+			srcs/utils/window_utils.c \
 			srcs/utils/utils.c
 
 SRCS =			$(addprefix $(DIR_SRCS), $(SRC))
@@ -63,7 +64,7 @@ $(NAME) :		$(OBJS)
 clean:
 	$(MAKE) -C ./libft clean
 	$(MAKE) -C ./mlx clean
-	rm -rf *.o srcs/*.o srcs/*/*.o
+	rm -rf *.o srcs/*.o srcs/*/*.o includes/get_next_line/*.o
 
 fclean: clean
 	$(MAKE) -C ./libft fclean

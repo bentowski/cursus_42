@@ -1,6 +1,6 @@
 #include "parse.h"
 
-double ft_routinedeux(double x, char *line, int **i)
+static double ft_routinedeux(double x, char *line, int **i)
 {
   double tmp;
   int div;
@@ -62,7 +62,7 @@ int foisdeux(char *line, int *ayet, int *ryet)
   {
     if (*ryet == 1)
     {
-      printf("%s\n%s", "Error", "Resolution x2");
+      printf("%s\n%s", "Error", "res x2");
       return (-1);
     }
     else

@@ -1,6 +1,6 @@
 #include "raytracing.h"
 
-int get_shadows(t_map *map, t_triade ray, t_triade *p, double ldist)
+static int get_shadows(t_map *map, t_triade ray, t_triade *p, double ldist)
 {
   t_objs *ptr;
   double alpha;
@@ -29,7 +29,7 @@ int get_shadows(t_map *map, t_triade ray, t_triade *p, double ldist)
   return (1);
 }
 
-double get_light(t_map *map, t_triade n, t_triade position, t_lights *light)
+static double get_light(t_map *map, t_triade n, t_triade position, t_lights *light)
 {
   double ret;
   double lightdist;
@@ -49,7 +49,7 @@ double get_light(t_map *map, t_triade n, t_triade position, t_lights *light)
   return (ret * get_shadows(map, ldir, &position, lightdist));
 }
 
-unsigned long int color_ret(t_map *map, t_objs *target, t_triade p)
+static unsigned long int color_ret(t_map *map, t_objs *target, t_triade p)
 {
   t_triade ret;
   t_lights *light;
@@ -76,7 +76,7 @@ unsigned long int color_ret(t_map *map, t_objs *target, t_triade p)
   return ((ret.x * 256 * 256 + ret.y * 256 + ret.z));
 }
 
-t_objs *intersect(t_objs *ptr, t_triade *origins, t_triade ray, double *alpha)
+static t_objs *intersect(t_objs *ptr, t_triade *origins, t_triade ray, double *alpha)
 {
   double	(*functions[5])(t_triade, t_objs *, t_triade *, double *);
   t_objs *ret;
@@ -91,54 +91,13 @@ t_objs *intersect(t_objs *ptr, t_triade *origins, t_triade ray, double *alpha)
   while (ptr->next)
   {
     if ((test = (*functions[ptr->type - 1])(ray, ptr, origins, alpha)) >= 0)
-    {
       if (test < *alpha || *alpha == -1)
       {
         *alpha = test;
         ret = ptr;
       }
-    }
     ptr = ptr->next;
   }
-  // while (ptr->next)
-  // {
-  //   if (ptr->type == 3)
-  //     if ((test = intersect_plan(ray, ptr, origins)) >= 0)
-  //       if (test < *alpha || *alpha == -1)
-  //       {
-  //         *alpha = test;
-  //         ret = ptr;
-  //       }
-  //   if (ptr->type == 1)
-  //     if ((test = intersect_sphere(ray, ptr, origins)) >= 0)
-  //       if (test < *alpha || *alpha == -1)
-  //       {
-  //         *alpha = test;
-  //         ret = ptr;
-  //       }
-  //   if (ptr->type == 2)
-  //     if ((test = intersect_plan(ray, ptr, origins)) >= 0)
-  //         if (test < *alpha || *alpha == -1)
-  //         {
-  //           *alpha = test;
-  //           ret = ptr;
-  //         }
-  //   if (ptr->type == 5)
-  //     if ((test = intersect_plan(ray, ptr, origins)) >= 0)
-  //         if (test < *alpha || *alpha == -1)
-  //         {
-  //           *alpha = test;
-  //           ret = ptr;
-  //         }
-  //   if (ptr->type == 4)
-  //     if ((test = intersect_cy(ray, ptr, origins, alpha)) >= 0)
-  //       if (test < *alpha || *alpha == -1)
-  //       {
-  //         *alpha = test;
-  //         ret = ptr;
-  //       }
-  //   ptr = ptr->next;
-  // }
   return (ret);
 }
 

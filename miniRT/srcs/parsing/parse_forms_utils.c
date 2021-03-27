@@ -67,7 +67,6 @@ int ft_color(t_triade *color, char *line, int i)
 
 int ft_coordonnees(t_triade *new, char *line, int i)
 {
-
   if ((i = ft_space(line, i)) != -1)
     if (ft_routine(&new->x, line, &i, 1) != -1)
       if (line[i++] == ',')
