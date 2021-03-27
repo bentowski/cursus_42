@@ -1,4 +1,4 @@
-#include "../minirt.h"
+#include "../../minirt.h"
 
 static int get_rgb(int color1, int color2, int color3, double intensity, double light)
 {

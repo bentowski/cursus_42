@@ -144,6 +144,9 @@ typedef struct s_env
 
 void	ft_bzero(void *s, size_t n);
 void	*ft_calloc(size_t count, size_t size);
+int	ft_strncmp(const char *s1, const char *s2, size_t n);
+size_t	ft_strlen(const char *s);
+char	*ft_substr(char const *s, unsigned int start, size_t len);
 int ft_parse(t_map **map, char *givedmap);
 void ft_clear(t_map *map);
 void ft_clear_cams(t_cams *cams);

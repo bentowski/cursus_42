@@ -67,7 +67,7 @@ int create_bmp(t_env *env)
   int y;
   unsigned long int *p;
 
-  fd = open("filename", O_WRONLY | O_CREAT | O_TRUNC, FILE_PERMISSIONS);
+  fd = open("minirt.bmp", O_WRONLY | O_CREAT | O_TRUNC, FILE_PERMISSIONS);
   if (fd > 0)
   {
     edit_bmp(env, fd);

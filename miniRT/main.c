@@ -69,31 +69,45 @@ int   map_init(t_map **map)
   return (-1);
 }
 
+static void start(t_env *env, int argc)
+{
+  env->mlx = mlx_init();
+  if ((map_init(&env->map)) == -1)
+    return;
+  mlx_get_screen_size(env->mlx, &env->map->res->width_max, &env->map->res->height_max);
+  if (ft_parse(&env->map, env->rtfile) != -1)
+  {
+    env->mlx_win = mlx_new_window(env->mlx, env->map->res->win_width, env->map->res->win_height, "Hello world");
+    env->img.img = mlx_new_image(env->mlx, env->map->res->win_width, env->map->res->win_height);
+    env->img.addr = mlx_get_data_addr(env->img.img, &env->img.bits_per_pixel, &env->img.line_length, &env->img.endian);
+    drop_ray(env);
+    if (argc == 3)
+      create_bmp(env);
+    mlx_gestion(env);
+  }
+}
+
 int   main(int argc, char **argv)
 {
   t_env env;
 
-  if (argc >= 2 && argc <= 3)
-	{
-    env.rtfile = argv[1];
-    env.mlx = mlx_init();
-    if ((map_init(&env.map)) == -1)
-      return (-1);
-    mlx_get_screen_size(env.mlx, &env.map->res->width_max, &env.map->res->height_max);
-		if (ft_parse(&env.map, env.rtfile) != -1)
+  if (argc == 2)
+    if (ft_strncmp(ft_substr(argv[1],
+      (ft_strlen(argv[1]) - 3), 3), ".rt", 4) == 0)
+      {
+        env.rtfile = argv[1];
+        start(&env, argc);
+        ft_clear(env.map);
+        return (-1);
+    	 }
+  if (argc == 3)
+    if (ft_strncmp(argv[2], "--save", 7) == 0)
     {
-  		env.mlx_win = mlx_new_window(env.mlx, env.map->res->win_width, env.map->res->win_height, "Hello world");
-  		env.img.img = mlx_new_image(env.mlx, env.map->res->win_width, env.map->res->win_height);
-  		env.img.addr = mlx_get_data_addr(env.img.img, &env.img.bits_per_pixel, &env.img.line_length, &env.img.endian);
-      drop_ray(&env);
-      if (argc == 2)
-        mlx_gestion(&env);
-      else if (argc == 3)
-        create_bmp(&env);
-    }
-    ft_clear(env.map);
-    return (-1);
-	}
+      env.rtfile = argv[1];
+      start(&env, argc);
+      ft_clear(env.map);
+      return (-1);
+     }
 	printf("%s\n%s", "Error", "missing or too much arguments");
 	return (-1);
 }
