@@ -121,9 +121,19 @@ double intersect_cy(t_triade ray, t_objs *ptr, t_triade *origins)
   ret[2] = scale(ptr->base->vdir, &p);
   p = subs(increase(ray, ret[1]), subs(*ptr->base->origins, *origins));
   ret[3] = scale(ptr->base->vdir, &p);
-  if (ret[3] < ptr->height && ret[3] > 0 && ret[1] >= 0)
-    return (ret[1]);
-  if (ret[2] < ptr->height && ret[2] > 0 && ret[0] >= 0)
-    return (ret[0]);
+  if (ret[1] < ret[0])
+  {
+    if (ret[3] < ptr->height && ret[3] > 0 && ret[1] >= 0)
+      return (ret[1]);
+    if (ret[2] < ptr->height && ret[2] > 0 && ret[0] >= 0)
+      return (ret[0]);
+  }
+  if (ret[1] >= ret[0])
+  {
+    if (ret[2] < ptr->height && ret[2] > 0 && ret[0] >= 0)
+      return (ret[0]);
+    if (ret[3] < ptr->height && ret[3] > 0 && ret[1] >= 0)
+      return (ret[1]);
+  }
   return (-1);
 }
