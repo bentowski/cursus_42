@@ -36,7 +36,7 @@ static double get_light(t_map *map, t_triade n, t_triade p, t_lights *light)
     ret = ((light->lumens) * scale(&ldir, &n)) / scale(&ldir, &ldir);
   if (ret < 0)
     ret = 0;
-  p = add_vectors(p, increase(p, 0.001));
+  p = add_vectors(p, increase(n, 0.001));
   return (ret * get_shadows(map, ldir, &p, lightdist));
 }
 
