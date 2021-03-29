@@ -3,7 +3,7 @@
 static int get_shadows(t_map *map, t_triade ray, t_triade *p, double ldist)
 {
   t_objs *ptr;
-  double	(*functions[5])(t_triade, t_objs *, t_triade *, double *);
+  double	(*functions[5])(t_triade, t_objs *, t_triade *);
   double alpha;
 
   ptr = map->objs;
@@ -14,7 +14,7 @@ static int get_shadows(t_map *map, t_triade ray, t_triade *p, double ldist)
   functions[4] = intersect_plan;
   while (ptr->next)
   {
-    if ((alpha = (*functions[ptr->type - 1])(ray, ptr, p, &alpha)) >= 0)
+    if ((alpha = (*functions[ptr->type - 1])(ray, ptr, p)) >= 0)
       if (alpha <= ldist)
         return (1);
     ptr = ptr->next;
@@ -71,7 +71,7 @@ static unsigned long int color_ret(t_map *map, t_objs *target, t_triade p)
 
 static t_objs *intersect(t_objs *ptr, t_triade *origins, t_triade ray, double *alpha)
 {
-  double	(*functions[5])(t_triade, t_objs *, t_triade *, double *);
+  double	(*functions[5])(t_triade, t_objs *, t_triade *);
   t_objs *ret;
   double test;
 
@@ -83,7 +83,7 @@ static t_objs *intersect(t_objs *ptr, t_triade *origins, t_triade ray, double *a
   functions[4] = intersect_plan;
   while (ptr->next)
   {
-    if ((test = (*functions[ptr->type - 1])(ray, ptr, origins, alpha)) >= 0)
+    if ((test = (*functions[ptr->type - 1])(ray, ptr, origins)) >= 0)
       if (test < *alpha || *alpha == -1)
       {
         *alpha = test;

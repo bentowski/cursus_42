@@ -45,12 +45,11 @@ static double inside_triangl(double test, t_objs *ptr, t_triade *origins, t_tria
   return (-1);
 }
 
-double intersect_plan(t_triade ray, t_objs *ptr, t_triade *origins, double *u)
+double intersect_plan(t_triade ray, t_objs *ptr, t_triade *origins)
 {
   t_triade alpha;
   t_triade vdir;
 
-  alpha.x = *u;
   vdir = get_norme(*ptr->base->vdir);
   alpha.x = (ptr->base->origins->x - origins->x) * vdir.x;
   alpha.x += (ptr->base->origins->y - origins->y) * vdir.y;
@@ -74,12 +73,11 @@ double intersect_plan(t_triade ray, t_objs *ptr, t_triade *origins, double *u)
   return (-1);
 }
 
-double intersect_sphere(t_triade ray, t_objs *ptr, t_triade *origins, double *u)
+double intersect_sphere(t_triade ray, t_objs *ptr, t_triade *origins)
 {
   t_triade alpha;
   t_triade polynome;
 
-  alpha.x = *u;
   polynome.x = ray.x * ray.x + ray.y * ray.y + ray.z * ray.z;
   polynome.y = ray.x * (origins->x - ptr->base->origins->x);
   polynome.y += ray.y * (origins->y - ptr->base->origins->y);
@@ -103,7 +101,7 @@ double intersect_sphere(t_triade ray, t_objs *ptr, t_triade *origins, double *u)
   return (-1);
 }
 
-double intersect_cy(t_triade ray, t_objs *ptr, t_triade *origins, double *alpha)
+double intersect_cy(t_triade ray, t_objs *ptr, t_triade *origins)
 {
   t_triade x;
   t_triade y;
@@ -123,9 +121,9 @@ double intersect_cy(t_triade ray, t_objs *ptr, t_triade *origins, double *alpha)
   ret[2] = scale(ptr->base->vdir, &p);
   p = subs(increase(ray, ret[1]), subs(*ptr->base->origins, *origins));
   ret[3] = scale(ptr->base->vdir, &p);
-  if (ret[3] < ptr->height && ret[3] > 0 && ret[1] >= 0 && ret[1] < *alpha)
+  if (ret[3] < ptr->height && ret[3] > 0 && ret[1] >= 0)
     return (ret[1]);
-  if (ret[2] < ptr->height && ret[2] > 0 && ret[0] >= 0 && ret[1] < *alpha)
+  if (ret[2] < ptr->height && ret[2] > 0 && ret[0] >= 0)
     return (ret[0]);
   return (-1);
 }
