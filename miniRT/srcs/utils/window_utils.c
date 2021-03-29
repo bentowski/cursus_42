@@ -2,19 +2,10 @@
 
 static int gestion_win_deux(int keycode, t_env *env)
 {
-  t_map *map;
 
   if (keycode == R_KEY)
   {
-    ft_clear(env->map);
-    if ((map_init(&map)) != -1)
-      if (ft_parse(&map, env->rtfile) != -1)
-      {
-        drop_ray(env);
-        mlx_clear_window(env->mlx, env->mlx_win);
-        mlx_put_image_to_window(env->mlx, env->mlx_win, env->img.img, 0, 0);
-        env->map = map;
-      }
+    start(env, 4);
   }
   if (keycode == ESC_KEY)
   {

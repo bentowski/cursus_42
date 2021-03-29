@@ -91,10 +91,10 @@ typedef struct s_ambiant
 
 typedef struct s_res
 {
-  int win_width;
-  int win_height;
-  int width_max;
-  int height_max;
+  int width;
+  int height;
+  int w_max;
+  int h_max;
 }               t_res;
 
 typedef struct s_objs
@@ -162,5 +162,9 @@ int create_bmp(t_env *env);
 int   map_init(t_map **map);
 void drop_ray(t_env *env);
 int mlx_gestion(t_env *env);
+void start(t_env *env, int opt);
+t_triade add_vectors(t_triade u, t_triade v);
+t_triade increase(t_triade t1, double n);
+
 
 #endif

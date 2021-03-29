@@ -29,14 +29,14 @@ void drop_ray(t_env *env)
 
   map = env->map;
   y = -1;
-  while (y++ < map->res->win_height - 1)
+  while (y++ < map->res->height - 1)
   {
     x = -1;
-    while (x++ < map->res->win_width - 1)
+    while (x++ < map->res->width - 1)
     {
-      ray.z = 1 / (tan(M_PI / 180.0 * map->cams->fov / 2)) * map->res->win_width / 2;
-      ray.y = (-y + map->res->win_height / 2.0) * map->res->win_width / map->res->win_height;
-      ray.x = (-x + map->res->win_width / 2.0) * map->res->win_width / map->res->win_height;
+      ray.z = 1 / (tan(M_PI / 180.0 * map->cams->fov / 2)) * map->res->width / 2;
+      ray.y = (-y + map->res->height / 2.0) * map->res->width / map->res->height;
+      ray.x = (-x + map->res->width / 2.0) * map->res->width / map->res->height;
       ray = cams_orientation(ray, *map->cams->base->vdir);
       my_mlx_pixel_put(&env->img, x, y, ft_raytracing(map, get_norme(ray)));
     }
@@ -69,19 +69,40 @@ int   map_init(t_map **map)
   return (-1);
 }
 
-static void start(t_env *env, int argc)
+void start(t_env *env, int opt)
 {
+  t_objs *ptr;
+
+  if (opt == 4)
+  {
+    mlx_destroy_window(env->mlx, env->mlx_win);
+  	mlx_destroy_display(env->mlx);
+  	free(env->mlx);
+    free(env->img.img);
+    ft_clear(env->map);
+  }
   env->mlx = mlx_init();
   if ((map_init(&env->map)) == -1)
     return;
-  mlx_get_screen_size(env->mlx, &env->map->res->width_max, &env->map->res->height_max);
+  mlx_get_screen_size(env->mlx, &env->map->res->w_max, &env->map->res->h_max);
   if (ft_parse(&env->map, env->rtfile) != -1)
   {
-    env->mlx_win = mlx_new_window(env->mlx, env->map->res->win_width, env->map->res->win_height, "Hello world");
-    env->img.img = mlx_new_image(env->mlx, env->map->res->win_width, env->map->res->win_height);
+    ptr = env->map->objs;
+    while (ptr->next)
+    {
+      printf("%d\n", ptr->type);
+      ptr = ptr->next;
+    }
+    if (env->map->res->width <= 0 || env->map->res->height <= 0 || env->map->ambiant->lumens == 0)
+    {
+      printf("%s\n%s\n", "Error", "Missing resolution or ambiant light");
+      return;
+    }
+    env->mlx_win = mlx_new_window(env->mlx, env->map->res->width, env->map->res->height, "Hello world");
+    env->img.img = mlx_new_image(env->mlx, env->map->res->width, env->map->res->height);
     env->img.addr = mlx_get_data_addr(env->img.img, &env->img.bits_per_pixel, &env->img.line_length, &env->img.endian);
     drop_ray(env);
-    if (argc == 3)
+    if (opt == 3)
       create_bmp(env);
     mlx_gestion(env);
   }
@@ -108,6 +129,6 @@ int   main(int argc, char **argv)
       ft_clear(env.map);
       return (-1);
      }
-	printf("%s\n%s", "Error", "missing or too much arguments");
+	printf("%s\n%s\n", "Error", "missing or too much arguments");
 	return (-1);
 }

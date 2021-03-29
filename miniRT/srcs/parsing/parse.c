@@ -33,7 +33,7 @@ static int other_maping(char *line, int i, t_map ***map)
   new = **map;
   if (line[i] == 'R')
     if ((i = res(line, i, &new->res)) == -1)
-      printf("%s\n%s\n", "Error", "Invalid win_width, &win_heightolution data");
+      printf("%s\n%s\n", "Error", "Invalid width, &height resolution data");
   if (line[i] == 'A')
       if ((i = ambiance(line, i + 1, &new->ambiant)) == -1)
         printf("%s\n%s\n", "Error", "Invalid ambiant data");
@@ -94,6 +94,6 @@ int ft_parse(t_map **map, char *givedmap)
       return (1);
   }
   free(line);
-  printf("%s\n%s", "Error", "Invalid map file");
+  printf("%s\n%s\n", "Error", "Invalid map file");
   return (-1);
 }

@@ -18,8 +18,8 @@ static void	create_bmpdibheader(t_res *res, t_dib_h *header, int size)
 	ppm = DEFAULT_DPI * PPM_CONV_FACTOR;
 	ft_bzero(header, sizeof(t_dib_h));
 	header->size_header = sizeof(t_dib_h);
-	header->width = res->win_width;
-	header->height = res->win_height;
+	header->width = res->width;
+	header->height = res->height;
 	header->planes = DEFAULT_BIPLANES;
 	header->bit_count = TRUE_COLOR;
 	header->compr = 0;
@@ -39,7 +39,7 @@ static void	edit_bmp(t_env *env, int fd)
   t_res *res;
 
   res = env->map->res;
-	size = res->win_width * res->win_height * 3;
+	size = res->width * res->height * 3;
 	create_bmpfileheader(&file_header, size);
 	create_bmpdibheader(res, &dib_header, size);
 	write(fd, &(file_header.bmp_type), 2);
@@ -71,13 +71,13 @@ int create_bmp(t_env *env)
   if (fd > 0)
   {
     edit_bmp(env, fd);
-    y = env->map->res->win_height;
+    y = env->map->res->height;
     while (y-- > -1)
 		{
 			x = -1;
-			while (x++ < env->map->res->win_width)
+			while (x++ < env->map->res->width)
 			{
-				p = (unsigned long int *)(env->img.addr + (x + env->map->res->win_width * y) * 4);
+				p = (unsigned long int *)(env->img.addr + (x + env->map->res->width * y) * 4);
 				if (write(fd, p, 3) < 0)
 					return (-1);
 			}

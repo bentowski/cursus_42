@@ -3,27 +3,20 @@
 static int get_shadows(t_map *map, t_triade ray, t_triade *p, double ldist)
 {
   t_objs *ptr;
+  double	(*functions[5])(t_triade, t_objs *, t_triade *, double *);
   double alpha;
 
   ptr = map->objs;
+  functions[0] = intersect_sphere;
+  functions[1] = intersect_plan;
+  functions[2] = intersect_plan;
+  functions[3] = intersect_cy;
+  functions[4] = intersect_plan;
   while (ptr->next)
   {
-    if (ptr->type == 2)
-      if ((alpha = intersect_plan(ray, ptr, p, &alpha)) >= 0)
-        if (alpha <= ldist)
-          return (0);
-    if (ptr->type == 5)
-      if ((alpha = intersect_plan(ray, ptr, p, &alpha)) >= 0)
-        if (alpha <= ldist)
-          return (0);
-    if (ptr->type == 3)
-      if ((alpha = intersect_plan(ray, ptr, p, &alpha)) >= 0)
-        if (alpha <= ldist)
-          return (0);
-    if (ptr->type == 1)
-      if ((alpha = intersect_sphere(ray, ptr, p, &alpha)) >= 0)
-        if (alpha <= ldist)
-          return (0);
+    if ((alpha = (*functions[ptr->type - 1])(ray, ptr, p, &alpha)) >= 0)
+      if (alpha <= ldist)
+        return (1);
     ptr = ptr->next;
   }
   return (1);

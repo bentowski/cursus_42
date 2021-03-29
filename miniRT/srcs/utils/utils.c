@@ -58,6 +58,8 @@ t_triade get_norme(t_triade target)
 t_triade get_normale(t_objs *ptr, t_triade position, t_map *map)
 {
   t_triade n;
+  t_triade tmp;
+  double x;
 
   n.x = 0;
   n.y = 0;
@@ -66,7 +68,16 @@ t_triade get_normale(t_objs *ptr, t_triade position, t_map *map)
     return (n);
   if (ptr->type == 1)
     n = get_norme(subs(position, *ptr->base->origins));
-  else if (ptr->type == 3 || ptr->type == 2 || ptr->type == 5)
+  else if (ptr->type == 4)
+  {
+    // printf("%s\n", "OK");
+    tmp = subs(position, *ptr->base->origins);
+    x = scale(&tmp, ptr->base->vdir);
+    tmp = increase(*ptr->base->vdir, x);
+    n = add_vectors(*ptr->base->origins, tmp);
+    n = get_norme(subs(position, n));
+  }
+  else if (ptr->type == 2 || ptr->type == 3 || ptr->type == 5)
     n = get_norme(subs(*ptr->base->vdir, *map->vnull));
   return (n);
 }

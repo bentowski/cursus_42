@@ -8,22 +8,22 @@ int res(char *line, int i, t_res **res)
   i++;
   if ((i = ft_space(line, i)) == -1)
   {
-    printf("%s : %d\n", "ERREUR MAP CONFIG win_width, &win_heightOLUTION", i);
+    printf("%s : %d\n", "ERREUR MAP CONFIG width, &height resolution", i);
     return (-1);
   }
   while (line[i] >= '0' && line[i] <= '9')
-    new->win_width = new->win_width * 10 + (line[i++] - 48);
+    new->width = new->width * 10 + (line[i++] - 48);
   if ((i = ft_space(line, i)) == -1)
   {
-    printf("%s : %d\n", "ERREUR MAP CONFIG win_width, &win_heightOLUTION", i);
+    printf("%s : %d\n", "ERREUR MAP CONFIG width, &height resolution", i);
     return (-1);
   }
   while (line[i] >= '0' && line[i] <= '9')
-    new->win_height = (new->win_height * 10) + (line[i++] - 48);
-  if (new->win_width > new->width_max)
-    new->win_width = new->width_max;
-  if (new->win_height > new->height_max)
-    new->win_height = new->height_max;
+    new->height = (new->height * 10) + (line[i++] - 48);
+  if (new->width > new->w_max)
+    new->width = new->w_max;
+  if (new->height > new->h_max)
+    new->height = new->h_max;
   *res = new;
   return (i);
 }
@@ -36,7 +36,7 @@ int ambiance(char *line, int i, t_ambiant **ambiant)
   if (!(new->color = ft_calloc(1, sizeof(t_triade))))
     return (-1);
   if ((i = ft_space(line, i)) != -1)
-    if (ft_routine(&new->lumens, line, &i, 1) != -1)
+    if (ft_routine(&new->lumens, line, &i, 2) != -1)
       if (new->lumens >= 0 && new->lumens <= 1)
         if ((i = ft_color(new->color, line, i)) != -1)
           if (ft_check_color_vdir(new->color, 2) != -1)
