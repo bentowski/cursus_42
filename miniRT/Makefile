@@ -25,6 +25,7 @@ SRC =	main.c \
 			srcs/utils/vectors.c \
 			srcs/utils/create_bmp.c \
 			srcs/utils/window_utils.c \
+			srcs/utils/intersect_utils.c \
 			srcs/utils/utils.c
 
 SRCS =			$(addprefix $(DIR_SRCS), $(SRC))

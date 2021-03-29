@@ -22,24 +22,22 @@ static int get_shadows(t_map *map, t_triade ray, t_triade *p, double ldist)
   return (1);
 }
 
-static double get_light(t_map *map, t_triade n, t_triade position, t_lights *light)
+static double get_light(t_map *map, t_triade n, t_triade p, t_lights *light)
 {
   double ret;
   double lightdist;
   t_triade ldir;
 
   ret = 0;
-  ldir = subs(*light->base->origins, position);
+  ldir = subs(*light->base->origins, p);
   lightdist = scale(&ldir, &ldir);
   ldir = get_norme(ldir);
   if (scale(&ldir, &n) >= 0)
     ret = ((light->lumens) * scale(&ldir, &n)) / scale(&ldir, &ldir);
   if (ret < 0)
     ret = 0;
-  position.x += n.x * 0.001;
-  position.y += n.y * 0.001;
-  position.z += n.z * 0.001;
-  return (ret * get_shadows(map, ldir, &position, lightdist));
+  p = add_vectors(p, increase(p, 0.001));
+  return (ret * get_shadows(map, ldir, &p, lightdist));
 }
 
 static unsigned long int color_ret(t_map *map, t_objs *target, t_triade p)
@@ -69,7 +67,7 @@ static unsigned long int color_ret(t_map *map, t_objs *target, t_triade p)
   return ((ret.x * 256 * 256 + ret.y * 256 + ret.z));
 }
 
-static t_objs *intersect(t_objs *ptr, t_triade *origins, t_triade ray, double *alpha)
+static t_objs *intersect(t_objs *ptr, t_triade *o, t_triade ray, double *alpha)
 {
   double	(*functions[5])(t_triade, t_objs *, t_triade *);
   t_objs *ret;
@@ -83,7 +81,7 @@ static t_objs *intersect(t_objs *ptr, t_triade *origins, t_triade ray, double *a
   functions[4] = intersect_plan;
   while (ptr->next)
   {
-    if ((test = (*functions[ptr->type - 1])(ray, ptr, origins)) >= 0)
+    if ((test = (*functions[ptr->type - 1])(ray, ptr, o)) >= 0)
       if (test < *alpha || *alpha == -1)
       {
         *alpha = test;

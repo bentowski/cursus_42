@@ -71,8 +71,6 @@ int   map_init(t_map **map)
 
 void start(t_env *env, int opt)
 {
-  t_objs *ptr;
-
   if (opt == 4)
   {
     mlx_destroy_window(env->mlx, env->mlx_win);
@@ -87,12 +85,6 @@ void start(t_env *env, int opt)
   mlx_get_screen_size(env->mlx, &env->map->res->w_max, &env->map->res->h_max);
   if (ft_parse(&env->map, env->rtfile) != -1)
   {
-    ptr = env->map->objs;
-    while (ptr->next)
-    {
-      printf("%d\n", ptr->type);
-      ptr = ptr->next;
-    }
     if (env->map->res->width <= 0 || env->map->res->height <= 0 || env->map->ambiant->lumens == 0)
     {
       printf("%s\n%s\n", "Error", "Missing resolution or ambiant light");

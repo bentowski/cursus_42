@@ -1,15 +1,15 @@
 #include "raytracing.h"
 
-static int inside_square(double test, t_objs *ptr, t_triade ray, t_triade *origins)
+static int square(double test, t_objs *ptr, t_triade ray, t_triade *origin)
 {
   t_triade p;
   t_triade dist;
   double inside;
 
   inside = ptr->height / 2;
-  p.x = origins->x + test * ray.x;
-  p.y = origins->y + test * ray.y;
-  p.z = origins->z + test * ray.z;
+  p.x = origin->x + test * ray.x;
+  p.y = origin->y + test * ray.y;
+  p.z = origin->z + test * ray.z;
   dist.x = fabs(p.x - ptr->base->origins->x);
   dist.y = fabs(p.y - ptr->base->origins->y);
   dist.z = fabs(p.z - ptr->base->origins->z);
@@ -18,7 +18,7 @@ static int inside_square(double test, t_objs *ptr, t_triade ray, t_triade *origi
   return (-1);
 }
 
-static double inside_triangl(double test, t_objs *ptr, t_triade *origins, t_triade ray)
+static double triangle(double test, t_objs *ptr, t_triade ray, t_triade *origin)
 {
   t_triade p;
   t_triade side[3];
@@ -26,9 +26,9 @@ static double inside_triangl(double test, t_objs *ptr, t_triade *origins, t_tria
   t_triade j[3];
 
 
-  p.x = origins->x + test * ray.x;
-  p.y = origins->y + test * ray.y;
-  p.z = origins->z + test * ray.z;
+  p.x = origin->x + test * ray.x;
+  p.y = origin->y + test * ray.y;
+  p.z = origin->z + test * ray.z;
   side[0] = subs(*ptr->p2, *ptr->base->origins);
   side[1] = subs(*ptr->p3, *ptr->p2);
   side[2] = subs(*ptr->base->origins, *ptr->p3);
@@ -51,26 +51,20 @@ double intersect_plan(t_triade ray, t_objs *ptr, t_triade *origins)
   t_triade vdir;
 
   vdir = get_norme(*ptr->base->vdir);
-  alpha.x = (ptr->base->origins->x - origins->x) * vdir.x;
-  alpha.x += (ptr->base->origins->y - origins->y) * vdir.y;
-  alpha.x += (ptr->base->origins->z - origins->z) * vdir.z;
-  alpha.y = ray.x * vdir.x;
-  alpha.y += ray.y * vdir.y;
-  alpha.y += ray.z * vdir.z;
-  alpha.z = alpha.x / alpha.y;
-  if (alpha.z >= 0)
-  {
-    if (ptr->type == 3)
-      if (scale(ptr->base->origins, &ray) != 0)
-        return (alpha.z);
-    if (ptr->type == 2)
-      if (inside_square(alpha.z, ptr, ray, origins) == 1)
-        return (alpha.z);
-    if (ptr->type == 5)
-      if (inside_triangl(alpha.z, ptr, origins, ray) == 1)
-        return (alpha.z);
-  }
+  alpha = subs(*ptr->base->origins, *origins);
+  alpha.x = scale(&alpha, &vdir) / scale(&ray, &vdir);
+  if (alpha.x <= 0)
+    return (-1);
+  if (ptr->type == 3)
+    return (alpha.x);
+  if (ptr->type == 2)
+    if (square(alpha.x, ptr, ray, origins) == 1)
+      return (alpha.x);
+  if (ptr->type == 5)
+    if (triangle(alpha.x, ptr, ray, origins) == 1)
+      return (alpha.x);
   return (-1);
+
 }
 
 double intersect_sphere(t_triade ray, t_objs *ptr, t_triade *origins)
@@ -103,37 +97,20 @@ double intersect_sphere(t_triade ray, t_objs *ptr, t_triade *origins)
 
 double intersect_cy(t_triade ray, t_objs *ptr, t_triade *origins)
 {
-  t_triade x;
-  t_triade y;
-  t_triade p;
-  t_triade v;
+  t_triade tmp[4];
   double ret[4];
 
-  v = subs(*origins, *ptr->base->origins);
-  x = subs(ray, increase(*ptr->base->vdir, scale(&ray, ptr->base->vdir)));
-  y = subs(subs(*origins, *ptr->base->origins), increase(*ptr->base->vdir,
-    scale(&v, ptr->base->vdir)));
-  ret[0] = calcul_polynome(scale(&x, &x), 2 * scale(&x, &y), (scale(&y, &y)
-   - pow((ptr->diam / 2), 2)), 1);
-  ret[1] = calcul_polynome(scale(&x, &x), 2 * scale(&x, &y), (scale(&y, &y)
-   - pow((ptr->diam / 2), 2)), 2);
-  p = subs(increase(ray, ret[0]), subs(*ptr->base->origins, *origins));
-  ret[2] = scale(ptr->base->vdir, &p);
-  p = subs(increase(ray, ret[1]), subs(*ptr->base->origins, *origins));
-  ret[3] = scale(ptr->base->vdir, &p);
-  if (ret[1] < ret[0])
-  {
-    if (ret[3] < ptr->height && ret[3] > 0 && ret[1] >= 0)
-      return (ret[1]);
-    if (ret[2] < ptr->height && ret[2] > 0 && ret[0] >= 0)
-      return (ret[0]);
-  }
-  if (ret[1] >= ret[0])
-  {
-    if (ret[2] < ptr->height && ret[2] > 0 && ret[0] >= 0)
-      return (ret[0]);
-    if (ret[3] < ptr->height && ret[3] > 0 && ret[1] >= 0)
-      return (ret[1]);
-  }
-  return (-1);
+  tmp[0] = subs(*origins, *ptr->base->origins);
+  tmp[1] = subs(ray, increase(*ptr->base->vdir, scale(&ray, ptr->base->vdir)));
+  tmp[2] = subs(subs(*origins, *ptr->base->origins), increase(*ptr->base->vdir,
+    scale(&tmp[0], ptr->base->vdir)));
+  ret[0] = calcul_polynome(scale(&tmp[1], &tmp[1]), 2 * scale(&tmp[1], &tmp[2]),
+  (scale(&tmp[2], &tmp[2]) - pow((ptr->diam / 2), 2)), 1);
+  ret[1] = calcul_polynome(scale(&tmp[1], &tmp[1]), 2 * scale(&tmp[1], &tmp[2]),
+  (scale(&tmp[2], &tmp[2]) - pow((ptr->diam / 2), 2)), 2);
+  tmp[3] = subs(increase(ray, ret[0]), subs(*ptr->base->origins, *origins));
+  ret[2] = scale(ptr->base->vdir, &tmp[3]);
+  tmp[3] = subs(increase(ray, ret[1]), subs(*ptr->base->origins, *origins));
+  ret[3] = scale(ptr->base->vdir, &tmp[3]);
+  return (cylinder_return(ret, ptr));
 }

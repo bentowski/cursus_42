@@ -165,6 +165,7 @@ int mlx_gestion(t_env *env);
 void start(t_env *env, int opt);
 t_triade add_vectors(t_triade u, t_triade v);
 t_triade increase(t_triade t1, double n);
+double cylinder_return(double *ret, t_objs *ptr);
 
 
 #endif
