@@ -16,7 +16,7 @@ static int get_shadows(t_map *map, t_triade ray, t_triade *p, double ldist)
   {
     if ((alpha = (*functions[ptr->type - 1])(ray, ptr, p)) >= 0)
       if (alpha <= ldist)
-        return (1);
+        return (0);
     ptr = ptr->next;
   }
   return (1);
