@@ -48,27 +48,27 @@ int ft_routine(double *x, char *line, int *i, int opt)
 
 int foisdeux(char *line, int *ayet, int *ryet)
 {
-  if (line[0] == 'A')
-  {
-    if (*ayet == 1)
-    {
-      printf("%s\n%s", "Error", "Ambiant x2");
-      return (-1);
-    }
-    else
-      *ayet = *ayet + 1;
-  }
   if (line[0] == 'R')
   {
     if (*ryet == 1)
     {
-      printf("%s\n%s", "Error", "res x2");
+      printf("%s\n%s\n", "Error", "Resolution x2");
       return (-1);
     }
     else
       *ryet = *ryet + 1;
   }
-  return (1);
+  if (line[0] == 'A')
+  {
+    if (*ayet == 1)
+    {
+      printf("%s\n%s\n", "Error", "Ambiant x2");
+      return (-1);
+    }
+    else
+      *ayet = *ayet + 1;
+  }
+  return (0);
 }
 
 int ft_space(char *line, int i)

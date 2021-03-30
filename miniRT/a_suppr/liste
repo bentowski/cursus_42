@@ -1,9 +1,5 @@
-Reste à faire : 4jours max (25 Mars)(29 Mars)
-
-
-Probleme plan lorsque : 1journée
--camera {0,0,0   0,0,-1} & plan {0,0,-x  y,y,0} {x >= 0}   {-1 < y < 1}
 -camera sous le plan et lumiere au dessus
 
+-pb fichier .bmp
 
-debuguage : 3jours
+-leaks

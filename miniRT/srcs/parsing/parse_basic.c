@@ -7,23 +7,23 @@ int res(char *line, int i, t_res **res)
   new = *res;
   i++;
   if ((i = ft_space(line, i)) == -1)
-  {
-    printf("%s : %d\n", "ERREUR MAP CONFIG width, &height resolution", i);
     return (-1);
-  }
   while (line[i] >= '0' && line[i] <= '9')
     new->width = new->width * 10 + (line[i++] - 48);
   if ((i = ft_space(line, i)) == -1)
-  {
-    printf("%s : %d\n", "ERREUR MAP CONFIG width, &height resolution", i);
     return (-1);
-  }
   while (line[i] >= '0' && line[i] <= '9')
     new->height = (new->height * 10) + (line[i++] - 48);
   if (new->width > new->w_max)
     new->width = new->w_max;
   if (new->height > new->h_max)
     new->height = new->h_max;
+  while (line[i])
+  {
+    if (line[i] != ' ' && line[i] != '\0')
+      return (-1);
+    i++;
+  }
   *res = new;
   return (i);
 }

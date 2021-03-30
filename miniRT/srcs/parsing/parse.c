@@ -78,12 +78,12 @@ int ft_parse(t_map **map, char *givedmap)
   int fd;
 
   line = NULL;
-  if ((fd = open(givedmap, O_RDONLY)) >= 0)
+  if ((fd = open(givedmap, O_RDONLY)) > 0)
   {
     while (get_next_line(fd, &line) > 0)
     {
       i = 0;
-      if (foisdeux(line, &ayet, &ryet) != -1)
+      if ((i = foisdeux(line, &ayet, &ryet)) != -1)
         if ((i = verif(line, i)) != -1)
           if ((i = other_maping(line, i, &map)) != -1)
             if ((i = objects_mapping(line, i, &map)) != -1)
