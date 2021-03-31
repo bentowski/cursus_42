@@ -2,6 +2,7 @@
 
 static int gestion_win_deux(int keycode, t_env *env)
 {
+  mlx_destroy_image(env->mlx, env->img.img);
   mlx_destroy_window(env->mlx, env->mlx_win);
   mlx_destroy_display(env->mlx);
   free(env->mlx);
