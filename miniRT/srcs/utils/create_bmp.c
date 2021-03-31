@@ -30,18 +30,15 @@ static void	create_bmpdibheader(t_res *res, t_dib_h *header, int size)
 	header->clr_important = 0;
 }
 
-
 static void	edit_bmp(t_env *env, int fd)
 {
 	t_bmp_h	file_header;
 	t_dib_h	dib_header;
 	int		size;
-  t_res *res;
 
-  res = env->map->res;
-	size = res->width * res->height * 3;
+	size = env->map->res->width * env->map->res->height * 3;
 	create_bmpfileheader(&file_header, size);
-	create_bmpdibheader(res, &dib_header, size);
+	create_bmpdibheader(env->map->res, &dib_header, size);
 	write(fd, &(file_header.bmp_type), 2);
 	write(fd, &(file_header.file_size), 4);
 	write(fd, &(file_header.reserved1), 2);
@@ -60,31 +57,41 @@ static void	edit_bmp(t_env *env, int fd)
 	write(fd, &(dib_header.clr_important), 4);
 }
 
-int create_bmp(t_env *env)
+void write_bmpdata(t_env *env, int fd)
 {
-  int fd;
   int x;
   int y;
   unsigned long int *p;
 
-  fd = open("minirt.bmp", O_WRONLY | O_CREAT | O_TRUNC, FILE_PERMISSIONS);
-  if (fd > 0)
-  {
-    edit_bmp(env, fd);
-    y = env->map->res->height;
-    while (y-- > -1)
+  y = env->map->res->height - 1;
+  while (y > -1)
+	{
+		x = 0;
+		while (x < env->map->res->width)
 		{
-			x = -1;
-			while (x++ < env->map->res->width)
-			{
-				p = (unsigned long int *)(env->img.addr + (x + env->map->res->width * y) * 4);
-				if (write(fd, p, 3) < 0)
-					return (-1);
-			}
+			p = (unsigned long int *)(env->img.addr + (x + env->map->res->width * y) * 4);
+			if (write(fd, p, 3) < 0)
+				return ;
+			x++;
 		}
-    close(fd);
-    ft_clear(env->map);
-    exit(EXIT_SUCCESS);
-  }
-  return (-1);
+		y--;
+	}
+}
+
+void create_bmp(t_env *env)
+{
+	int fd;
+	char *filename;
+
+	filename = "miniRT.bmp";
+	fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, FILE_PERMISSIONS);
+	if (fd < 0)
+		printf("%s\n%s", "Error", "bmp file corrupted");
+	else
+	{
+		edit_bmp(env, fd);
+		write_bmpdata(env, fd);
+	}
+	close(fd);
+	exit(EXIT_SUCCESS);
 }

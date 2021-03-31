@@ -83,8 +83,9 @@ void start(t_env *env, int opt)
       printf("%s\n%s\n", "Error", "Missing resolution or ambiant light");
       return;
     }
-    env->mlx_win = mlx_new_window(env->mlx, env->map->res->width,
-      env->map->res->height, "Hello world");
+    if (opt == 2)
+      env->mlx_win = mlx_new_window(env->mlx, env->map->res->width,
+        env->map->res->height, "Hello world");
     env->img.img = mlx_new_image(env->mlx, env->map->res->width,
       env->map->res->height);
     env->img.addr = mlx_get_data_addr(env->img.img, &env->img.bits_per_pixel,
@@ -92,7 +93,8 @@ void start(t_env *env, int opt)
     drop_ray(env);
     if (opt == 3)
       create_bmp(env);
-    mlx_gestion(env);
+    if (opt == 2)
+      mlx_gestion(env);
   }
 }
 

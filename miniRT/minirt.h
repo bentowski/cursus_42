@@ -158,7 +158,7 @@ void  my_mlx_pixel_put(t_data *data, int x, int y, int color);
 double scale(t_triade *t1, t_triade *t2);
 t_triade crossprod(t_triade v1, t_triade v2);
 t_triade subs(t_triade t1, t_triade t2);
-int create_bmp(t_env *env);
+void create_bmp(t_env *env);
 int   map_init(t_map **map);
 void drop_ray(t_env *env);
 int mlx_gestion(t_env *env);
