@@ -77,7 +77,6 @@ int ft_parse(t_map **map, char *givedmap)
   char *line;
   int fd;
 
-  line = NULL;
   if ((fd = open(givedmap, O_RDONLY)) > 0)
   {
     while (get_next_line(fd, &line) > 0)
@@ -86,14 +85,15 @@ int ft_parse(t_map **map, char *givedmap)
       if ((i = foisdeux(line, &ayet, &ryet)) != -1)
         if ((i = verif(line, i)) != -1)
           if ((i = other_maping(line, i, &map)) != -1)
-            if ((i = objects_mapping(line, i, &map)) != -1)
-              i++;
-      if (i == -1)
+            i = objects_mapping(line, i, &map);
+      free(line);
+      if (i++ == -1)
         return (-1);
     }
-      return (1);
+    free(line);
+    return (1);
   }
-  free(line);
   printf("%s\n%s\n", "Error", "Invalid map file");
+  close(fd);
   return (-1);
 }

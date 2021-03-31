@@ -1,11 +1,11 @@
 #include "../../minirt.h"
 
-static int get_rgb(int color1, int color2, int color3, double intensity, double light)
+static int get_rgb(int c1, int c2, int c3, double intensity, double light)
 {
   int ret;
 
-  ret = (color1 - (255 - color2)) * light;
-  ret += (color3 - (255 - color2)) * intensity;
+  ret = (c1 - (255 - c2)) * light;
+  ret += (c3 - (255 - c2)) * intensity;
   if (ret > 255)
     return (255);
   if (ret < 0)

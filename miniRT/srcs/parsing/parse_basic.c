@@ -6,11 +6,11 @@ int res(char *line, int i, t_res **res)
 
   new = *res;
   i++;
-  if ((i = ft_space(line, i)) == -1)
+  if ((i = ft_space(line, i, 1)) == -1)
     return (-1);
   while (line[i] >= '0' && line[i] <= '9')
     new->width = new->width * 10 + (line[i++] - 48);
-  if ((i = ft_space(line, i)) == -1)
+  if ((i = ft_space(line, i, 1)) == -1)
     return (-1);
   while (line[i] >= '0' && line[i] <= '9')
     new->height = (new->height * 10) + (line[i++] - 48);
@@ -18,12 +18,8 @@ int res(char *line, int i, t_res **res)
     new->width = new->w_max;
   if (new->height > new->h_max)
     new->height = new->h_max;
-  while (line[i])
-  {
-    if (line[i] != ' ' && line[i] != '\0')
-      return (-1);
-    i++;
-  }
+  if ((i = ft_space(line, i, 2)) == -1)
+    return (-1);
   *res = new;
   return (i);
 }
@@ -35,15 +31,16 @@ int ambiance(char *line, int i, t_ambiant **ambiant)
   new = *ambiant;
   if (!(new->color = ft_calloc(1, sizeof(t_triade))))
     return (-1);
-  if ((i = ft_space(line, i)) != -1)
+  if ((i = ft_space(line, i, 1)) != -1)
     if (ft_routine(&new->lumens, line, &i, 2) != -1)
       if (new->lumens >= 0 && new->lumens <= 1)
         if ((i = ft_color(new->color, line, i)) != -1)
           if (ft_check_color_vdir(new->color, 2) != -1)
-          {
-            *ambiant = new;
-            return (i);
-          }
+            if ((i = ft_space(line, i, 2)) != -1)
+            {
+              *ambiant = new;
+              return (i);
+            }
   return (-1);
 }
 
@@ -60,15 +57,16 @@ int camera(char *line, int i, t_cams **cams)
           if ((i = ft_coordonnees(new->base->origins, line, i)) != -1)
             if ((i = ft_structuration(new->base->vdir, line, i)) != -1)
               if (ft_check_color_vdir(new->base->vdir, 1) != -1)
-                if ((i = ft_space(line, i)) != -1)
+                if ((i = ft_space(line, i, 1)) != -1)
                   if (ft_routine(&new->fov, line, &i, 2) != -1)
-                    if (new->fov >= 0 && new->fov <= 180)
-                    {
-                      new->next = *cams;
-                      ptr->previous = new;
-                      *cams = new;
-                      return (i);
-                    }
+                    if ((i = ft_space(line, i, 2)) != -1)
+                      if (new->fov >= 0 && new->fov <= 180)
+                      {
+                        new->next = *cams;
+                        ptr->previous = new;
+                        *cams = new;
+                        return (i);
+                      }
   ft_clear_cams(new);
   return (-1);
 }
@@ -86,16 +84,17 @@ int light(char *line, int i, t_lights **lights)
   if (!(new->base->color = ft_calloc(1, sizeof(t_triade))))
     return (-1);
   if ((i = ft_coordonnees(new->base->origins, line, i)) != -1)
-    if ((i = ft_space(line, i)) != -1)
+    if ((i = ft_space(line, i, 1)) != -1)
       if (ft_routine(&new->lumens, line, &i, 2) != -1)
         if (new->lumens >= 0 && new->lumens <= 1)
           if ((i = ft_color(new->base->color, line, i)) != -1)
             if (ft_check_color_vdir(new->base->color, 2) != -1)
-            {
-              new->next = *lights;
-              *lights = new;
-              return (i);
-            }
+              if ((i = ft_space(line, i, 2)) != -1)
+              {
+                new->next = *lights;
+                *lights = new;
+                return (i);
+              }
   ft_clear_lights(new);
   return (-1);
 }

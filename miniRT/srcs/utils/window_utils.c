@@ -2,20 +2,15 @@
 
 static int gestion_win_deux(int keycode, t_env *env)
 {
-
+  mlx_destroy_window(env->mlx, env->mlx_win);
+  mlx_destroy_display(env->mlx);
+  free(env->mlx);
+  free(env->img.img);
+  ft_clear(env->map);
   if (keycode == R_KEY)
-  {
     start(env, 4);
-  }
-  if (keycode == ESC_KEY)
-  {
-    mlx_destroy_window(env->mlx, env->mlx_win);
-    mlx_destroy_display(env->mlx);
-    free(env->mlx);
-    free(env->img.img);
-    ft_clear(env->map);
+  else if (keycode == ESC_KEY)
     exit(EXIT_SUCCESS);
-  }
   return (1);
 }
 

@@ -70,7 +70,6 @@ t_triade get_normale(t_objs *ptr, t_triade position, t_map *map)
     n = get_norme(subs(position, *ptr->base->origins));
   else if (ptr->type == 4)
   {
-    // printf("%s\n", "OK");
     tmp = subs(position, *ptr->base->origins);
     x = scale(&tmp, ptr->base->vdir);
     tmp = increase(*ptr->base->vdir, x);

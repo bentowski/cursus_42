@@ -10,7 +10,7 @@ int init_cylinder(char *line, int i, t_objs **objs);
 int init_triangle(char *line, int i, t_objs **objs);
 int ft_coordonnees(t_triade *new, char *line, int i);
 int ft_structuration(t_triade *new, char *line, int i);
-int ft_space(char *line, int i);
+int ft_space(char *line, int i, int opt);
 int ft_color(t_triade *color, char *line, int i);
 int ft_routine(double *x, char *line, int *i, int opt);
 int res(char *line, int i, t_res **res);

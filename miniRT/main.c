@@ -71,28 +71,24 @@ int   map_init(t_map **map)
 
 void start(t_env *env, int opt)
 {
-  if (opt == 4)
-  {
-    mlx_destroy_window(env->mlx, env->mlx_win);
-  	mlx_destroy_display(env->mlx);
-  	free(env->mlx);
-    free(env->img.img);
-    ft_clear(env->map);
-  }
   env->mlx = mlx_init();
   if ((map_init(&env->map)) == -1)
     return;
   mlx_get_screen_size(env->mlx, &env->map->res->w_max, &env->map->res->h_max);
   if (ft_parse(&env->map, env->rtfile) != -1)
   {
-    if (env->map->res->width <= 0 || env->map->res->height <= 0 || env->map->ambiant->lumens == 0)
+    if (env->map->res->width <= 0 || env->map->res->height <= 0 ||
+      env->map->ambiant->lumens == 0)
     {
       printf("%s\n%s\n", "Error", "Missing resolution or ambiant light");
       return;
     }
-    env->mlx_win = mlx_new_window(env->mlx, env->map->res->width, env->map->res->height, "Hello world");
-    env->img.img = mlx_new_image(env->mlx, env->map->res->width, env->map->res->height);
-    env->img.addr = mlx_get_data_addr(env->img.img, &env->img.bits_per_pixel, &env->img.line_length, &env->img.endian);
+    env->mlx_win = mlx_new_window(env->mlx, env->map->res->width,
+      env->map->res->height, "Hello world");
+    env->img.img = mlx_new_image(env->mlx, env->map->res->width,
+      env->map->res->height);
+    env->img.addr = mlx_get_data_addr(env->img.img, &env->img.bits_per_pixel,
+      &env->img.line_length, &env->img.endian);
     drop_ray(env);
     if (opt == 3)
       create_bmp(env);
@@ -103,16 +99,20 @@ void start(t_env *env, int opt)
 int   main(int argc, char **argv)
 {
   t_env env;
+  char *tmp;
 
   if (argc == 2)
-    if (ft_strncmp(ft_substr(argv[1],
-      (ft_strlen(argv[1]) - 3), 3), ".rt", 4) == 0)
+  {
+    tmp = ft_substr(argv[1], (ft_strlen(argv[1]) - 3), 3);
+    if (ft_strncmp(tmp, ".rt", 4) == 0)
       {
+        free(tmp);
         env.rtfile = argv[1];
         start(&env, argc);
         ft_clear(env.map);
         return (-1);
-    	 }
+      }
+  }
   if (argc == 3)
     if (ft_strncmp(argv[2], "--save", 7) == 0)
     {
@@ -121,6 +121,6 @@ int   main(int argc, char **argv)
       ft_clear(env.map);
       return (-1);
      }
-	printf("%s\n%s\n", "Error", "missing or too much arguments");
+	printf("%s\n%s\n", "Error", "bad, missing or too much arguments");
 	return (-1);
 }

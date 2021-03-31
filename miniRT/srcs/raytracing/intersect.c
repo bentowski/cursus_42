@@ -64,7 +64,6 @@ double intersect_plan(t_triade ray, t_objs *ptr, t_triade *origins)
     if (triangle(alpha.x, ptr, ray, origins) == 1)
       return (alpha.x);
   return (-1);
-
 }
 
 double intersect_sphere(t_triade ray, t_objs *ptr, t_triade *origins)

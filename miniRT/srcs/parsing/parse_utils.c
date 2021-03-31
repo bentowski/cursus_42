@@ -38,10 +38,7 @@ int ft_routine(double *x, char *line, int *i, int opt)
   if (line[*i] == '.')
     *x = ft_routinedeux(*x, line, &i);
   else if (line[*i] != ',' && opt == 1)
-  {
-    printf("%s\n", "sortie ERREUR routine");
     return (-1);
-  }
   *x = *x * neg;
   return (1);
 }
@@ -71,13 +68,20 @@ int foisdeux(char *line, int *ayet, int *ryet)
   return (0);
 }
 
-int ft_space(char *line, int i)
+int ft_space(char *line, int i, int opt)
 {
-  while (line[i] && (line[i] < '0' || line[i] > '9') && line[i] != '-')
-    if (line[i++] != ' ')
+  if (opt == 1)
+  {
+    while (line[i] && (line[i] < '0' || line[i] > '9') && line[i] != '-')
+      if (line[i++] != ' ')
+        return (-1);
+  }
+  else if (opt == 2)
+    while (line[i])
     {
-      printf("%s\n", "ERROR MAP CONFIG, CHARACTER UNEXPECTED");
-      return (-1);
+      if (line[i] != ' ' && line[i] != '\0')
+        return (-1);
+      i++;
     }
   return (i);
 }
