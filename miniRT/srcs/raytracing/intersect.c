@@ -52,6 +52,13 @@ double intersect_plan(t_triade ray, t_objs *ptr, t_triade *origins)
 
   vdir = get_norme(*ptr->base->vdir);
   alpha = subs(*ptr->base->origins, *origins);
+  if (ft_angle(&alpha, &vdir) >= 0)
+  {
+    vdir.x = -vdir.x;
+    vdir.y = -vdir.y;
+    vdir.z = -vdir.z;
+    *ptr->base->vdir = vdir;
+  }
   alpha.x = scale(&alpha, &vdir) / scale(&ray, &vdir);
   if (alpha.x <= 0)
     return (-1);

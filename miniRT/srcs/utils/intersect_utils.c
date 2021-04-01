@@ -18,3 +18,11 @@ double cylinder_return(double *ret, t_objs *ptr)
   }
   return (-1);
 }
+
+double ft_angle(t_triade *t1, t_triade *t2)
+{
+  double angle;
+
+  angle = scale(t1, t2) / sqrt(scale(t1, t1) * scale(t2, t2));
+  return (angle);
+}

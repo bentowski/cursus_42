@@ -13,5 +13,6 @@ t_triade get_position(t_triade *origins, t_triade ray, double t);
 double calcul_polynome(double x, double y, double z, int opt);
 t_triade get_normale(t_objs *ptr, t_triade position, t_map *map);
 t_triade *vector_v(t_triade *t1, t_triade *t2);
+double ft_angle(t_triade *t1, t_triade *t2);
 
 #endif
