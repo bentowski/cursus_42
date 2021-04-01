@@ -34,8 +34,10 @@ void drop_ray(t_env *env)
     x = -1;
     while (x++ < map->res->width - 1)
     {
-      ray.z = 1 / (tan(M_PI / 180.0 * map->cams->fov / 2)) * map->res->width / 2;
-      ray.y = (-y + map->res->height / 2.0) * map->res->width / map->res->height;
+      ray.z = 1 / (tan(M_PI / 180.0 * map->cams->fov / 2))
+        * map->res->width / 2;
+      ray.y = (-y + map->res->height / 2.0) * map->res->width
+        / map->res->height;
       ray.x = (-x + map->res->width / 2.0) * map->res->width / map->res->height;
       ray = cams_orientation(ray, *map->cams->base->vdir);
       my_mlx_pixel_put(&env->img, x, y, ft_raytracing(map, get_norme(ray)));

@@ -7,7 +7,6 @@
 #ifndef MINIRT_H
 # define MINIRT_H
 
-// # ifdef MACOS
 #  define OS 1
 #  define SPC_KEY 32
 #  define ESC_KEY 65307
@@ -24,17 +23,15 @@
 #  define RARROW_KEY 65363
 #  define DESTROY 33
 #  define STRUCTMASK 131072
-# define BMP_FILENAME "miniRT.bmp"
-# define TRUE_COLOR 24
-# define DEFAULT_DPI 96
-# define PPM_CONV_FACTOR 39.375
-# define HEADER_BYTES 54
-# define DEFAULT_BIPLANES 1
-# define FILE_PERMISSIONS 0644
-# define MAPNOTIFY 19
+#  define BMP_FILENAME "miniRT.bmp"
+#  define TRUE_COLOR 24
+#  define DEFAULT_DPI 96
+#  define PPM_CONV_FACTOR 39.375
+#  define HEADER_BYTES 54
+#  define DEFAULT_BIPLANES 1
+#  define FILE_PERMISSIONS 0644
+#  define MAPNOTIFY 19
 
-
-// # endif
 
 typedef struct  s_data {
     void        *img;

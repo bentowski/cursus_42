@@ -6,7 +6,8 @@
 double intersect_cy(t_triade ray, t_objs *ptr, t_triade *origins);
 double intersect_sphere(t_triade ray, t_objs *ptr, t_triade *origins);
 double intersect_plan(t_triade ray, t_objs *ptr, t_triade *origins);
-t_triade get_color(t_ambiant *ambiant, t_lights *lights, t_objs *ptr, double intensity);
+t_triade get_color(t_ambiant *ambiant, t_lights *lights, t_objs *ptr,
+  double intensity);
 unsigned long int interlsphere(double t, t_triade ray, t_objs *ptr, t_map *map);
 unsigned long int interlplan(double t, t_triade ray, t_objs *ptr, t_map *map);
 t_triade get_position(t_triade *origins, t_triade ray, double t);
