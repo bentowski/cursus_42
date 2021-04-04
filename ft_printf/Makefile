@@ -41,7 +41,4 @@ fclean:         clean
 
 re:             fclean all
 
-# test:	${NAME}
-# 	gcc ${NAME} main.c
-# 	./a.out
 .PHONY:            all clean fclean re
