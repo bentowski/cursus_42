@@ -1,8 +1,9 @@
 NAME    = libasm.a
 
-SRCS    =	ft_write.s
+SRCS    =	ft_write.s \
+					ft_read.s
 SRCDIR    = ./
-CC        = gcc
+CC        = clang
 FLAGS    = -Wall -Wextra -Werror
 OBJ        = $(addprefix $(SRCDIR), $(SRCS:.s=.o))
 
@@ -17,10 +18,17 @@ all:	$(NAME)
 
 clean:
 	rm -f $(OBJ)
+	rm -f *.o
+
+try: all
+	$(CC) $(FLAGS) -c main.c
+	$(CC) $(FLAGS) main.o $(NAME) -o testeur
+	./testeur main.c
 
 fclean:         clean
 	rm -f $(NAME)
+	rm -f testeur
 
 re:             fclean all
 
-.PHONY:            all clean fclean re
+.PHONY:            all clean try fclean re

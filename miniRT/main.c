@@ -87,7 +87,7 @@ void start(t_env *env, int opt)
     }
     if (opt == 2)
       env->mlx_win = mlx_new_window(env->mlx, env->map->res->width,
-        env->map->res->height, "Hello world");
+        env->map->res->height, "MiniRT");
     env->img.img = mlx_new_image(env->mlx, env->map->res->width,
       env->map->res->height);
     env->img.addr = mlx_get_data_addr(env->img.img, &env->img.bits_per_pixel,
