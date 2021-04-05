@@ -5,8 +5,9 @@ segment .text
     mov r8, rdx        ; save len
     mov rax, 1         ; write
     syscall            ; execution
-      jc exit_error    ; if ()
-    jmp exit
+    cmp rax, 0
+    jl exit_error      ; if (rax - 0 > 0)
+    jmp exit           ; else
 
   exit_error:
     mov rax, -1
