@@ -6,7 +6,7 @@ segment .text
     mov rax, 1         ; write
     syscall            ; execution
     cmp rax, 0
-    jl exit_error      ; if (rax - 0 > 0)
+    jl exit_error      ; if (rax > 0)
     jmp exit           ; else
 
   exit_error:

@@ -1,7 +1,10 @@
 NAME    = libasm.a
 
 SRCS    =	ft_write.s \
-					ft_read.s
+					ft_read.s \
+					ft_strcpy.s \
+					ft_strlen.s \
+					ft_strcmp.s
 SRCDIR    = ./
 CC        = clang
 FLAGS    = -Wall -Wextra -Werror
@@ -20,7 +23,7 @@ clean:
 	rm -f $(OBJ)
 	rm -f *.o
 
-try: all
+try: re
 	$(CC) $(FLAGS) -c main.c
 	$(CC) $(FLAGS) main.o $(NAME) -o testeur
 	./testeur main.c

@@ -1,15 +1,13 @@
 global ft_read
 
 segment .text
-  ft_read
-    mov rax, 0
-      syscall
-    cmp rax, rsi
-      jge exit_error
+  ft_read:
+    xor rax, rax    ;initialisation rax for read (xor is better than mov)
+    syscall         ; call the reading
     cmp rax, 0
-      jl exit_error
+    jl exit_error   ; if (rax != 0) -> error
     ret
 
-  exit_error
+  exit_error:
     mov rax, -1
     ret

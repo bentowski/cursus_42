@@ -38,7 +38,15 @@ int main(int argc, char **argv)
     printf("%zd : %s\n", ft_read(fd2, line, buffer_size), line);
     printf("%zd : %s\n", read(-1, line, buffer_size), line);
     printf("%zd : %s\n", ft_read(-1, line, buffer_size), line);
-
+    printf("============== ft_strcpy =================\n");
+    printf("%s\n", strcpy(line, message));
+    printf("%s\n", ft_strcpy(line, message));
+    printf("============== ft_strlen =================\n");
+    printf("%zu\n", strlen(message));
+    printf("%zu\n", ft_strlen(message));
+    printf("============== ft_strcmp =================\n");
+    printf("%d\n", strcmp(message, line));
+    printf("%d\n", ft_strcmp(message, line));
   }
   return (1);
 }
