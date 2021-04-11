@@ -4,7 +4,8 @@ SRCS    =	ft_write.s \
 					ft_read.s \
 					ft_strcpy.s \
 					ft_strlen.s \
-					ft_strcmp.s
+					ft_strcmp.s \
+					ft_strdup.s
 SRCDIR    = ./
 CC        = clang
 FLAGS    = -Wall -Wextra -Werror
@@ -26,7 +27,6 @@ clean:
 try: re
 	$(CC) $(FLAGS) -c main.c
 	$(CC) $(FLAGS) main.o $(NAME) -o testeur
-	./testeur main.c
 
 fclean:         clean
 	rm -f $(NAME)

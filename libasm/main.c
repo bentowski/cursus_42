@@ -47,6 +47,15 @@ int main(int argc, char **argv)
     printf("============== ft_strcmp =================\n");
     printf("%d\n", strcmp(message, line));
     printf("%d\n", ft_strcmp(message, line));
+    printf("%d\n", strcmp(line, message));
+    printf("%d\n", ft_strcmp(line, message));
+    printf("%d\n", strcmp("", message));
+    printf("%d\n", ft_strcmp("", message));
+    printf("%d\n", strcmp(line, ""));
+    printf("%d\n", ft_strcmp(line, ""));
+    printf("============== ft_strdup =================\n");
+    printf("%s\n", strdup(message));
+    printf("%s\n", ft_strdup(message));
   }
   return (1);
 }

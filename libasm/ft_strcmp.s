@@ -2,14 +2,16 @@ global ft_strcmp
 
 segment .text
   ft_strcmp:
-    xor rcx, rcx
+    xor rdx, rdx
     xor rax, rax
 
   read:
-    mov al, BYTE [rsi + rcx]
-    cmp BYTE [rdi + rcx], al
+    cmp BYTE [rdi + rdx], 0
+    je exit
+    mov al, BYTE [rsi + rdx]
+    cmp BYTE [rdi + rdx], al
     jne exit
-    inc rcx
+    inc rdx
     jmp read
 
   exit:
