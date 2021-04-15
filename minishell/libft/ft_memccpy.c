@@ -1,21 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_memccpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbaudry <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/03/12 23:38:08 by bbaudry           #+#    #+#             */
-/*   Updated: 2020/03/12 23:38:13 by bbaudry          ###   ########.fr       */
+/*   Created: 2019/10/09 14:18:09 by bbaudry           #+#    #+#             */
+/*   Updated: 2019/10/09 14:18:30 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
-# include <stdlib.h>
-# include <unistd.h>
+#include "libft.h"
 
-int		get_next_line(int fd, char **line);
-char	*ft_strjoin(char *s1, char *s2, int opt);
+void	*ft_memccpy(void *dst, const void *src, int c, size_t n)
+{
+	unsigned char	*psrc;
+	unsigned char	*pdst;
+	size_t			i;
 
-#endif
+	i = 0;
+	psrc = (unsigned char *)src;
+	pdst = (unsigned char *)dst;
+	while (n > i)
+	{
+		pdst[i] = psrc[i];
+		if (psrc[i] == (unsigned char)c)
+			return (dst + 1 + i);
+		i++;
+	}
+	return (0);
+}

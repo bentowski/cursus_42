@@ -1,21 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbaudry <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/03/12 23:38:08 by bbaudry           #+#    #+#             */
-/*   Updated: 2020/03/12 23:38:13 by bbaudry          ###   ########.fr       */
+/*   Created: 2019/10/24 11:31:41 by bbaudry           #+#    #+#             */
+/*   Updated: 2019/10/24 11:31:44 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
-# include <stdlib.h>
-# include <unistd.h>
+#include "libft.h"
 
-int		get_next_line(int fd, char **line);
-char	*ft_strjoin(char *s1, char *s2, int opt);
+char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
+{
+	size_t x;
+	size_t y;
 
-#endif
+	y = 0;
+	if (*needle == '\0')
+		return ((char *)haystack);
+	while (haystack[y] != '\0' && len > 0 && y <= len)
+	{
+		x = 0;
+		while (haystack[y + x] == needle[x] && (y + x) < len)
+		{
+			x++;
+			if (needle[x] == '\0')
+				return ((char *)&haystack[y]);
+		}
+		y++;
+	}
+	return (NULL);
+}

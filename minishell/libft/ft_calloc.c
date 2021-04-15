@@ -1,21 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbaudry <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/03/12 23:38:08 by bbaudry           #+#    #+#             */
-/*   Updated: 2020/03/12 23:38:13 by bbaudry          ###   ########.fr       */
+/*   Created: 2019/10/24 11:46:07 by bbaudry           #+#    #+#             */
+/*   Updated: 2019/10/24 11:46:10 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
-# include <stdlib.h>
-# include <unistd.h>
+#include "libft.h"
 
-int		get_next_line(int fd, char **line);
-char	*ft_strjoin(char *s1, char *s2, int opt);
+void	*ft_calloc(size_t count, size_t size)
+{
+	char	*ptr;
+	int		lenght;
 
-#endif
+	lenght = count * size;
+	if (!(ptr = malloc(lenght)))
+		return (NULL);
+	ft_bzero(ptr, lenght);
+	return (ptr);
+}

@@ -1,21 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbaudry <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/03/12 23:38:08 by bbaudry           #+#    #+#             */
-/*   Updated: 2020/03/12 23:38:13 by bbaudry          ###   ########.fr       */
+/*   Created: 2019/10/13 15:01:51 by bbaudry           #+#    #+#             */
+/*   Updated: 2019/10/13 15:01:53 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
-# include <stdlib.h>
-# include <unistd.h>
+#include "libft.h"
 
-int		get_next_line(int fd, char **line);
-char	*ft_strjoin(char *s1, char *s2, int opt);
+size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
+{
+	size_t srclen;
 
-#endif
+	if (!dst || !src)
+		return (0);
+	srclen = ft_strlen(src);
+	if (srclen + 1 < dstsize)
+		ft_memcpy(dst, src, srclen + 1);
+	else if (dstsize != 0)
+	{
+		ft_memcpy(dst, src, dstsize - 1);
+		dst[dstsize - 1] = '\0';
+	}
+	return (srclen);
+}

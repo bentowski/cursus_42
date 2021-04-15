@@ -32,8 +32,6 @@ SRCS =			$(addprefix $(DIR_SRCS), $(SRC))
 OBJS =			$(SRCS:.c=.o)
 COMPIL = $(FLAGS) $(OBJS) $(MLX_FLAGS) -L $(LIB)libft -lft -o
 
-MLX_DIR = ./mlx_linux
-
 all:			$(NAME)
 				@echo "Compiled "$(NAME)" successfully!"
 

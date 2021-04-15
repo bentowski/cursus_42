@@ -1,21 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_isdigit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbaudry <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/03/12 23:38:08 by bbaudry           #+#    #+#             */
-/*   Updated: 2020/03/12 23:38:13 by bbaudry          ###   ########.fr       */
+/*   Created: 2019/10/08 09:56:50 by bbaudry           #+#    #+#             */
+/*   Updated: 2019/10/08 09:56:53 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
-# include <stdlib.h>
-# include <unistd.h>
+#include "libft.h"
 
-int		get_next_line(int fd, char **line);
-char	*ft_strjoin(char *s1, char *s2, int opt);
-
-#endif
+int	ft_isdigit(int c)
+{
+	if (c >= 48 && c <= 57)
+		return (1);
+	return (0);
+}

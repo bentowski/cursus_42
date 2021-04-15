@@ -1,21 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bbaudry <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/03/12 23:38:08 by bbaudry           #+#    #+#             */
-/*   Updated: 2020/03/12 23:38:13 by bbaudry          ###   ########.fr       */
+/*   Created: 2019/10/24 11:53:10 by bbaudry           #+#    #+#             */
+/*   Updated: 2019/10/24 11:53:12 by bbaudry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
-# include <stdlib.h>
-# include <unistd.h>
+#include "libft.h"
 
-int		get_next_line(int fd, char **line);
-char	*ft_strjoin(char *s1, char *s2, int opt);
+char	*ft_substr(char const *s, unsigned int start, size_t len)
+{
+	unsigned int	x;
+	char			*d;
 
-#endif
+	x = 0;
+	if (!s)
+		return (NULL);
+	if (!(d = malloc(sizeof(char) * (len + 1))))
+		return (NULL);
+	while (s[x + start] && x < len && (x + start) < (unsigned int)ft_strlen(s))
+	{
+		d[x] = s[x + start];
+		x++;
+	}
+	d[x] = '\0';
+	return (d);
+}
