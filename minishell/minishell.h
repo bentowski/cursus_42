@@ -15,5 +15,8 @@ int ft_export(char **cmd_parts);
 int ft_unset(char **cmd_parts);
 int ft_env(char **cmd_parts);
 int ft_exit(char **cmd_parts);
+size_t ft_strlen(const char *s);
+void	ft_putstr_fd(char *s, int fd);
+void ft_free(char ***cmd_parts);
 
 #endif

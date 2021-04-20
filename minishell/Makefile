@@ -9,6 +9,7 @@ LINUX_FLAGS =	-lXext -lX11 -lm
 LIBMLX =		libmlx.a
 LIBFT =			libft.a
 SRC =	main.c \
+			ft_free.c \
 			cmd_part_one.c \
 			get_next_line/get_next_line.c \
 			get_next_line/get_next_line_utils.c
