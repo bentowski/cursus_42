@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   create_bmp.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bentowsk <bentowsk@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/04/25 00:35:21 by bentowsk          #+#    #+#             */
+/*   Updated: 2021/04/25 00:35:21 by bentowski        ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../minirt.h"
 
 static void	create_bmpfileheader(t_bmp_h *header, int size)
@@ -13,7 +25,7 @@ static void	create_bmpfileheader(t_bmp_h *header, int size)
 
 static void	create_bmpdibheader(t_res *res, t_dib_h *header, int size)
 {
-	int		ppm;
+	int	ppm;
 
 	ppm = DEFAULT_DPI * PPM_CONV_FACTOR;
 	ft_bzero(header, sizeof(t_dib_h));
@@ -57,19 +69,20 @@ static void	edit_bmp(t_env *env, int fd)
 	write(fd, &(dib_header.clr_important), 4);
 }
 
-void write_bmpdata(t_env *env, int fd)
+void		write_bmpdata(t_env *env, int fd)
 {
-  int x;
-  int y;
-  unsigned long int *p;
+	int					x;
+	int					y;
+	unsigned long int	*p;
 
-  y = env->map->res->height - 1;
-  while (y > -1)
+	y = env->map->res->height - 1;
+	while (y > -1)
 	{
 		x = 0;
 		while (x < env->map->res->width)
 		{
-			p = (unsigned long int *)(env->img.addr + (x + env->map->res->width * y) * 4);
+			p = (unsigned long int *)(env->img.addr +
+					(x + env->map->res->width * y) * 4);
 			if (write(fd, p, 3) < 0)
 				return ;
 			x++;
@@ -78,10 +91,10 @@ void write_bmpdata(t_env *env, int fd)
 	}
 }
 
-void create_bmp(t_env *env)
+void		create_bmp(t_env *env)
 {
-	int fd;
-	char *filename;
+	int		fd;
+	char	*filename;
 
 	filename = "miniRT.bmp";
 	fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, FILE_PERMISSIONS);
