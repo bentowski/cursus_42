@@ -6,7 +6,7 @@
 /*   By: bentowsk <bentowsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/25 00:34:58 by bentowsk          #+#    #+#             */
-/*   Updated: 2021/04/25 23:44:49 by bentowski        ###   ########.fr       */
+/*   Updated: 2021/04/28 16:50:07 by bentowski        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,7 @@ static int	other_maping(char *line, int i, t_map ***map)
 	new = **map;
 	if (line[i] == 'R')
 		if ((i = res(line, i, &new->res)) == -1)
-			printf("%s\n%s\n", "Error",
-					"Invalid width, &height resolution data");
+			printf("%s\n%s\n", "Error", "Invalid resolution data");
 	if (line[i] == 'A')
 		if ((i = ambiance(line, i + 1, &new->ambiant)) == -1)
 			printf("%s\n%s\n", "Error", "Invalid ambiant data");

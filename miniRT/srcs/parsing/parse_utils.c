@@ -6,7 +6,7 @@
 /*   By: bentowsk <bentowsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/25 00:34:54 by bentowsk          #+#    #+#             */
-/*   Updated: 2021/04/25 21:56:29 by bentowski        ###   ########.fr       */
+/*   Updated: 2021/04/28 14:51:34 by bentowski        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ int				routine(double *x, char *line, int *i, int opt)
 	int	neg;
 
 	neg = 1;
+	if ((line[*i] != '-') && (line[*i] < 48 || line[*i] > 57))
+		return (-1);
 	if (line[*i] == '-')
 	{
 		neg = -1;

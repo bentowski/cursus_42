@@ -6,7 +6,7 @@
 /*   By: bentowsk <bentowsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/25 00:35:02 by bentowsk          #+#    #+#             */
-/*   Updated: 2021/04/25 23:33:02 by bentowski        ###   ########.fr       */
+/*   Updated: 2021/04/28 16:56:11 by bentowski        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,6 @@ int foisdeux(char *line, int *ayet, int *ryet);
 int ft_check_color_vdir(t_triade *check, int opt);
 int base_parse(char *line, t_objs *new, int i, int opt);
 int ft_vdir_tr(t_base *ptr, t_triade *p2, t_triade *p3);
+
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: bentowsk <bentowsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/25 00:34:16 by bentowsk          #+#    #+#             */
-/*   Updated: 2021/04/25 23:09:34 by bentowski        ###   ########.fr       */
+/*   Updated: 2021/04/28 15:57:14 by bentowski        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,12 @@ static t_triade	cams_orientation(t_triade ray, t_triade dir)
 	t_triade y;
 	t_triade z;
 
-	y = (t_triade){0, 1, 0};
+	dir.y = -dir.y;
+	dir.x = -dir.x;
+	if (dir.z == 0)
+		y = (t_triade){0, 1, 0};
+	else
+		y = (t_triade){0, -1, 0};
 	z = get_norme(dir);
 	if (dir.x == 0 && (dir.y == 1 || dir.y == -1) && dir.z == 0)
 		x = (t_triade){1, 0, 0};
@@ -48,9 +53,9 @@ void			drop_ray(t_env *env)
 		{
 			ray.z = 1 / (tan(M_PI / 180.0 * map->cams->fov / 2))
 				* map->res->width / 2;
-			ray.y = (-y + map->res->height / 2.0) * map->res->width
+			ray.y = (y - map->res->height / 2.0) * map->res->width
 				/ map->res->height;
-			ray.x = (-x + map->res->width / 2.0) *
+			ray.x = (x - map->res->width / 2.0) *
 				map->res->width / map->res->height;
 			ray = cams_orientation(ray, *map->cams->base->vdir);
 			my_mlx_pixel_put(&env->img, x, y,
