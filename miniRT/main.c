@@ -6,7 +6,7 @@
 /*   By: bentowsk <bentowsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/25 00:34:16 by bentowsk          #+#    #+#             */
-/*   Updated: 2021/04/28 15:57:14 by bentowski        ###   ########.fr       */
+/*   Updated: 2021/05/01 00:07:05 by bentowski        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,7 @@ static t_triade	cams_orientation(t_triade ray, t_triade dir)
 	t_triade z;
 
 	dir.y = -dir.y;
-	dir.x = -dir.x;
-	if (dir.z == 0)
-		y = (t_triade){0, 1, 0};
-	else
-		y = (t_triade){0, -1, 0};
+	y = (t_triade){0, -1, 0};
 	z = get_norme(dir);
 	if (dir.x == 0 && (dir.y == 1 || dir.y == -1) && dir.z == 0)
 		x = (t_triade){1, 0, 0};
