@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bentowsk <bentowsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/25 00:34:16 by bentowsk          #+#    #+#             */
-/*   Updated: 2021/05/07 00:29:46 by bentowski        ###   ########.fr       */
+/*   Updated: 2021/05/07 01:32:47 by bentowski        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "minirt_bonus.h"
 
 static t_triade	cams_orientation(t_triade ray, t_triade dir)
 {

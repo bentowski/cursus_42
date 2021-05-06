@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minirt.h                                           :+:      :+:    :+:   */
+/*   minirt_bonus.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bentowsk <bentowsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/25 00:35:48 by bentowsk          #+#    #+#             */
-/*   Updated: 2021/05/07 00:14:35 by bentowski        ###   ########.fr       */
+/*   Updated: 2021/05/05 14:46:48 by bentowski        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINIRT_H
-# define MINIRT_H
-# include "includes/get_next_line/get_next_line.h"
-# include "./mlx/mlx.h"
+#ifndef MINIRT_BONUS_H
+# define MINIRT_BONUS_H
+# include "../../includes/get_next_line/get_next_line.h"
+# include "../../mlx/mlx.h"
 # include <fcntl.h>
 # include <stdio.h>
 # include <math.h>
@@ -130,6 +130,7 @@ typedef struct		s_lights
 {
 	t_base			*base;
 	double			lumens;
+	double			fov;
 	struct s_lights	*next;
 }					t_lights;
 

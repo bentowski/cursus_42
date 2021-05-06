@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   window_utils.c                                     :+:      :+:    :+:   */
+/*   window_utils_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bentowsk <bentowsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/25 00:35:36 by bentowsk          #+#    #+#             */
-/*   Updated: 2021/05/06 02:12:35 by bentowski        ###   ########.fr       */
+/*   Updated: 2021/05/06 02:09:27 by bentowski        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minirt.h"
+#include "../minirt_bonus.h"
 
 static int	gestion_win_deux(int keycode, t_env *env)
 {
@@ -22,7 +22,6 @@ static int	gestion_win_deux(int keycode, t_env *env)
 	if (keycode == R_KEY)
 	{
 		start(env, 2);
-		mlx_destroy_display(env->mlx);
 		free(env->mlx);
 		ft_clear(env->map);
 	}
@@ -49,6 +48,8 @@ static int	gestion_win(int keycode, t_env *env)
 		mlx_clear_window(env->mlx, env->mlx_win);
 		mlx_put_image_to_window(env->mlx, env->mlx_win, env->img.img, 0, 0);
 	}
+	else
+		return (gestion_win_trois(keycode, env));
 	return (1);
 }
 

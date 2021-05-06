@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   raytracing.c                                       :+:      :+:    :+:   */
+/*   raytracing_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bentowsk <bentowsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/25 00:35:12 by bentowsk          #+#    #+#             */
-/*   Updated: 2021/05/01 19:51:22 by bentowski        ###   ########.fr       */
+/*   Updated: 2021/05/06 02:03:49 by bentowski        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "raytracing.h"
+#include "raytracing_bonus.h"
 
 static	int					get_shadows(t_map *map,
 		t_triade ray, t_triade *p, double ldist)
@@ -46,17 +46,24 @@ static double				get_light(t_map *map, t_triade n,
 	double		ret;
 	double		lightdist;
 	t_triade	ldir;
+	double		angle;
 
 	ret = 0;
-	ldir = subs(*light->base->origins, p);
-	lightdist = scale(&ldir, &ldir);
-	ldir = get_norme(ldir);
-	if (scale(&ldir, &n) >= 0)
-		ret = ((light->lumens) * scale(&ldir, &n)) / scale(&ldir, &ldir);
-	if (ret < 0)
-		ret = 0;
-	p = add_vectors(p, increase(n, 0.001));
-	return (ret * get_shadows(map, ldir, &p, lightdist));
+	ldir = subs(p, *light->base->origins);
+	angle = ft_angle(light->base->vdir, &ldir);
+	if ((acos(angle) * (180 / M_PI)) <= (light->fov / 2))
+	{
+		ldir = subs(*light->base->origins, p);
+		lightdist = scale(&ldir, &ldir);
+		ldir = get_norme(ldir);
+		if (scale(&ldir, &n) >= 0)
+			ret = ((light->lumens) * scale(&ldir, &n)) / scale(&ldir, &ldir);
+		if (ret < 0)
+			ret = 0;
+		p = add_vectors(p, increase(n, 0.001));
+		return (ret * get_shadows(map, ldir, &p, lightdist));
+	}
+	return (0);
 }
 
 static unsigned long int	color_ret(t_map *map, t_objs *target, t_triade p)
