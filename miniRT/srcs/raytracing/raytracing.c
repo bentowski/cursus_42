@@ -6,7 +6,7 @@
 /*   By: bentowsk <bentowsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/25 00:35:12 by bentowsk          #+#    #+#             */
-/*   Updated: 2021/05/07 15:40:55 by bentowski        ###   ########.fr       */
+/*   Updated: 2021/04/25 00:35:13 by bentowski        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,9 @@
 static	int					get_shadows(t_map *map,
 		t_triade ray, t_triade *p, double ldist)
 {
-	t_objs		*ptr;
-	double		(*functions[5])(t_triade, t_objs *, t_triade *);
-	double		alpha;
-	t_triade	position;
+	t_objs	*ptr;
+	double	(*functions[5])(t_triade, t_objs *, t_triade *);
+	double	alpha;
 
 	ptr = map->objs;
 	functions[0] = intersect_sphere;
@@ -29,12 +28,8 @@ static	int					get_shadows(t_map *map,
 	while (ptr->next)
 	{
 		if ((alpha = (*functions[ptr->type - 1])(ray, ptr, p)) >= 0)
-		{
-			position = get_position(p, ray, alpha);
-			position = subs(position, *p);
-			if (scale(&position, &position) <= ldist)
+			if (alpha <= ldist)
 				return (0);
-		}
 		ptr = ptr->next;
 	}
 	return (1);

@@ -6,7 +6,7 @@
 /*   By: bentowsk <bentowsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/25 00:35:48 by bentowsk          #+#    #+#             */
-/*   Updated: 2021/05/07 00:14:35 by bentowski        ###   ########.fr       */
+/*   Updated: 2021/04/25 22:09:40 by bentowski        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,6 @@
 # define W_KEY 119
 # define S_KEY 115
 # define D_KEY 100
-# define Q_KEY 113
-# define E_KEY 101
 # define LARROW_KEY 65361
 # define UARROW_KEY 65362
 # define DARROW_KEY 65364
@@ -152,7 +150,6 @@ typedef struct		s_env
 	char	*rtfile;
 }					t_env;
 
-int					gestion_win_trois(int keycode, t_env *env);
 int					ft_strncmp(const char *s1, const char *s2, size_t n);
 int					ft_parse(t_map **map, char *givedmap);
 int					map_init(t_map **map);
