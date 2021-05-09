@@ -6,7 +6,7 @@
 /*   By: bentowsk <bentowsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/25 00:35:09 by bentowsk          #+#    #+#             */
-/*   Updated: 2021/05/08 20:59:46 by bentowski        ###   ########.fr       */
+/*   Updated: 2021/04/25 00:35:10 by bentowski        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,18 @@
 
 static int		square(double test, t_objs *ptr, t_triade ray, t_triade *origin)
 {
-	t_triade	p[3];
+	t_triade	p;
 	t_triade	dist;
 	double		inside;
-	double		i;
-	double		j;
 
-	p[0].x = origin->x + test * ray.x;
-	p[0].y = origin->y + test * ray.y;
-	p[0].z = origin->z + test * ray.z;
-	dist = (t_triade){0, 1, 0};
 	inside = ptr->height / 2;
-	if (fabs(ptr->base->vdir->y) == 1)
-		p[1] = (t_triade){1, 0, 0};
-	else
-		p[1] = crossprod(dist, *ptr->base->vdir);
-	p[1] = get_norme(p[1]);
-	dist = subs(p[0], *ptr->base->origins);
-	p[2] = get_norme(crossprod(*ptr->base->vdir, p[1]));
-	i = scale(&dist, &p[2]);
-	j = scale(&dist, &p[1]);
-	if (fabs(i) <= inside && fabs(j) <= inside)
+	p.x = origin->x + test * ray.x;
+	p.y = origin->y + test * ray.y;
+	p.z = origin->z + test * ray.z;
+	dist.x = fabs(p.x - ptr->base->origins->x);
+	dist.y = fabs(p.y - ptr->base->origins->y);
+	dist.z = fabs(p.z - ptr->base->origins->z);
+	if (dist.x <= inside && dist.y <= inside && dist.z <= inside)
 		return (1);
 	return (-1);
 }

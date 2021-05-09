@@ -6,7 +6,7 @@
 /*   By: bentowsk <bentowsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/25 00:35:36 by bentowsk          #+#    #+#             */
-/*   Updated: 2021/05/06 02:12:35 by bentowski        ###   ########.fr       */
+/*   Updated: 2021/04/25 23:09:39 by bentowski        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,9 @@ static int	gestion_win_deux(int keycode, t_env *env)
 	free(env->mlx);
 	ft_clear(env->map);
 	if (keycode == R_KEY)
-	{
 		start(env, 2);
-		mlx_destroy_display(env->mlx);
-		free(env->mlx);
-		ft_clear(env->map);
-	}
-	exit(EXIT_SUCCESS);
+	else if (keycode == ESC_KEY)
+		exit(EXIT_SUCCESS);
 	return (1);
 }
 
