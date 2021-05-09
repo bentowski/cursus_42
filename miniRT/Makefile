@@ -6,7 +6,7 @@
 #    By: bentowsk <bentowsk@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/04/25 00:35:40 by bentowsk          #+#    #+#              #
-#    Updated: 2021/05/06 02:41:50 by bentowski        ###   ########.fr        #
+#    Updated: 2021/05/08 02:08:43 by bentowski        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,21 +45,23 @@ BONUS_SRC = srcs/bonus/main_bonus.c \
 			includes/get_next_line/get_next_line.c \
 			includes/get_next_line/get_next_line_utils.c \
 			srcs/bonus/parsing_bonus/parse_bonus.c \
-			srcs/parsing/parse_forms.c \
-			srcs/parsing/parse_forms_utils.c \
+			srcs/bonus/parsing_bonus/parse_forms_bonus.c \
+			srcs/bonus/parsing_bonus/parse_forms_utils_bonus.c \
 			srcs/parsing/parse_utils.c \
 			srcs/bonus/parsing_bonus/parse_basic_bonus.c \
 			srcs/bonus/parsing_bonus/parse_basic2_bonus.c \
+			srcs/bonus/parsing_bonus/parsing_py_bonus.c \
 			srcs/bonus/raytracing_bonus/raytracing_bonus.c \
 			srcs/raytracing/coloring.c \
-			srcs/raytracing/intersect.c \
+			srcs/bonus/raytracing_bonus/intersect_bonus.c \
 			srcs/bonus/utils_bonus/ft_clear_bonus.c \
 			srcs/utils/vectors.c \
 			srcs/utils/create_bmp.c \
 			srcs/bonus/utils_bonus/window_utils_bonus.c \
 			srcs/bonus/utils_bonus/window_utils_mov_bonus.c \
 			srcs/utils/intersect_utils.c \
-			srcs/utils/utils.c
+			srcs/utils/utils.c \
+			srcs/bonus/utils_bonus/utils_bonus.c
 
 SRCS =			$(addprefix $(DIR_SRCS), $(SRC))
 BONUS_SRCS =			$(addprefix $(DIR_SRCS), $(BONUS_SRC))

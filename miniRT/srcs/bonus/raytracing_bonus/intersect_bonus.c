@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   intersect.c                                        :+:      :+:    :+:   */
+/*   intersect_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bentowsk <bentowsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/25 00:35:09 by bentowsk          #+#    #+#             */
-/*   Updated: 2021/05/08 20:59:46 by bentowski        ###   ########.fr       */
+/*   Updated: 2021/05/08 20:58:06 by bentowski        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "raytracing.h"
+#include "raytracing_bonus.h"
 
 static int		square(double test, t_objs *ptr, t_triade ray, t_triade *origin)
 {
@@ -129,13 +129,15 @@ double			intersect_cy(t_triade ray, t_objs *ptr, t_triade *origins)
 
 	tmp[0] = subs(*origins, *ptr->base->origins);
 	tmp[1] = subs(ray, increase(*ptr->base->vdir,
-			scale(&ray, ptr->base->vdir)));
+				scale(&ray, ptr->base->vdir)));
 	tmp[2] = subs(subs(*origins, *ptr->base->origins),
-		increase(*ptr->base->vdir, scale(&tmp[0], ptr->base->vdir)));
-	ret[0] = calcul_polynome(scale(&tmp[1], &tmp[1]), 2 * scale(&tmp[1],
-		&tmp[2]), (scale(&tmp[2], &tmp[2]) - pow((ptr->diam / 2), 2)), 1);
-	ret[1] = calcul_polynome(scale(&tmp[1], &tmp[1]), 2 * scale(&tmp[1],
-		&tmp[2]), (scale(&tmp[2], &tmp[2]) - pow((ptr->diam / 2), 2)), 2);
+			increase(*ptr->base->vdir, scale(&tmp[0], ptr->base->vdir)));
+	ret[0] = calcul_polynome(scale(&tmp[1], &tmp[1]),
+			2 * scale(&tmp[1], &tmp[2]),
+			(scale(&tmp[2], &tmp[2]) - pow((ptr->diam / 2), 2)), 1);
+	ret[1] = calcul_polynome(scale(&tmp[1], &tmp[1]),
+			2 * scale(&tmp[1], &tmp[2]),
+			(scale(&tmp[2], &tmp[2]) - pow((ptr->diam / 2), 2)), 2);
 	tmp[3] = subs(increase(ray, ret[0]), subs(*ptr->base->origins, *origins));
 	ret[2] = scale(ptr->base->vdir, &tmp[3]);
 	tmp[3] = subs(increase(ray, ret[1]), subs(*ptr->base->origins, *origins));

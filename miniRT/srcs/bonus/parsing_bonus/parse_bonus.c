@@ -6,7 +6,7 @@
 /*   By: bentowsk <bentowsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/25 00:34:58 by bentowsk          #+#    #+#             */
-/*   Updated: 2021/05/07 01:07:02 by bentowski        ###   ########.fr       */
+/*   Updated: 2021/05/07 17:17:13 by bentowski        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,9 +107,9 @@ static int	objects_mapping(char *line, int i, t_map ***map)
 	if (line[i] == 't' && line[i + 1] == 'r')
 		if ((i = init_triangle(line, i + 2, &new->objs)) == -1)
 			printf("%s\n%s\n", "Error", "Invalid object data");
-	/*if (line[i] == 'p' && line[i + 1] == 'y')
-	 	if ((i = init_py(line, i + 2, &new->objs)) == -1)
-	 		printf("%s\n%s\n", "Error", "Invalid object data");*/
+	if (line[i] == 'p' && line[i + 1] == 'y')
+		if ((i = init_py(line, i + 2, &new->objs)) == -1)
+			printf("%s\n%s\n", "Error", "Invalid object data");
 	return (i);
 }
 

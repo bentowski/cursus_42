@@ -6,7 +6,7 @@
 /*   By: bentowsk <bentowsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/25 00:35:24 by bentowsk          #+#    #+#             */
-/*   Updated: 2021/05/05 22:40:44 by bentowski        ###   ########.fr       */
+/*   Updated: 2021/05/07 16:00:22 by bentowski        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ void		ft_clear_objs(t_objs *objs)
 			free(ptr->p3);
 		if (ptr->base)
 			ft_clear_base(ptr->base);
+		if (ptr->vdir2)
+			free(ptr->vdir2);
 		free(ptr);
 		ptr = tmp;
 	}

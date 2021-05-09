@@ -6,7 +6,7 @@
 /*   By: bentowsk <bentowsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/25 00:35:48 by bentowsk          #+#    #+#             */
-/*   Updated: 2021/05/05 14:46:48 by bentowski        ###   ########.fr       */
+/*   Updated: 2021/05/08 02:10:55 by bentowski        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ typedef struct		s_objs
 {
 	int				type;
 	t_base			*base;
+	t_triade		*vdir2;
 	t_triade		*p2;
 	t_triade		*p3;
 	double			diam;
@@ -176,6 +177,7 @@ t_triade			get_norme(t_triade target);
 t_triade			crossprod(t_triade v1, t_triade v2);
 t_triade			subs(t_triade t1, t_triade t2);
 t_triade			add_vectors(t_triade u, t_triade v);
+t_triade			*subs_ptr(t_triade *t1, t_triade t2);
 t_triade			increase(t_triade t1, double n);
 unsigned long int	ft_raytracing(t_map *map, t_triade ray);
 

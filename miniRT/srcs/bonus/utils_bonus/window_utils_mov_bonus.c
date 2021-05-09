@@ -6,7 +6,7 @@
 /*   By: bentowsk <bentowsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/01 23:31:42 by bentowsk          #+#    #+#             */
-/*   Updated: 2021/05/07 01:31:03 by bentowski        ###   ########.fr       */
+/*   Updated: 2021/05/07 15:33:55 by bentowski        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,13 @@
 
 static void	ft_rotate(int k, t_env *env)
 {
+	t_cams		*cam;
 	t_triade	test;
 	t_triade	n;
+	t_triade	vdir;
 
+	cam = env->map->cams;
+	vdir = *cam->base->vdir;
 	if (k == D_KEY)
 		n = (t_triade){0, 1, 0};
 	if (k == A_KEY)
@@ -38,9 +42,13 @@ static void	ft_rotate(int k, t_env *env)
 
 static void	ft_translate(int k, t_env *env)
 {
+	t_cams		*cam;
 	t_triade	test;
 	t_triade	n;
+	t_triade	vdir;
 
+	cam = env->map->cams;
+	vdir = *cam->base->vdir;
 	if (k == RARROW_KEY)
 		n = (t_triade){0, 1, 0};
 	if (k == LARROW_KEY)
@@ -60,11 +68,6 @@ static void	ft_translate(int k, t_env *env)
 
 int			gestion_win_trois(int k, t_env *env)
 {
-	t_cams		*cam;
-	t_triade	vdir;
-
-	cam = env->map->cams;
-	vdir = *cam->base->vdir;
 	if (k >= 65361 && k <= 65364)
 		ft_translate(k, env);
 	if (k == A_KEY || k == W_KEY || k == S_KEY || k == D_KEY)
