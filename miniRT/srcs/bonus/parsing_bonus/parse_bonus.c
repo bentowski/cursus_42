@@ -6,7 +6,7 @@
 /*   By: bentowsk <bentowsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/25 00:34:58 by bentowsk          #+#    #+#             */
-/*   Updated: 2021/05/07 17:17:13 by bentowski        ###   ########.fr       */
+/*   Updated: 2021/05/10 07:07:44 by bentowski        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static int	verif(char *line, int i)
 				printf("%s\n%s\n", "Error", "Invalid character detected");
 				return (-1);
 			}
-			else if ((c == 'c' && p != 'y' && p != ' ') ||
+			else if ((c == 'c' && p != 'y' && p != ' ' && p!= 'u') ||
 					(c == 's' && p != 'p' && p != 'q') ||
 					(c == 'p' && (p != 'l' && p != 'y'))
 					|| (c == 't' && p != 'r'))
@@ -78,7 +78,7 @@ static int	other_maping(char *line, int i, t_map ***map)
 	if (line[i] == 'A')
 		if ((i = ambiance(line, i + 1, &new->ambiant)) == -1)
 			printf("%s\n%s\n", "Error", "Invalid ambiant data");
-	if (line[i] == 'c' && line[i + 1] != 'y')
+	if (line[i] == 'c' && line[i + 1] != 'y' && line[i + 1] != 'u')
 		if ((i = camera(line, i + 1, &new->cams)) == -1)
 			printf("%s\n%s\n", "Error", "Invalid camera data");
 	if (line[i] == 'l')
@@ -94,22 +94,25 @@ static int	objects_mapping(char *line, int i, t_map ***map)
 	new = **map;
 	if (line[i] == 's' && line[i + 1] == 'p')
 		if ((i = init_sphere(line, i + 2, &new->objs)) == -1)
-			printf("%s\n%s\n", "Error", "Invalid object data");
+			printf("%s\n%s\n", "Error", "Invalid sphere data");
 	if (line[i] == 'p' && line[i + 1] == 'l')
 		if ((i = init_plane(line, i + 2, &new->objs)) == -1)
-			printf("%s\n%s\n", "Error", "Invalid object data");
+			printf("%s\n%s\n", "Error", "Invalid plane data");
 	if (line[i] == 's' && line[i + 1] == 'q')
 		if ((i = init_square(line, i + 2, &new->objs)) == -1)
-			printf("%s\n%s\n", "Error", "Invalid object data");
+			printf("%s\n%s\n", "Error", "Invalid square data");
 	if (line[i] == 'c' && line[i + 1] == 'y')
 		if ((i = init_cylinder(line, i + 2, &new->objs)) == -1)
-			printf("%s\n%s\n", "Error", "Invalid object data");
+			printf("%s\n%s\n", "Error", "Invalid cylinder data");
 	if (line[i] == 't' && line[i + 1] == 'r')
 		if ((i = init_triangle(line, i + 2, &new->objs)) == -1)
-			printf("%s\n%s\n", "Error", "Invalid object data");
+			printf("%s\n%s\n", "Error", "Invalid triangle data");
 	if (line[i] == 'p' && line[i + 1] == 'y')
 		if ((i = init_py(line, i + 2, &new->objs)) == -1)
-			printf("%s\n%s\n", "Error", "Invalid object data");
+			printf("%s\n%s\n", "Error", "Invalid pyramide data");
+	if (line[i] == 'c' && line[i + 1] == 'u')
+		if ((i = init_cu(line, i + 2, &new->objs)) == -1)
+			printf("%s\n%s\n", "Error", "Invalid cube data");
 	return (i);
 }
 

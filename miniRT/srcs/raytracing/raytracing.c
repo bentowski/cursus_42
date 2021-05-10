@@ -6,7 +6,7 @@
 /*   By: bentowsk <bentowsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/25 00:35:12 by bentowsk          #+#    #+#             */
-/*   Updated: 2021/05/10 05:35:40 by bentowski        ###   ########.fr       */
+/*   Updated: 2021/05/10 06:43:45 by bentowski        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,17 +28,12 @@ static	int					get_shadows(t_map *map,
 	functions[4] = intersect_plan;
 	while (ptr->next)
 	{
-		// if (ptr->type == 5)
-		// 	printf("%s\n", "ENTREE");
 		if ((alpha = (*functions[ptr->type - 1])(ray, ptr, p)) >= 0)
 		{
 			position = subs(get_position(p, ray, alpha), *p);
-			// if (ptr->type == 5)
-			// 	printf("%f,%f,%f    %f    %f\n", position.x, position.y, position.z, scale(&position, &position), ldist);
 			if (scale(&position, &position) <= ldist)
 				return (0);
 		}
-		// printf("%s\n", "SORTIE");
 		ptr = ptr->next;
 	}
 	return (1);

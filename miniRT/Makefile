@@ -6,7 +6,7 @@
 #    By: bentowsk <bentowsk@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/04/25 00:35:40 by bentowsk          #+#    #+#              #
-#    Updated: 2021/05/08 02:08:43 by bentowski        ###   ########.fr        #
+#    Updated: 2021/05/10 07:04:17 by bentowski        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,6 +51,8 @@ BONUS_SRC = srcs/bonus/main_bonus.c \
 			srcs/bonus/parsing_bonus/parse_basic_bonus.c \
 			srcs/bonus/parsing_bonus/parse_basic2_bonus.c \
 			srcs/bonus/parsing_bonus/parsing_py_bonus.c \
+			srcs/bonus/parsing_bonus/parsing_py2_bonus.c \
+			srcs/bonus/parsing_bonus/parsing_cube_bonus.c \
 			srcs/bonus/raytracing_bonus/raytracing_bonus.c \
 			srcs/raytracing/coloring.c \
 			srcs/bonus/raytracing_bonus/intersect_bonus.c \

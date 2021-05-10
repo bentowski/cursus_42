@@ -6,7 +6,7 @@
 /*   By: bentowsk <bentowsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/25 00:35:09 by bentowsk          #+#    #+#             */
-/*   Updated: 2021/05/10 05:45:17 by bentowski        ###   ########.fr       */
+/*   Updated: 2021/05/10 06:46:07 by bentowski        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,12 @@ static double	triangle(double test,
 	j[0] = crossprod(side[0], i[0]);
 	j[1] = crossprod(side[1], i[1]);
 	j[2] = crossprod(side[2], i[2]);
-	if ((scale(ptr->base->vdir, &j[0]) > 0) && (scale(ptr->base->vdir, &j[1]) > 0)
-			&& (scale(ptr->base->vdir, &j[2]) > 0))
+	if ((scale(ptr->base->vdir, &j[0]) > 0) && (scale(ptr->base->vdir,
+		&j[1]) > 0) && (scale(ptr->base->vdir, &j[2]) > 0))
 		return (1);
 	p = increase(*ptr->base->vdir, -1);
-	if ((scale(&p, &j[0]) > 0) && (scale(&p, &j[1]) > 0) && (scale(&p, &j[2]) > 0))
+	if ((scale(&p, &j[0]) > 0) && (scale(&p, &j[1]) > 0)
+		&& (scale(&p, &j[2]) > 0))
 		return (1);
 	return (-1);
 }

@@ -6,7 +6,7 @@
 /*   By: bentowsk <bentowsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/01 23:31:42 by bentowsk          #+#    #+#             */
-/*   Updated: 2021/05/07 15:33:55 by bentowski        ###   ########.fr       */
+/*   Updated: 2021/05/10 06:27:55 by bentowski        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,9 @@ static void	ft_translate(int k, t_env *env)
 	test.y = n.z * vdir.x - n.x * vdir.z;
 	test.z = n.x * vdir.y - n.y * vdir.x;
 	test = get_norme(test);
-	cam->base->origins->x -= test.x * 5;
-	cam->base->origins->y -= test.y * 5;
-	cam->base->origins->z -= test.z * 5;
+	cam->base->origins->x -= test.x * 15;
+	cam->base->origins->y -= test.y * 15;
+	cam->base->origins->z -= test.z * 15;
 }
 
 int			gestion_win_trois(int k, t_env *env)

@@ -6,7 +6,7 @@
 /*   By: bentowsk <bentowsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/25 00:35:02 by bentowsk          #+#    #+#             */
-/*   Updated: 2021/05/05 14:48:04 by bentowski        ###   ########.fr       */
+/*   Updated: 2021/05/10 07:04:44 by bentowski        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,8 @@ int ft_check_color_vdir(t_triade *check, int opt);
 int base_parse(char *line, t_objs *new, int i, int opt);
 int ft_vdir_tr(t_base *ptr, t_triade *p2, t_triade *p3);
 int init_py(char *line, int i, t_objs **objs);
+int news_objs2(t_objs **tr, t_triade p[6], t_objs *py, int opt);
+int init_cu(char *line, int i, t_objs **objs);
+
 
 #endif
