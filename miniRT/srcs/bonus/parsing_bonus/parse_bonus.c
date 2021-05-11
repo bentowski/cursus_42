@@ -6,7 +6,7 @@
 /*   By: bentowsk <bentowsk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/25 00:34:58 by bentowsk          #+#    #+#             */
-/*   Updated: 2021/05/10 07:07:44 by bentowski        ###   ########.fr       */
+/*   Updated: 2021/05/11 15:41:09 by bentowski        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static int	verif(char *line, int i)
 				printf("%s\n%s\n", "Error", "Invalid character detected");
 				return (-1);
 			}
-			else if ((c == 'c' && p != 'y' && p != ' ' && p!= 'u') ||
+			else if ((c == 'c' && p != 'y' && p != ' ' && p != 'u') ||
 					(c == 's' && p != 'p' && p != 'q') ||
 					(c == 'p' && (p != 'l' && p != 'y'))
 					|| (c == 't' && p != 'r'))
