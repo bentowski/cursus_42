@@ -6,7 +6,7 @@
 #    By: bentowsk <bentowsk@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/04/25 00:35:40 by bentowsk          #+#    #+#              #
-#    Updated: 2021/05/10 07:04:17 by bentowski        ###   ########.fr        #
+#    Updated: 2021/05/11 15:49:02 by bentowski        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -102,6 +102,7 @@ clean:
 fclean: clean
 	$(MAKE) -C ./libft fclean
 	$(RM) $(LIBFT)
+	$(RM) $(LIBMLX)
 	$(RM) $(NAME)
 	$(RM) *.bmp
 
