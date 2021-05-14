@@ -6,7 +6,7 @@
 /*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 10:36:25 by benjamin          #+#    #+#             */
-/*   Updated: 2021/05/14 18:15:29 by benjaminbaudry   ###   ########.fr       */
+/*   Updated: 2021/05/14 19:06:11 by benjaminbaudry   ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,26 +76,23 @@ int check(t_list *ptr)
   return (1);
 }
 
-int ft_count(t_list *a)
+void ft_count(t_list **a, t_list **b)
 {
-  int ret;
   int x;
+  int y;
+  t_list *ptr;
 
-  ret = 0;
-  x = ft_atoi(a->content);
-  while (a)
+  ptr = *a;
+  x = ft_atoi(ptr->content);
+  y = 0;
+  while (ptr)
   {
-    if (ft_atoi(a->content) < x)
-      return (ret);
-    x = ft_atoi(a->content);
-    ret++;
-    a = a->next;
+    if (ft_atoi(ptr->content) < x)
+      break;
+    x = ft_atoi(ptr->content);
+    y++;
+    ptr = ptr->next;
   }
-  return (ret);
-}
-
-void ft_fast(t_list **a, t_list **b, int y)
-{
   while (y-- > 1)
   {
     ft_pb(b, a);
@@ -110,41 +107,47 @@ void ft_test(t_list **a, t_list **b)
 
   ptr = *a;
   tmp = *b;
-  if (ft_atoi(ptr->content) > ft_atoi(ptr->next->content))
+  if (ptr && ptr->next && ft_atoi(ptr->content) > ft_atoi(ptr->next->content))
   {
-    if (ft_atoi(tmp->content) < ft_atoi(tmp->next->content))
+    if (tmp && tmp->next && ft_atoi(tmp->content) < ft_atoi(tmp->next->content))
       ft_ss(a, b);
     else
       ft_sa(a);
     ft_print(*a, *b);
   }
-  else if (tmp && tmp->next)
+  else if (tmp && tmp->next && ft_atoi(tmp->content) < ft_atoi(tmp->next->content))
   {
     ft_sb(b);
     ft_print(*a, *b);
   }
-  ft_pb(b, a);
-  ft_print(*a, *b);
 }
 
 void ft_make_order(t_list **a, t_list **b)
 {
-  int y;
+    t_list *ptr;
+    int x;
 
-  ft_print(*a, *b);
-  y = ft_count(*a);
-  ft_fast(a, b, y);
-  ft_sa(a);
-  ft_print(*a, *b);
-  ft_pb(b, a);
-  ft_print(*a, *b);
-  ft_test(a, b);
-  ft_test(a, b);
-  while (*b)
-  {
-    ft_pa(b, a);
-    ft_print(*a, *b);
-  }
+    ptr = *a;
+    x = 0;
+    while (*a)
+    {
+        while(*a && ft_atoi(ptr->content) > x)
+        {
+            ft_pb(b, a);
+            ft_print(*a, *b);
+            x = ft_atoi(ptr->content);
+            ptr = *a;
+        }
+        ft_test(a, b);
+        ft_pb(b, a);
+        ft_print(*a, *b);
+    }
+    ft_test(a, b);
+    while (*b)
+    {
+        ft_pa(b, a);
+        ft_print(*a, *b);
+    }
 }
 
 int main(int argc, char ** argv)
@@ -166,9 +169,9 @@ int main(int argc, char ** argv)
         return (-1);
       ft_lstadd_front(&a, ptr);
     }
-    if ((ret = check(a)) == 0)
+    while ((ret = check(a)) == 0)
       ft_make_order(&a, &b);
-    else if (ret > 0)
+    if (ret > 0)
       ft_print(a, b);
     else if (ret == -2)
       printf("%s\n", "doublon");
