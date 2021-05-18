@@ -6,7 +6,7 @@
 /*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 10:36:25 by benjamin          #+#    #+#             */
-/*   Updated: 2021/05/14 19:06:11 by benjaminbaudry   ###   ########.fr       */
+/*   Updated: 2021/05/18 11:41:43 by benjaminbaudry   ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,15 +125,34 @@ void ft_test(t_list **a, t_list **b)
 void ft_make_order(t_list **a, t_list **b)
 {
     t_list *ptr;
+    t_list *tmp;
     int x;
 
+    ft_print(*a, *b);
     ptr = *a;
     x = 0;
     while (*a)
     {
+        tmp = *a;
+        while (tmp->next)
+        {
+            if (ft_atoi(tmp->content) > ft_atoi(tmp->next->content))
+                break;
+            tmp = tmp->next;
+        }
+        if (!(tmp->next))
+            break;
         while(*a && ft_atoi(ptr->content) > x)
         {
-            ft_pb(b, a);
+            tmp = *a;
+            while (tmp->next)
+                tmp = tmp->next;
+            if (tmp && ptr && ft_atoi(ptr->content) > ft_atoi(tmp->content))
+                ft_rra(a);
+            // else if (tmp && ptr && ft_atoi(ptr->content) < ft_atoi(tmp->content))
+            //     ft_ra(a);
+            else
+                ft_pb(b, a);
             ft_print(*a, *b);
             x = ft_atoi(ptr->content);
             ptr = *a;
@@ -143,11 +162,38 @@ void ft_make_order(t_list **a, t_list **b)
         ft_print(*a, *b);
     }
     ft_test(a, b);
+    ptr = *b;
     while (*b)
     {
+        tmp = *b;
+        while (tmp->next)
+        {
+            if (ft_atoi(tmp->content) > ft_atoi(tmp->next->content))
+                break;
+            tmp = tmp->next;
+        }
+        if (!(tmp->next))
+            break;
+        while(*b && ft_atoi(ptr->content) > x)
+        {
+            tmp = *b;
+            while (tmp->next)
+                tmp = tmp->next;
+            if (tmp && ptr && ft_atoi(tmp->content) > ft_atoi(ptr->content))
+                ft_rrb(b);
+            // else if (tmp && ptr && ft_atoi(tmp->content) > ft_atoi(ptr->content))
+            //     ft_rrb(b);
+            // else
+                ft_pa(b, a);
+            ft_print(*a, *b);
+            x = ft_atoi(ptr->content);
+            ptr = *b;
+        }
+        ft_test(a, b);
         ft_pa(b, a);
         ft_print(*a, *b);
     }
+    ft_test(a, b);
 }
 
 int main(int argc, char ** argv)
