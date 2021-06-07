@@ -6,7 +6,7 @@
 /*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 10:36:25 by benjamin          #+#    #+#             */
-/*   Updated: 2021/05/20 22:40:40 by benjaminbaudry   ###   ########.fr       */
+/*   Updated: 2021/06/07 14:19:40 by bentowski        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void ft_print(t_list *a, t_list *b)
 {
   while (a || b)
   {
+    // printf("%s\n", "DEBUT");
     if (a && b)
     {
       printf(" %s   %s\n", a->content, b->content);
@@ -25,6 +26,7 @@ void ft_print(t_list *a, t_list *b)
     else if (a && (!(b)))
     {
       printf(" %s\n", a->content);
+      // printf("%s\n", "STOP");
       a = a->next;
     }
     else if (b && (!(a)))
@@ -32,206 +34,183 @@ void ft_print(t_list *a, t_list *b)
       printf("     %s\n", b->content);
       b = b->next;
     }
+    // printf("%s\n", "FIN");
   }
   printf(" ------\n");
   printf(" %s   %s\n\n\n", "a", "b");
 }
 
-int ft_counting(t_list *ptr)
+int mediane(t_list *lst)
 {
-    t_list *tmp;
-    int end;
+  int ret;
+  int count;
+  t_list *ptr;
 
-    tmp = ptr;
-    end = 0;
-    while (tmp)
-    {
-        end++;
-        tmp = tmp->next;
-    }
-    return (end);
+  ret = 0;
+  count = 0;
+  ptr = lst;
+  while (ptr)
+  {
+    ret = ret + ft_atoi(ptr->content);
+    count++;
+    ptr = ptr->next;
+  }
+  return (ret / count);
 }
 
-int *create_tab(t_list *ptr, int *ret)
+int order(t_list **a, int opt)
 {
-    int i;
-    t_list *tmp;
-
-    i = 0;
-    tmp = ptr;
-    while (tmp)
-    {
-      ret[i++] = ft_atoi(tmp->content);
-      tmp = tmp->next;
-    }
-    return (ret);
-}
-
-int check_order(int *x, int end, int opt)
-{
-    int i;
-    int j;
-
-    i = -1;
-    while (++i < end - 1)
-    {
-      j = i;
-      while (++j < end)
-      {
-          if (x[i] == x[j])
-              return (-2);
-          if (opt == 1)
-              if (x[i] > x[j])
-                  return (0);
-          if (opt == 2)
-              if (x[i] < x[j])
-                  return (0);
-      }
-    }
-    return (1);
-}
-
-int check(t_list *ptr, int opt)
-{
-  int *x;
-  int end;
   t_list *tmp;
 
-  tmp = ptr;
-  // if (!(tmp))
-  //     return (1);
-  // if (!(tmp->next))
-  //   return (1);
-  end = ft_counting(ptr);
-  if (!(x = (int *)malloc(end)))
-    return (-1);
-  x = create_tab(tmp, x);
-  return (check_order(x, end, opt));
-}
-
-int only_first_big(t_list **lst)
-{
-    t_list *ptr;
-    int x;
-
-    ptr = *lst;
-    x = ft_atoi(ptr->content);
-    while (ptr->next)
-    {
-        if (x < ft_atoi(ptr->next->content))
-            return (0);
-        ptr = ptr->next;
-    }
-    return (1);
-}
-
-int only_first_little(t_list **lst)
-{
-    t_list *ptr;
-    int x;
-
-    ptr = *lst;
-    x = ft_atoi(ptr->content);
-    while (ptr->next)
-    {
-        if (x > ft_atoi(ptr->next->content))
-            return (0);
-        ptr = ptr->next;
-    }
-    return (1);
-}
-
-int first_little(t_list **lst)
-{
-    t_list *ptr;
-    int x;
-
-    ptr = *lst;
-    x = ft_atoi(ptr->content);
-    while (ptr->next)
-        ptr = ptr->next;
-    if (x < ft_atoi(ptr->content))
+  tmp = *a;
+  while (tmp->next)
+  {
+    if (opt == 1)
+      if (ft_atoi(tmp->content) > ft_atoi(tmp->next->content))
         return (0);
+    if (opt == 2)
+      if (ft_atoi(tmp->content) < ft_atoi(tmp->next->content))
+        return (0);
+    tmp = tmp->next;
+  }
+  return (1);
+}
+
+int bigest_one(t_list **a)
+{
+  t_list *stop;
+  int x;
+
+  stop = *a;
+  if (ft_atoi(stop->content) <= mediane(*a))
+    return (0);
+  x = 1;
+  while (stop->next && ft_atoi(stop->content) < ft_atoi(stop->next->content))
+  {
+    x++;
+    stop = stop->next;
+  }
+  return (x);
+}
+
+int smallest_last(t_list **a)
+{
+  t_list *ptr;
+
+  ptr = *a;
+  while (ptr->next)
+    ptr = ptr->next;
+  if (ft_atoi(ptr->content) < mediane(*a))
     return (1);
+  return (0);
 }
 
-void order_b(t_list **a, t_list **b)
+int smallest_one(t_list **a)
 {
-    t_list *tmp;
+  t_list *tmp;
+  t_list *ptr;
 
-    while (check(*b, 2) == 0)
-    {
-        tmp = *b;
-        if (tmp)
-        {
-            if (only_first_little(b))
-            {
-                ft_rrb(b);
-                ft_print(*a, *b);
-            }
-            if (tmp->next && ft_atoi(tmp->content) < ft_atoi(tmp->next->content))
-            {
-                ft_sb(b);
-                ft_print(*a, *b);
-                tmp = *b;
-                if (tmp->next->next && ft_atoi(tmp->next->content) < ft_atoi(tmp->next->next->content))
-                {
-                    ft_pa(b, a);
-                    ft_print(*a, *b);
-                }
-            }
-        }
-    }
+  tmp = *a;
+  ptr = *a;
+  while (tmp->next)
+  {
+    tmp = tmp->next;
+    if (ft_atoi(ptr->content) > ft_atoi(tmp->content))
+      return (0);
+  }
+  return (1);
 }
 
-int ft_make_order(t_list **a, t_list **b)
+void b_in(t_list **a, t_list **b)
 {
-    t_list *ptr;
-    t_list *tmp;
+  t_list *tmp;
 
-    while (check(*a, 1) == 0)
-    {
-        ptr = *a;
-        tmp = *b;
-        if (only_first_big(a))
-        {
-            ft_rra(a);
-            ft_print(*a, *b);
-        }
-        else if (ptr->next && ft_atoi(ptr->content) > ft_atoi(ptr->next->content))
-        {
-            ft_pb(b, a);
-            ft_print(*a, *b);
-        }
-        else
-        {
-            ft_sa(a);
-            ft_print(*a, *b);
-            if (only_first_big(a))
-                ft_rra(a);
-            else
-                ft_pb(b, a);
-            ft_print(*a, *b);
-        }
-        order_b(a, b);
-    }
-    ptr = *a;
+  ft_pb(a, b);
+  ft_print(*a, *b);
+  while (order(b, 2) == 0)
+  {
     tmp = *b;
-    while (ft_atoi(tmp->content) > ft_atoi(ptr->content))
+    if (tmp->next && ft_atoi(tmp->content) < ft_atoi(tmp->next->content))
     {
-        ft_pb(b, a);
+      ft_sb(b);
+      ft_print(*a, *b);
+      tmp = *b;
+      if (tmp->next->next && ft_atoi(tmp->next->content) < ft_atoi(tmp->next->next->content))
+      {
+        ft_pa(a, b);
         ft_print(*a, *b);
-        order_b(a, b);
-        ptr = *a;
-        tmp = *b;
+      }
     }
-    while (tmp)
+  }
+}
+
+int make_order(t_list **a, t_list **b)
+{
+  t_list *tmp;
+  t_list *ptr;
+  int count;
+
+  tmp = *a;
+  // ft_print(*a, *b);
+  while (order(a, 1) == 0 || *b)
+  {
+    while (order(a, 1) == 0)
     {
-        ft_pa(b, a);
+      count = 0;
+      if ((count = bigest_one(a)) > 0)
+      {
+        while (count-- > 0)
+        {
+          ft_rra(a);
+          ft_print(*a, *b);
+        }
+      }
+      else if (smallest_last(a))
+        while(smallest_last(a))
+        {
+          ft_ra(a);
+          ft_print(*a, *b);
+        }
+      if (smallest_one(a))
+        ft_pb(a, b);
+      else if (tmp->next && (ft_atoi(tmp->content) < ft_atoi(tmp->next->content)))
+        ft_pb(a, b);
+      else
+      {
+        ptr = *b;
+        if (ptr && ptr->next && ft_atoi(ptr->content) < ft_atoi(ptr->next->content))
+          ft_ss(a, b);
+        else
+          ft_sa(a);
         ft_print(*a, *b);
-        tmp = *b;
+      }
+      tmp = *a;
     }
-    return (1);
+    if (*b)
+    {
+      ft_pa(a, b);
+      ft_print(*a, *b);
+      tmp = *a;
+    }
+    if (ft_atoi(tmp->content) > ft_atoi(tmp->next->content))
+    {
+      ft_sa(a);
+      ft_print(*a, *b);
+    }
+  }
+  return (0);
+}
+
+void ft_free(t_list *lst)
+{
+  t_list *ptr;
+
+  while (lst)
+  {
+    ptr = lst->next;
+    free(lst);
+    lst = ptr;
+  }
 }
 
 int main(int argc, char ** argv)
@@ -247,24 +226,48 @@ int main(int argc, char ** argv)
   ret = 0;
   if (argc >= 2)
   {
+    if (!(a = (t_list *)malloc(1)))
+      return (-1);
+    b = NULL;
     x = argc;
     while (x-- > 1)
     {
+      if (ft_atoi(argv[x]) == 0 && *argv[x] != '0')
+      {
+        printf("%s\n", "error");
+        ft_free(a);
+        return (-1);
+      }
       if (!(ptr = ft_lstnew(argv[x])))
         return (-1);
       ft_lstadd_front(&a, ptr);
     }
-    ft_make_order(&a, &b);
-    if (ret == -2)
-      printf("%s\n", "doublon");
-    else
-      return (-1);
-    while (a)
-    {
-        ptr = a->next;
-        free(a);
-        a = ptr;
-    }
+    ptr = a;
+    while (a->next->next)
+      a = a->next;
+    free(a->next);
+    a->next = NULL;
+    a = ptr;
+    make_order(&a, &b);
+    // ft_print(a, b);
+    ft_free(a);
   }
   return (-1);
 }
+
+
+// ptr = a;
+// while (ptr->content != NULL)
+// {
+//   printf("while for free : %s\n", ptr->content);
+//   ptr = ptr->next;
+// }
+// free(ptr);
+// make_order(&a, &b);
+// while (a)
+// {
+//   printf("LA : %s\n", a->content);
+//     ptr = a->next;
+//     free(a);
+//     a = ptr;
+// }

@@ -6,7 +6,7 @@
 /*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 14:42:25 by benjamin          #+#    #+#             */
-/*   Updated: 2021/05/14 17:55:15 by benjaminbaudry   ###   ########.fr       */
+/*   Updated: 2021/06/05 22:18:57 by bentowski        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,17 @@ void ft_pa(t_list **a, t_list **b)
   t_list *tmp;
 
   printf("%s\n", "pa");
-  if (b)
+  if (a)
   {
-    ptr = *a;
+    ptr = *b;
     tmp = ptr->next;
-    ptr->next = *b;
-    *b = ptr;
-    *a = tmp;
+    ptr->next = *a;
+    *a = ptr;
+    *b = tmp;
   }
 }
 
-void ft_pb(t_list **b, t_list **a)
+void ft_pb(t_list **a, t_list **b)
 {
   t_list *ptr;
   t_list *tmp;
