@@ -6,7 +6,7 @@
 /*   By: benjamin <benjamin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 10:36:25 by benjamin          #+#    #+#             */
-/*   Updated: 2021/06/07 14:19:40 by bentowski        ###   ########.fr       */
+/*   Updated: 2021/06/10 12:53:08 by bentowski        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,15 +149,23 @@ int make_order(t_list **a, t_list **b)
   t_list *tmp;
   t_list *ptr;
   int count;
+  // int x;
 
   tmp = *a;
-  // ft_print(*a, *b);
   while (order(a, 1) == 0 || *b)
   {
     while (order(a, 1) == 0)
+    // x =0;
+    // while (x++ < 5)
     {
       count = 0;
-      if ((count = bigest_one(a)) > 0)
+      if (smallest_last(a))
+        while(smallest_last(a))
+        {
+          ft_ra(a);
+          ft_print(*a, *b);
+        }
+      else if ((count = bigest_one(a)) > 0)
       {
         while (count-- > 0)
         {
@@ -165,16 +173,16 @@ int make_order(t_list **a, t_list **b)
           ft_print(*a, *b);
         }
       }
-      else if (smallest_last(a))
-        while(smallest_last(a))
-        {
-          ft_ra(a);
-          ft_print(*a, *b);
-        }
-      if (smallest_one(a))
+      else if (smallest_one(a))
+      {
         ft_pb(a, b);
+        ft_print(*a, *b);
+      }
       else if (tmp->next && (ft_atoi(tmp->content) < ft_atoi(tmp->next->content)))
+      {
         ft_pb(a, b);
+        ft_print(*a, *b);
+      }
       else
       {
         ptr = *b;
@@ -188,8 +196,17 @@ int make_order(t_list **a, t_list **b)
     }
     if (*b)
     {
-      ft_pa(a, b);
-      ft_print(*a, *b);
+      ptr = *b;
+      if (ft_atoi(ptr->content) >= mediane(*b))
+      {
+        ft_pa(a, b);
+        ft_print(*a, *b);
+      }
+      else
+      {
+        ft_rrb(b);
+        ft_print(*a, *b);
+      }
       tmp = *a;
     }
     if (ft_atoi(tmp->content) > ft_atoi(tmp->next->content))
